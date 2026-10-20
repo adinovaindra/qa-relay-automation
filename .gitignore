@@ -1,0 +1,15 @@
+
+node_modules/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Playwright artifacts
+playwright-report/
+test-results/
+blob-report/
+
+# Logs
+npm-debug.log*
