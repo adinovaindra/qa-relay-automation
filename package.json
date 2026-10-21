@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node --env-file=.env ./node_modules/@playwright/test/cli.js test",
-    "test:headed": "node --env-file=.env ./node_modules/@playwright/test/cli.js test --headed",
+    "test": "node ./node_modules/@playwright/test/cli.js test",
+    "test:headed": "node ./node_modules/@playwright/test/cli.js test --headed",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
