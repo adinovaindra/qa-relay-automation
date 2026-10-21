@@ -3,7 +3,7 @@ node_modules/
 
 # Environment and secrets
 .env
-.env.*
+.env.test
 !.env.example
 
 # Playwright artifacts
