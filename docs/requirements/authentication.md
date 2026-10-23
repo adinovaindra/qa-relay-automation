@@ -189,7 +189,7 @@ Each requirement shall be traceable to relevant test scenarios, test cases, exec
 
 The expected traceability workflow is:
 
-**Requirement → Test Scenario → Test Case → Test Execution → Evidence → Defect → Test Summary**
+**Product Scope → Requirement → Risk Assessment → Test Scenario → Test Case → Test Execution → Evidence → Defect → Test Summary**
 
 When actual implementation behavior differs from a defined requirement, the discrepancy shall be documented as a defect where applicable. The requirement shall not be changed solely to match the current implementation.
 

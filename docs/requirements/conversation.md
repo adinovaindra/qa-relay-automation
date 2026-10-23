@@ -97,9 +97,9 @@ Each conversation requirement shall be mapped to one or more test scenarios and 
 
 Verification shall cover the relevant UI behavior and, where applicable, API behavior.
 
-The conversation testing workflow shall maintain traceability across the following artifacts:
+The expected traceability workflow is:
 
-Requirement → Test Scenario → Test Case → Test Execution → Evidence → Defect → Test Summary.
+**Product Scope → Requirement → Risk Assessment → Test Scenario → Test Case → Test Execution → Evidence → Defect → Test Summary**
 
 Test results shall reflect the behavior actually observed during execution. Any requirement that has not been verified shall be reported transparently rather than assumed to have passed.
 

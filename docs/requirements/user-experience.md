@@ -98,6 +98,10 @@ When the user selects a conversation that has no messages:
 
 Each requirement in this document has a stable identifier to support traceability between product expectations, test scenarios, test cases, and defect reports.
 
+The expected traceability workflow is:
+
+**Product Scope → Requirement → Risk Assessment → Test Scenario → Test Case → Test Execution → Evidence → Defect → Test Summary**
+
 Verification shall focus on the expected user-facing behavior defined by each requirement.
 
 Where behavior is explicitly defined, test cases shall verify the corresponding expected results. Where behavior is not defined, additional clarification shall be obtained before introducing new expectations into the test suite.

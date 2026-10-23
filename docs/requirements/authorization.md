@@ -64,7 +64,7 @@ Each requirement shall be traceable to relevant test scenarios, test cases, exec
 
 The expected traceability workflow is:
 
-**Requirement → Test Scenario → Test Case → Test Execution → Evidence → Defect → Test Summary**
+**Product Scope → Requirement → Risk Assessment → Test Scenario → Test Case → Test Execution → Evidence → Defect → Test Summary**
 
 Authorization requirements shall be verified through appropriate test methods, including UI and API testing where applicable.
 

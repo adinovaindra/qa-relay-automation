@@ -99,4 +99,8 @@ Each requirement is identified by a unique ID to support traceability to its cor
 
 The requirement IDs shall remain stable when additional test scenarios or test cases are created, unless a change to the requirement structure is explicitly justified.
 
+The expected traceability workflow is:
+
+**Product Scope → Requirement → Risk Assessment → Test Scenario → Test Case → Test Execution → Evidence → Defect → Test Summary**
+
 Retesting and regression testing after defect fixes are outside the defined portfolio deliverables. Open defects and behavior that has not been verified shall be reported transparently in the relevant test documentation.
