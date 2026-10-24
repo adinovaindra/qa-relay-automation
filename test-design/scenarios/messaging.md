@@ -20,6 +20,7 @@ Messaging scenarios are derived from the following sources:
 
 The scenario design follows this relationship:
 
+```text
 Product Scope
     +
 Messaging Requirements
@@ -27,6 +28,7 @@ Messaging Requirements
 Risk Assessment
     ↓
 Messaging Test Scenarios
+```
 
 The scenario design prioritizes message persistence, message ordering, and correct message submission while maintaining coverage of message presentation and input behavior.
 
@@ -176,12 +178,32 @@ Verify that message timestamps and date separators follow the documented formats
 
 ---
 
+### SCN-MSG-009 — Message Availability After Recipient Refresh
+
+Verify that a message sent by one participant becomes available to another authorized participant after the recipient refreshes the conversation.
+
+**Related Requirements:** REQ-MSG-007
+**Related Risks:** RSK-004
+**Risk Level:** High
+
+**Coverage Considerations:**
+
+- User A sends a message in a conversation shared with User B.
+- User B has the same conversation open in another tab.
+- Verify that the newly sent message does not appear automatically in User B's already-open conversation view.
+- User B refreshes the conversation.
+- Verify that the newly sent message becomes available to User B after refresh.
+- Verify that the message is displayed in the documented chronological order.
+
+---
+
 ## 4. Scenario Traceability
 
 The messaging scenarios maintain traceability between the documented requirements, associated risks, and scenario identifiers.
 
 The relationship is:
 
+```text
 Requirement
     ↓
 Risk Assessment
@@ -191,27 +213,29 @@ Messaging Scenario
 Test Cases
     ↓
 Execution and Evidence
+```
 
 ### Requirement-to-Scenario Traceability
 
-| Requirement ID | Related Risk ID(s) | Scenario ID(s) |
-|---|---|---|
-| REQ-MSG-001 | RSK-007 | SCN-MSG-001, SCN-MSG-002, SCN-MSG-003 |
-| REQ-MSG-002 | RSK-008 | SCN-MSG-004, SCN-MSG-005 |
-| REQ-MSG-003 | RSK-004 | SCN-MSG-006 |
-| REQ-MSG-004 | RSK-017 | SCN-MSG-007 |
-| REQ-MSG-005 | RSK-018 | SCN-MSG-008 |
-| REQ-MSG-006 | RSK-007, RSK-012 | SCN-MSG-002 |
+| Requirement ID | Related Risk ID(s) | Scenario ID(s)                        |
+| -------------- | ------------------ | ------------------------------------- |
+| REQ-MSG-001    | RSK-007            | SCN-MSG-001, SCN-MSG-002, SCN-MSG-003 |
+| REQ-MSG-002    | RSK-008            | SCN-MSG-004, SCN-MSG-005              |
+| REQ-MSG-003    | RSK-004            | SCN-MSG-006                           |
+| REQ-MSG-004    | RSK-017            | SCN-MSG-007                           |
+| REQ-MSG-005    | RSK-018            | SCN-MSG-008                           |
+| REQ-MSG-006    | RSK-007, RSK-012   | SCN-MSG-002                           |
+| REQ-MSG-007    | RSK-004            | SCN-MSG-009                           |
 
 ### Risk-to-Scenario Traceability
 
-| Risk ID | Risk Area | Scenario ID(s) |
-|---|---|---|
-| RSK-004 | Message Persistence | SCN-MSG-006 |
+| Risk ID | Risk Area                                 | Scenario ID(s)                        |
+| ------- | ----------------------------------------- | ------------------------------------- |
+| RSK-004 | Message Persistence                       | SCN-MSG-006, SCN-MSG-009              |
 | RSK-007 | Registration and Message Input Validation | SCN-MSG-001, SCN-MSG-002, SCN-MSG-003 |
-| RSK-008 | Message and Conversation Ordering | SCN-MSG-004, SCN-MSG-005 |
-| RSK-012 | Message Input UI State | SCN-MSG-002 |
-| RSK-017 | Message Scrolling | SCN-MSG-007 |
-| RSK-018 | Message Timestamps and Date Separators | SCN-MSG-008 |
+| RSK-008 | Message and Conversation Ordering         | SCN-MSG-004, SCN-MSG-005              |
+| RSK-012 | Message Input UI State                    | SCN-MSG-002                           |
+| RSK-017 | Message Scrolling                         | SCN-MSG-007                           |
+| RSK-018 | Message Timestamps and Date Separators    | SCN-MSG-008                           |
 
 The scenario set is intended to guide subsequent test-case design. Scenario coverage does not imply that the scenarios have been executed or that the corresponding functionality has passed testing.

@@ -20,6 +20,7 @@ Authorization scenarios are derived from the following sources:
 
 The scenario design follows this relationship:
 
+```text
 Product Scope
     +
 Authorization Requirements
@@ -27,6 +28,7 @@ Authorization Requirements
 Risk Assessment
     ↓
 Authorization Test Scenarios
+```
 
 The scenario design prioritizes access control and identity-related risks, particularly unauthorized conversation access and attempts to override the authenticated user's identity.
 
@@ -76,7 +78,7 @@ Verify that a user who is not an authorized participant cannot access another co
 Verify that authorization decisions use the authenticated user's identity rather than relying on client-provided user identity values.
 
 **Related Requirements:** REQ-AUTHZ-003  
-**Related Risks:** RSK-001  
+**Related Risks:** RSK-002  
 **Risk Level:** High
 
 **Coverage Considerations:**
@@ -126,6 +128,7 @@ The authorization scenarios maintain traceability between the documented require
 
 The relationship is:
 
+```text
 Requirement
     ↓
 Risk Assessment
@@ -135,22 +138,23 @@ Authorization Scenario
 Test Cases
     ↓
 Execution and Evidence
+```
 
 ### Requirement-to-Scenario Traceability
 
-| Requirement ID | Related Risk ID(s) | Scenario ID(s) |
-|---|---|---|
-| REQ-AUTHZ-001 | RSK-001 | SCN-AUTHZ-001, SCN-AUTHZ-002 |
-| REQ-AUTHZ-002 | RSK-001 | SCN-AUTHZ-001, SCN-AUTHZ-002 |
-| REQ-AUTHZ-003 | RSK-001 | SCN-AUTHZ-003 |
-| REQ-AUTHZ-004 | RSK-002 | SCN-AUTHZ-004 |
-| REQ-AUTHZ-005 | RSK-001 | SCN-AUTHZ-002, SCN-AUTHZ-005 |
+| Requirement ID | Related Risk ID(s) | Scenario ID(s)               |
+| -------------- | ------------------ | ---------------------------- |
+| REQ-AUTHZ-001  | RSK-001            | SCN-AUTHZ-001, SCN-AUTHZ-002 |
+| REQ-AUTHZ-002  | RSK-001            | SCN-AUTHZ-001, SCN-AUTHZ-002 |
+| REQ-AUTHZ-003  | RSK-002            | SCN-AUTHZ-003                |
+| REQ-AUTHZ-004  | RSK-002            | SCN-AUTHZ-004                |
+| REQ-AUTHZ-005  | RSK-001            | SCN-AUTHZ-002, SCN-AUTHZ-005 |
 
 ### Risk-to-Scenario Traceability
 
-| Risk ID | Risk Area | Scenario ID(s) |
-|---|---|---|
-| RSK-001 | Authorization | SCN-AUTHZ-001, SCN-AUTHZ-002, SCN-AUTHZ-003, SCN-AUTHZ-005 |
-| RSK-002 | Message Sender Identity | SCN-AUTHZ-004 |
+| Risk ID | Risk Area               | Scenario ID(s)                              |
+| ------- | ----------------------- | ------------------------------------------- |
+| RSK-001 | Authorization           | SCN-AUTHZ-001, SCN-AUTHZ-002, SCN-AUTHZ-005 |
+| RSK-002 | Message Sender Identity | SCN-AUTHZ-003, SCN-AUTHZ-004                |
 
 The scenario set is intended to guide subsequent test-case design. Scenario coverage does not imply that the scenarios have been executed or that the corresponding functionality has passed testing.

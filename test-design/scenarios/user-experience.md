@@ -20,6 +20,7 @@ User experience scenarios are derived from the following sources:
 
 The scenario design follows this relationship:
 
+```text
 Product Scope
     +
 User Experience Requirements
@@ -27,6 +28,7 @@ User Experience Requirements
 Risk Assessment
     ↓
 User Experience Test Scenarios
+```
 
 The scenario design prioritizes responsive behavior and empty-state presentation while maintaining coverage of theme rendering and theme persistence.
 
@@ -222,6 +224,7 @@ The user experience scenarios maintain traceability between the documented requi
 
 The relationship is:
 
+```text
 Requirement
     ↓
 Risk Assessment
@@ -231,24 +234,25 @@ User Experience Scenario
 Test Cases
     ↓
 Execution and Evidence
+```
 
 ### Requirement-to-Scenario Traceability
 
-| Requirement ID | Related Risk ID(s) | Scenario ID(s) |
-|---|---|---|
-| REQ-UX-001 | RSK-019 | SCN-UX-001 |
-| REQ-UX-002 | RSK-019 | SCN-UX-002 |
-| REQ-UX-003 | RSK-016 | SCN-UX-003 |
-| REQ-UX-004 | RSK-010 | SCN-UX-004 |
-| REQ-UX-005 | RSK-015 | SCN-UX-005, SCN-UX-006, SCN-UX-007, SCN-UX-008, SCN-UX-009, SCN-UX-010 |
+| Requirement ID | Related Risk ID(s) | Scenario ID(s)                                                         |
+| -------------- | ------------------ | ---------------------------------------------------------------------- |
+| REQ-UX-001     | RSK-019            | SCN-UX-001                                                             |
+| REQ-UX-002     | RSK-019            | SCN-UX-002                                                             |
+| REQ-UX-003     | RSK-016            | SCN-UX-003                                                             |
+| REQ-UX-004     | RSK-010            | SCN-UX-004                                                             |
+| REQ-UX-005     | RSK-015            | SCN-UX-005, SCN-UX-006, SCN-UX-007, SCN-UX-008, SCN-UX-009, SCN-UX-010 |
 
 ### Risk-to-Scenario Traceability
 
-| Risk ID | Risk Area | Scenario ID(s) |
-|---|---|---|
-| RSK-010 | Responsive Behavior | SCN-UX-004 |
-| RSK-015 | Empty States | SCN-UX-005, SCN-UX-006, SCN-UX-007, SCN-UX-008, SCN-UX-009, SCN-UX-010 |
-| RSK-016 | Theme Persistence | SCN-UX-003 |
-| RSK-019 | Theme Rendering and Application Failure | SCN-UX-001, SCN-UX-002 |
+| Risk ID | Risk Area                               | Scenario ID(s)                                                         |
+| ------- | --------------------------------------- | ---------------------------------------------------------------------- |
+| RSK-010 | Responsive Behavior                     | SCN-UX-004                                                             |
+| RSK-015 | Empty States                            | SCN-UX-005, SCN-UX-006, SCN-UX-007, SCN-UX-008, SCN-UX-009, SCN-UX-010 |
+| RSK-016 | Theme Persistence                       | SCN-UX-003                                                             |
+| RSK-019 | Theme Rendering and Application Failure | SCN-UX-001, SCN-UX-002                                                 |
 
 The scenario set is intended to guide subsequent test-case design. Scenario coverage does not imply that the scenarios have been executed or that the corresponding functionality has passed testing.

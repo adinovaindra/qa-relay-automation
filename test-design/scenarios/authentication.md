@@ -20,6 +20,7 @@ Authentication scenarios are derived from the following sources:
 
 The scenario design follows this relationship:
 
+```text
 Product Scope
     +
 Authentication Requirements
@@ -27,6 +28,7 @@ Authentication Requirements
 Risk Assessment
     ↓
 Authentication Test Scenarios
+```
 
 The design prioritizes authentication and session-related risks while maintaining traceability to the requirements being verified.
 
@@ -45,7 +47,7 @@ Where the requirements specify exact behavior or error messages, the scenarios p
 Verify that a user can register a new account by providing the required registration information.
 
 **Related Requirements:** REQ-AUTH-001  
-**Related Risks:** RSK-007, RSK-014  
+**Related Risks:** RSK-007  
 **Risk Level:** Medium
 
 **Coverage Considerations:**
@@ -137,7 +139,7 @@ Verify that registration displays the documented application-level errors and ap
 Verify that a registered user can authenticate with valid credentials and access the authenticated area of Relay.
 
 **Related Requirements:** REQ-AUTH-002  
-**Related Risks:** RSK-003, RSK-006  
+**Related Risks:** RSK-003  
 **Risk Level:** High
 
 **Coverage Considerations:**
@@ -246,7 +248,7 @@ Verify that protected pages and APIs reject requests without a valid authenticat
 
 Verify that Relay recognizes an existing valid authenticated session across refreshes and tabs in the same browser profile.
 
-**Related Requirements:** REQ-AUTH-002, REQ-AUTH-005  
+**Related Requirements:** REQ-AUTH-005  
 **Related Risks:** RSK-006  
 **Risk Level:** High
 
@@ -285,6 +287,7 @@ The authentication scenarios maintain traceability between the documented requir
 
 The relationship is:
 
+```text
 Requirement
     ↓
 Risk Assessment
@@ -294,30 +297,31 @@ Authentication Scenario
 Test Cases
     ↓
 Execution and Evidence
+```
 
 ### Requirement-to-Scenario Traceability
 
-| Requirement ID | Related Risk ID(s) | Scenario ID(s) |
-|---|---|---|
-| REQ-AUTH-001 | RSK-007, RSK-014 | SCN-AUTH-001 |
-| REQ-AUTH-002 | RSK-003, RSK-006 | SCN-AUTH-006, SCN-AUTH-012 |
-| REQ-AUTH-003 | RSK-006 | SCN-AUTH-009, SCN-AUTH-010 |
-| REQ-AUTH-004 | RSK-006 | SCN-AUTH-010, SCN-AUTH-011 |
-| REQ-AUTH-005 | RSK-006 | SCN-AUTH-012 |
-| REQ-AUTH-006 | RSK-007, RSK-014 | SCN-AUTH-002, SCN-AUTH-003 |
-| REQ-AUTH-007 | RSK-003, RSK-009 | SCN-AUTH-007, SCN-AUTH-008 |
-| REQ-AUTH-008 | RSK-007, RSK-014 | SCN-AUTH-004 |
-| REQ-AUTH-009 | RSK-007, RSK-014 | SCN-AUTH-005 |
-| REQ-AUTH-010 | RSK-006 | SCN-AUTH-013 |
+| Requirement ID | Related Risk ID(s) | Scenario ID(s)             |
+| -------------- | ------------------ | -------------------------- |
+| REQ-AUTH-001   | RSK-007            | SCN-AUTH-001               |
+| REQ-AUTH-002   | RSK-003            | SCN-AUTH-006               |
+| REQ-AUTH-003   | RSK-006            | SCN-AUTH-009, SCN-AUTH-010 |
+| REQ-AUTH-004   | RSK-006            | SCN-AUTH-010, SCN-AUTH-011 |
+| REQ-AUTH-005   | RSK-006            | SCN-AUTH-012               |
+| REQ-AUTH-006   | RSK-007, RSK-014   | SCN-AUTH-002, SCN-AUTH-003 |
+| REQ-AUTH-007   | RSK-003, RSK-009   | SCN-AUTH-007, SCN-AUTH-008 |
+| REQ-AUTH-008   | RSK-007, RSK-014   | SCN-AUTH-004               |
+| REQ-AUTH-009   | RSK-007, RSK-014   | SCN-AUTH-005               |
+| REQ-AUTH-010   | RSK-006            | SCN-AUTH-013               |
 
 ### Risk-to-Scenario Traceability
 
-| Risk ID | Risk Area | Scenario ID(s) |
-|---|---|---|
-| RSK-003 | Authentication | SCN-AUTH-006, SCN-AUTH-007, SCN-AUTH-008 |
-| RSK-006 | Session and Logout Behavior | SCN-AUTH-006, SCN-AUTH-009, SCN-AUTH-010, SCN-AUTH-011, SCN-AUTH-012, SCN-AUTH-013 |
-| RSK-007 | Registration and Message Input Validation | SCN-AUTH-001, SCN-AUTH-002, SCN-AUTH-003, SCN-AUTH-004, SCN-AUTH-005 |
-| RSK-009 | Error Handling for Invalid Login Credentials and Non-Existent Conversations | SCN-AUTH-007, SCN-AUTH-008 |
-| RSK-014 | Registration Validation Feedback | SCN-AUTH-001, SCN-AUTH-002, SCN-AUTH-004, SCN-AUTH-005 |
+| Risk ID | Risk Area                                                                   | Scenario ID(s)                                                       |
+| ------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| RSK-003 | Authentication                                                              | SCN-AUTH-006, SCN-AUTH-007, SCN-AUTH-008                             |
+| RSK-006 | Session and Logout Behavior                                                 | SCN-AUTH-009, SCN-AUTH-010, SCN-AUTH-011, SCN-AUTH-012, SCN-AUTH-013 |
+| RSK-007 | Registration and Message Input Validation                                   | SCN-AUTH-001, SCN-AUTH-002, SCN-AUTH-003, SCN-AUTH-004, SCN-AUTH-005 |
+| RSK-009 | Error Handling for Invalid Login Credentials and Non-Existent Conversations | SCN-AUTH-007, SCN-AUTH-008                                           |
+| RSK-014 | Registration Validation Feedback                                            | SCN-AUTH-002, SCN-AUTH-004, SCN-AUTH-005                             |
 
 The scenario set is intended to guide subsequent test-case design. Scenario coverage does not imply that the scenarios have been executed or that the corresponding functionality has passed testing.

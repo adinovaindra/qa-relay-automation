@@ -91,12 +91,16 @@ For conversation ordering, the latest activity is defined as either the creation
 Messaging testing covers the following areas:
 
 - **Sending text messages**
-- **Receiving/displaying messages**
+- **Receiving/displaying messages after conversation refresh**
 - **Message persistence**
 - **Message ordering**
 - **Message history**
 - **Message scrolling**
 - **Date separators**
+
+Messages sent by one participant must become available to other authorized participants when they refresh the conversation. Newly sent messages shall not appear automatically in another participant's already-open conversation view. The recipient must refresh the conversation to access newly sent messages.
+
+Real-time message delivery and live synchronization across already-open conversation views are not supported by the current application behavior and are outside the scope of this project.
 
 ### 5.5 User Experience
 

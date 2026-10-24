@@ -61,6 +61,14 @@ Messages shall persist across application refresh and re-login.
 
 Messages previously sent within a conversation shall remain available in the conversation history after the user refreshes the application or logs out and logs in again.
 
+### REQ-MSG-007 — Message Availability After Refresh
+
+Messages sent by one participant shall become available to other authorized participants when they refresh the conversation.
+
+Newly sent messages shall not appear automatically in another participant's already-open conversation view. The recipient must refresh the conversation to access newly sent messages.
+
+Real-time message delivery and live synchronization across already-open conversation views are outside the current product scope.
+
 ## 5. Message History Scrolling Behavior
 
 ### REQ-MSG-004 — Message History Scrolling Behavior
