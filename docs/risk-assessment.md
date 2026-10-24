@@ -85,6 +85,7 @@ The following register identifies the principal risks associated with the functi
 | RSK-016 | Theme Persistence                                                           | The selected theme does not persist as documented.                                                                                                                 | Low    | Medium     | Low        | REQ-UX-003                                                                       |
 | RSK-017 | Message Scrolling                                                           | The conversation does not automatically scroll to the bottom when opened or after the user sends a message.                                                        | Low    | Medium     | Low        | REQ-MSG-004                                                                      |
 | RSK-018 | Message Timestamps and Date Separators                                      | Message timestamps or date separators are displayed incorrectly or inconsistently.                                                                                 | Low    | Medium     | Low        | REQ-MSG-005                                                                      |
+| RSK-019 | Theme Rendering and Application Failure                                     | Light Mode or Dark Mode is not applied correctly or consistently across the Register, Login, and Chat pages.                                                       | Medium | Low        | Low        | REQ-UX-001, REQ-UX-002                                                           |
 
 ### 3.1 Risk Register Notes
 
@@ -159,6 +160,7 @@ These include:
 - Theme persistence (RSK-016).
 - Message scrolling (RSK-017).
 - Message timestamps and date separators (RSK-018).
+- Theme Rendering and Application Failure (RSK-019).
 
 Testing should verify the specific behavior described by the associated requirements, including relevant device layouts, date boundaries, and navigation or message-sending actions where applicable.
 
