@@ -117,7 +117,7 @@ Execution-specific information such as browser environment, browser version, ope
 8. Submit the Login form.
 9. Verify that the application redirects to `/chat`.
 10. Verify that the authenticated user can access the Chat page.
-11. Create or retrieve a conversation with the existing registered counterpart according to the documented conversation behavior.
+11. Create a new conversation with the existing registered counterpart.
 12. Open the conversation.
 13. Enter the test message into the message input.
 14. Submit the message.
@@ -135,7 +135,8 @@ Execution-specific information such as browser environment, browser version, ope
 - The newly registered user can log in using the registered credentials.
 - After successful login, the application redirects to `/chat`.
 - The authenticated user can access the Chat page.
-- The user can create or retrieve a conversation with the existing counterpart according to the documented conversation behavior.
+- A new conversation is created between the newly registered user and the existing counterpart.
+- The newly created conversation is accessible to the newly registered user.
 - The selected conversation is accessible to the authenticated user.
 - The user can submit a non-empty text message within the conversation.
 - The submitted message appears in the selected conversation with the entered content.

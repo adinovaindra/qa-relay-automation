@@ -744,6 +744,55 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
+### TC-MSG-009-01 — Message becomes available to the recipient after refresh
+
+| Field               | Value                                                                                                           |
+| ------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Test Case ID        | TC-MSG-009-01                                                                                                   |
+| Title               | Message becomes available to the recipient after refresh                                                        |
+| Related Scenario    | SCN-MSG-009 [SCN-MSG-009](../scenarios/messaging.md#scn-msg-009--message-availability-after-recipient-refresh)  |
+| Related Requirement | REQ-MSG-007 [REQ-MSG-007](../../docs/requirements/messaging.md#req-msg-007--message-availability-after-refresh) |
+| Related Risk        | RSK-004 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                     |
+| Risk Level          | High                                                                                                            |
+| Test Design Method  | Requirement-Based / Risk-Based                                                                                  |
+| Test Type           | Functional / Multi-User / Persistence                                                                           |
+| Priority            | High                                                                                                            |
+
+#### Preconditions
+
+- Relay is accessible.
+- User A and User B have separate authenticated sessions.
+- User A and User B have access to the same conversation.
+- User B has the shared conversation open before User A sends a new message.
+- The two users can access Relay through separate browser contexts or devices without interfering with each other's authenticated sessions.
+
+#### Test Data
+
+| Data         | Value                                         |
+| ------------ | --------------------------------------------- |
+| Sender       | User A                                        |
+| Recipient    | User B                                        |
+| Conversation | An existing conversation shared by both users |
+| Message      | Message availability after recipient refresh  |
+
+#### Steps
+
+1. Open the shared conversation as User B and leave it open.
+2. Open the same conversation as User A in a separate browser context or device.
+3. Send the test message as User A.
+4. Observe User B's already-open conversation view without refreshing it.
+5. Refresh the conversation as User B.
+6. Inspect the conversation history and verify the new message's position.
+
+#### Expected Result
+
+- The newly sent message does not appear automatically in User B's already-open conversation view.
+- After User B refreshes the conversation, the newly sent message becomes available.
+- The message is displayed in the conversation history in the documented chronological order, with older messages above newer messages.
+- The message remains associated with the shared conversation.
+
+---
+
 ## 5. Scenario-to-Test Case Traceability
 
 This table maps each approved messaging scenario to the test cases designed to verify it. Requirement and risk IDs are included to make the coverage relationship reviewable without creating a separate risk-to-test-case traceability section.
@@ -758,5 +807,6 @@ This table maps each approved messaging scenario to the test cases designed to v
 | SCN-MSG-006 | REQ-MSG-003               | RSK-004            | TC-MSG-006-01, TC-MSG-006-02                               |
 | SCN-MSG-007 | REQ-MSG-004               | RSK-017            | TC-MSG-007-01, TC-MSG-007-02                               |
 | SCN-MSG-008 | REQ-MSG-005               | RSK-018            | TC-MSG-008-01, TC-MSG-008-02                               |
+| SCN-MSG-009 | REQ-MSG-007               | RSK-004            | TC-MSG-009-01                                              |
 
 The test cases are designed for subsequent execution and may be refined during review. Their presence in this document does not imply that they have been executed or passed.

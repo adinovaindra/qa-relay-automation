@@ -228,7 +228,7 @@ Verify that logging out prevents previously authenticated access from being rest
 
 Verify that protected pages and APIs reject requests without a valid authentication token.
 
-**Related Requirements:** REQ-AUTH-004  
+**Related Requirements:** REQ-AUTH-003, REQ-AUTH-004  
 **Related Risks:** RSK-006  
 **Risk Level:** High
 
@@ -248,7 +248,7 @@ Verify that protected pages and APIs reject requests without a valid authenticat
 
 Verify that Relay recognizes an existing valid authenticated session across refreshes and tabs in the same browser profile.
 
-**Related Requirements:** REQ-AUTH-005  
+**Related Requirements:** REQ-AUTH-002, REQ-AUTH-005  
 **Related Risks:** RSK-006  
 **Risk Level:** High
 
@@ -301,18 +301,18 @@ Execution and Evidence
 
 ### Requirement-to-Scenario Traceability
 
-| Requirement ID | Related Risk ID(s) | Scenario ID(s)             |
-| -------------- | ------------------ | -------------------------- |
-| REQ-AUTH-001   | RSK-007            | SCN-AUTH-001               |
-| REQ-AUTH-002   | RSK-003            | SCN-AUTH-006               |
-| REQ-AUTH-003   | RSK-006            | SCN-AUTH-009, SCN-AUTH-010 |
-| REQ-AUTH-004   | RSK-006            | SCN-AUTH-010, SCN-AUTH-011 |
-| REQ-AUTH-005   | RSK-006            | SCN-AUTH-012               |
-| REQ-AUTH-006   | RSK-007, RSK-014   | SCN-AUTH-002, SCN-AUTH-003 |
-| REQ-AUTH-007   | RSK-003, RSK-009   | SCN-AUTH-007, SCN-AUTH-008 |
-| REQ-AUTH-008   | RSK-007, RSK-014   | SCN-AUTH-004               |
-| REQ-AUTH-009   | RSK-007, RSK-014   | SCN-AUTH-005               |
-| REQ-AUTH-010   | RSK-006            | SCN-AUTH-013               |
+| Requirement ID | Related Risk ID(s) | Scenario ID(s)                           |
+| -------------- | ------------------ | ---------------------------------------- |
+| REQ-AUTH-001   | RSK-007            | SCN-AUTH-001                             |
+| REQ-AUTH-002   | RSK-003            | SCN-AUTH-006, SCN-AUTH-012               |
+| REQ-AUTH-003   | RSK-006            | SCN-AUTH-009, SCN-AUTH-010, SCN-AUTH-011 |
+| REQ-AUTH-004   | RSK-006            | SCN-AUTH-010, SCN-AUTH-011               |
+| REQ-AUTH-005   | RSK-006            | SCN-AUTH-012                             |
+| REQ-AUTH-006   | RSK-007, RSK-014   | SCN-AUTH-002, SCN-AUTH-003               |
+| REQ-AUTH-007   | RSK-003, RSK-009   | SCN-AUTH-007, SCN-AUTH-008               |
+| REQ-AUTH-008   | RSK-007, RSK-014   | SCN-AUTH-004                             |
+| REQ-AUTH-009   | RSK-007, RSK-014   | SCN-AUTH-005                             |
+| REQ-AUTH-010   | RSK-006            | SCN-AUTH-013                             |
 
 ### Risk-to-Scenario Traceability
 

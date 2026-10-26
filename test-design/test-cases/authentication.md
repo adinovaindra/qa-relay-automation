@@ -648,17 +648,17 @@ Execution-specific information such as browser environment, browser version, ope
 
 ### TC-AUTH-005-02 — Registration rejects a whitespace-only Name
 
-| Field               | Value                                                                                                                                 |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Test Case ID        | TC-AUTH-005-02                                                                                                                        |
-| Title               | Registration rejects a whitespace-only Name                                                                                           |
-| Related Scenario    | SCN-AUTH-005 [SCN-AUTH](../scenarios/authentication.md#scn-auth-005--registration-application-level-validation-and-error-priority)    |
-| Related Requirement | REQ-AUTH-009 [REQ-AUTH-009](../../docs/requirements/authentication.md#req-auth-009--registration-application-level-validation-errors) |
-| Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                  |
-| Risk Level          | Medium                                                                                                                                |
-| Test Design Method  | Requirement-Based                                                                                                                     |
-| Test Type           | Functional / Negative                                                                                                                 |
-| Priority            | Medium                                                                                                                                |
+| Field               | Value                                                                                                                                  |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Test Case ID        | TC-AUTH-005-02                                                                                                                         |
+| Title               | Registration rejects a whitespace-only Name                                                                                            |
+| Related Scenario    | SCN-AUTH-005 [SCN-AUTH-005](../scenarios/authentication.md#scn-auth-005--registration-application-level-validation-and-error-priority) |
+| Related Requirement | REQ-AUTH-009 [REQ-AUTH-009](../../docs/requirements/authentication.md#req-auth-009--registration-application-level-validation-errors)  |
+| Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                   |
+| Risk Level          | Medium                                                                                                                                 |
+| Test Design Method  | Requirement-Based                                                                                                                      |
+| Test Type           | Functional / Negative                                                                                                                  |
+| Priority            | Medium                                                                                                                                 |
 
 #### Preconditions
 
@@ -1575,8 +1575,8 @@ This table maps each approved authentication scenario to the test cases designed
 | SCN-AUTH-008 | REQ-AUTH-007               | RSK-003, RSK-009   | TC-AUTH-008-01, TC-AUTH-008-02                                                 |
 | SCN-AUTH-009 | REQ-AUTH-003               | RSK-006            | TC-AUTH-009-01, TC-AUTH-009-02                                                 |
 | SCN-AUTH-010 | REQ-AUTH-003, REQ-AUTH-004 | RSK-006            | TC-AUTH-010-01, TC-AUTH-010-02                                                 |
-| SCN-AUTH-011 | REQ-AUTH-004               | RSK-006            | TC-AUTH-011-01, TC-AUTH-011-02, TC-AUTH-011-03, TC-AUTH-011-04                 |
-| SCN-AUTH-012 | REQ-AUTH-005               | RSK-006            | TC-AUTH-012-01, TC-AUTH-012-02                                                 |
+| SCN-AUTH-011 | REQ-AUTH-003, REQ-AUTH-004 | RSK-006            | TC-AUTH-011-01, TC-AUTH-011-02, TC-AUTH-011-03, TC-AUTH-011-04                 |
+| SCN-AUTH-012 | REQ-AUTH-002, REQ-AUTH-005 | RSK-006            | TC-AUTH-012-01, TC-AUTH-012-02                                                 |
 | SCN-AUTH-013 | REQ-AUTH-010               | RSK-006            | TC-AUTH-013-01, TC-AUTH-013-02, TC-AUTH-013-03, TC-AUTH-013-04                 |
 
 The test cases are designed for subsequent execution and may be refined during review. Their presence in this document does not imply that they have been executed or passed.

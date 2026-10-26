@@ -392,7 +392,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Title               | Empty conversation displays the documented empty preview                                                                      |
 | Related Scenario    | SCN-CONV-005 [SCN-CONV-005](../scenarios/conversation.md#scn-conv-005--latest-message-preview-and-empty-conversation-preview) |
 | Related Requirement | REQ-CONV-004 [REQ-CONV-004](../../docs/requirements/conversation.md#req-conv-004--latest-message-preview)                     |
-| Related Risk        | RSK-015 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                   |
+| Related Risk        | RSK-011, RSK-015 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                          |
 | Risk Level          | Medium                                                                                                                        |
 | Test Design Method  | Requirement-Based                                                                                                             |
 | Test Type           | Functional / Empty State                                                                                                      |
@@ -480,7 +480,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Test Case ID        | TC-CONV-006-01                                                                                            |
 | Title               | Conversation activity timestamp uses the documented format for today, yesterday, and older dates          |
 | Related Scenario    | SCN-CONV-006 [SCN-CONV-006](../scenarios/conversation.md#scn-conv-006--conversation-activity-timestamp)   |
-| Related Requirement | REQ-CONV-005 [REQ-CONV-006](../../docs/requirements/conversation.md#req-conv-005--conversation-timestamp) |
+| Related Requirement | REQ-CONV-005 [REQ-CONV-005](../../docs/requirements/conversation.md#req-conv-005--conversation-timestamp) |
 | Related Risk        | RSK-011 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                               |
 | Risk Level          | Medium                                                                                                    |
 | Test Design Method  | Requirement-Based / Boundary-Oriented                                                                     |
@@ -614,9 +614,9 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- Creating the conversation counts as activity even when it contains no messages.
-- The newly created empty conversation can appear at the top of the conversation list according to the documented ordering behavior.
-- The new conversation is not required to contain a message to be considered recent activity.
+- Creating the conversation counts as the latest activity even when it contains no messages.
+- The newly created empty conversation appears at the top of the conversation list because its creation is the most recent activity.
+- The conversation remains empty because no messages have been sent to it.
 
 ---
 
