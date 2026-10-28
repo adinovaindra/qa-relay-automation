@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
+    "test": "node scripts/guard-test-database.mjs && playwright test",
+    "test:headed": "node scripts/guard-test-database.mjs && playwright test --headed",
+    "test:chromium": "node scripts/guard-test-database.mjs && playwright test --project=chromium",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
