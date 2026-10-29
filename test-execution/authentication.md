@@ -145,9 +145,23 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 ---
 
-## 5. Execution Records
+## 5. Coverage Notes and Limitations
 
-### 5.1 Execution Record Template
+- The matrix defines intended automation coverage; it does not demonstrate that automated coverage has been achieved.
+- Source Risk Levels and Priorities are retained as documented. They are distinct from Automation Order.
+- Multi-tab tests require an explicit strategy for browser contexts, shared session state, and independent test execution.
+- Test data setup and cleanup must be repeatable and must not depend on another test having executed first.
+- Long-duration expiration behavior requires a supported, repeatable setup strategy before implementation.
+- Any change to application code, schema, or database state for test setup requires explicit approval.
+- Test execution outcomes must be supported by actual results and evidence.
+- A failed assertion or unexpected observation is not automatically a confirmed defect. Defect classification must be supported by the applicable requirement or contract and the collected evidence.
+- The automation scope is limited to the documented Authentication test cases. It does not imply exhaustive security testing or verification of behavior outside the defined requirements.
+
+---
+
+## 6. Execution Records
+
+### 6.1 Execution Record Template
 
 Use the following template to record each automated test execution. Replace the example identifiers and fields with verified information for the actual test run.
 
@@ -196,19 +210,5 @@ Use the following template to record each automated test execution. Replace the 
 **Execution Notes**
 
 - [Record relevant observations, limitations, or investigation notes.]
-
----
-
-## 6. Coverage Notes and Limitations
-
-- The matrix defines intended automation coverage; it does not demonstrate that automated coverage has been achieved.
-- Source Risk Levels and Priorities are retained as documented. They are distinct from Automation Order.
-- Multi-tab tests require an explicit strategy for browser contexts, shared session state, and independent test execution.
-- Test data setup and cleanup must be repeatable and must not depend on another test having executed first.
-- Long-duration expiration behavior requires a supported, repeatable setup strategy before implementation.
-- Any change to application code, schema, or database state for test setup requires explicit approval.
-- Test execution outcomes must be supported by actual results and evidence.
-- A failed assertion or unexpected observation is not automatically a confirmed defect. Defect classification must be supported by the applicable requirement or contract and the collected evidence.
-- The automation scope is limited to the documented Authentication test cases. It does not imply exhaustive security testing or verification of behavior outside the defined requirements.
 
 ---
