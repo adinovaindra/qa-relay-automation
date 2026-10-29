@@ -45,7 +45,7 @@ Where the requirements specify exact behavior or display formats, the scenarios 
 Verify that a user can send text messages within an authorized conversation.
 
 **Related Requirements:** REQ-MSG-001  
-**Related Risks:** RSK-007  
+**Related Risks:** RSK-020
 **Risk Level:** Medium
 
 **Coverage Considerations:**
@@ -61,7 +61,7 @@ Verify that a user can send text messages within an authorized conversation.
 Verify that empty and whitespace-only message content is rejected according to the documented UI and API requirements.
 
 **Related Requirements:** REQ-MSG-001, REQ-MSG-006  
-**Related Risks:** RSK-007, RSK-012  
+**Related Risks:** RSK-020, RSK-012  
 **Risk Level:** Medium
 
 **Coverage Considerations:**
@@ -79,7 +79,7 @@ Verify that empty and whitespace-only message content is rejected according to t
 Verify that submitted message content preserves the documented whitespace and line-break behavior.
 
 **Related Requirements:** REQ-MSG-001  
-**Related Risks:** RSK-007  
+**Related Risks:** RSK-020  
 **Risk Level:** Medium
 
 **Coverage Considerations:**
@@ -219,23 +219,23 @@ Execution and Evidence
 
 | Requirement ID | Related Risk ID(s) | Scenario ID(s)                        |
 | -------------- | ------------------ | ------------------------------------- |
-| REQ-MSG-001    | RSK-007            | SCN-MSG-001, SCN-MSG-002, SCN-MSG-003 |
+| REQ-MSG-001    | RSK-020            | SCN-MSG-001, SCN-MSG-002, SCN-MSG-003 |
 | REQ-MSG-002    | RSK-008            | SCN-MSG-004, SCN-MSG-005              |
 | REQ-MSG-003    | RSK-004            | SCN-MSG-006                           |
 | REQ-MSG-004    | RSK-017            | SCN-MSG-007                           |
 | REQ-MSG-005    | RSK-018            | SCN-MSG-008                           |
-| REQ-MSG-006    | RSK-007, RSK-012   | SCN-MSG-002                           |
+| REQ-MSG-006    | RSK-012            | SCN-MSG-002                           |
 | REQ-MSG-007    | RSK-004            | SCN-MSG-009                           |
 
 ### Risk-to-Scenario Traceability
 
-| Risk ID | Risk Area                                 | Scenario ID(s)                        |
-| ------- | ----------------------------------------- | ------------------------------------- |
-| RSK-004 | Message Persistence                       | SCN-MSG-006, SCN-MSG-009              |
-| RSK-007 | Registration and Message Input Validation | SCN-MSG-001, SCN-MSG-002, SCN-MSG-003 |
-| RSK-008 | Message and Conversation Ordering         | SCN-MSG-004, SCN-MSG-005              |
-| RSK-012 | Message Input UI State                    | SCN-MSG-002                           |
-| RSK-017 | Message Scrolling                         | SCN-MSG-007                           |
-| RSK-018 | Message Timestamps and Date Separators    | SCN-MSG-008                           |
+| Risk ID | Risk Area                              | Scenario ID(s)                        |
+| ------- | -------------------------------------- | ------------------------------------- |
+| RSK-004 | Message Persistence                    | SCN-MSG-006, SCN-MSG-009              |
+| RSK-008 | Message and Conversation Ordering      | SCN-MSG-004, SCN-MSG-005              |
+| RSK-012 | Message Input UI State                 | SCN-MSG-002                           |
+| RSK-017 | Message Scrolling                      | SCN-MSG-007                           |
+| RSK-018 | Message Timestamps and Date Separators | SCN-MSG-008                           |
+| RSK-020 | Message Input Validation               | SCN-MSG-001, SCN-MSG-002, SCN-MSG-003 |
 
 The scenario set is intended to guide subsequent test-case design. Scenario coverage does not imply that the scenarios have been executed or that the corresponding functionality has passed testing.

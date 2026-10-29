@@ -77,10 +77,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-001 [SCN-AUTH-001](../scenarios/authentication.md#scn-auth-001--user-registration)                  |
 | Related Requirement | REQ-AUTH-001 [REQ-AUTH-001](../../docs/requirements/authentication.md#req-auth-001--successful-registration) |
 | Related Risk        | RSK-007 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                  |
-| Risk Level          | Medium                                                                                                       |
+| Risk Level          | High                                                                                                         |
 | Test Design Method  | Requirement-Based                                                                                            |
 | Test Type           | Functional / Positive                                                                                        |
-| Priority            | Medium                                                                                                       |
+| Priority            | High                                                                                                         |
 
 #### Preconditions
 
@@ -120,10 +120,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-002 [SCN-AUTH-002](../scenarios/authentication.md#scn-auth-002--registration-required-field-validation)          |
 | Related Requirement | REQ-AUTH-006 [REQ-AUTH-006](../../docs/requirements/authentication.md#req-auth-006--required-field-and-native-validation) |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                      |
-| Risk Level          | Medium                                                                                                                    |
+| Risk Level          | High                                                                                                                      |
 | Test Design Method  | Requirement-Based                                                                                                         |
 | Test Type           | Validation / Negative                                                                                                     |
-| Priority            | Medium                                                                                                                    |
+| Priority            | High                                                                                                                      |
 
 #### Preconditions
 
@@ -163,10 +163,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-002 [SCN-AUTH-002](../scenarios/authentication.md#scn-auth-002--registration-required-field-validation)          |
 | Related Requirement | REQ-AUTH-006 [REQ-AUTH-006](../../docs/requirements/authentication.md#req-auth-006--required-field-and-native-validation) |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                      |
-| Risk Level          | Medium                                                                                                                    |
+| Risk Level          | High                                                                                                                      |
 | Test Design Method  | Requirement-Based                                                                                                         |
 | Test Type           | Validation / Negative                                                                                                     |
-| Priority            | Medium                                                                                                                    |
+| Priority            | High                                                                                                                      |
 
 #### Preconditions
 
@@ -205,10 +205,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-002 [SCN-AUTH-002](../scenarios/authentication.md#scn-auth-002--registration-required-field-validation)          |
 | Related Requirement | REQ-AUTH-006 [REQ-AUTH-006](../../docs/requirements/authentication.md#req-auth-006--required-field-and-native-validation) |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                      |
-| Risk Level          | Medium                                                                                                                    |
+| Risk Level          | High                                                                                                                      |
 | Test Design Method  | Requirement-Based                                                                                                         |
 | Test Type           | Validation / Negative                                                                                                     |
-| Priority            | Medium                                                                                                                    |
+| Priority            | High                                                                                                                      |
 
 #### Preconditions
 
@@ -247,10 +247,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-002 [SCN-AUTH-002](../scenarios/authentication.md#scn-auth-002--registration-required-field-validation)          |
 | Related Requirement | REQ-AUTH-006 [REQ-AUTH-006](../../docs/requirements/authentication.md#req-auth-006--required-field-and-native-validation) |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                      |
-| Risk Level          | Medium                                                                                                                    |
+| Risk Level          | High                                                                                                                      |
 | Test Design Method  | Requirement-Based                                                                                                         |
 | Test Type           | Validation / Negative                                                                                                     |
-| Priority            | Medium                                                                                                                    |
+| Priority            | High                                                                                                                      |
 
 #### Preconditions
 
@@ -288,7 +288,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Title               | Login blocks submission when Email is empty                                                                               |
 | Related Scenario    | SCN-AUTH-003 [SCN-AUTH-003](../scenarios/authentication.md#scn-auth-003--login-required-field-validation)                 |
 | Related Requirement | REQ-AUTH-006 [REQ-AUTH-006](../../docs/requirements/authentication.md#req-auth-006--required-field-and-native-validation) |
-| Related Risk        | RSK-007 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                               |
+| Related Risk        | RSK-003 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                               |
 | Risk Level          | Medium                                                                                                                    |
 | Test Design Method  | Requirement-Based                                                                                                         |
 | Test Type           | Validation / Negative                                                                                                     |
@@ -327,7 +327,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Title               | Login blocks submission when Password is empty                                                                            |
 | Related Scenario    | SCN-AUTH-003 [SCN-AUTH-003](../scenarios/authentication.md#scn-auth-003--login-required-field-validation)                 |
 | Related Requirement | REQ-AUTH-006 [REQ-AUTH-006](../../docs/requirements/authentication.md#req-auth-006--required-field-and-native-validation) |
-| Related Risk        | RSK-007 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                               |
+| Related Risk        | RSK-003 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                               |
 | Risk Level          | Medium                                                                                                                    |
 | Test Design Method  | Requirement-Based                                                                                                         |
 | Test Type           | Validation / Negative                                                                                                     |
@@ -366,7 +366,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Title               | Login blocks submission when Email has an invalid format                                                                  |
 | Related Scenario    | SCN-AUTH-003 [SCN-AUTH-003](../scenarios/authentication.md#scn-auth-003--login-required-field-validation)                 |
 | Related Requirement | REQ-AUTH-006 [REQ-AUTH-006](../../docs/requirements/authentication.md#req-auth-006--required-field-and-native-validation) |
-| Related Risk        | RSK-007 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                               |
+| Related Risk        | RSK-003 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                               |
 | Risk Level          | Medium                                                                                                                    |
 | Test Design Method  | Requirement-Based                                                                                                         |
 | Test Type           | Validation / Negative                                                                                                     |
@@ -406,10 +406,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-004 [SCN-AUTH-004](../scenarios/authentication.md#scn-auth-004--registration-email-and-password-validation)            |
 | Related Requirement | REQ-AUTH-008 [REQ-AUTH-008](../../docs/requirements/authentication.md#req-auth-008--registration-email-and-password-validation) |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
-| Risk Level          | Medium                                                                                                                          |
+| Risk Level          | High                                                                                                                            |
 | Test Design Method  | Requirement-Based / Boundary Value Analysis                                                                                     |
 | Test Type           | Validation / Boundary                                                                                                           |
-| Priority            | Medium                                                                                                                          |
+| Priority            | High                                                                                                                            |
 
 #### Preconditions
 
@@ -448,10 +448,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-004 [SCN-AUTH-004](../scenarios/authentication.md#scn-auth-004--registration-email-and-password-validation)            |
 | Related Requirement | REQ-AUTH-008 [REQ-AUTH-008](../../docs/requirements/authentication.md#req-auth-008--registration-email-and-password-validation) |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
-| Risk Level          | Medium                                                                                                                          |
+| Risk Level          | High                                                                                                                            |
 | Test Design Method  | Requirement-Based / Boundary Value Analysis                                                                                     |
 | Test Type           | Validation / Boundary                                                                                                           |
-| Priority            | Medium                                                                                                                          |
+| Priority            | High                                                                                                                            |
 
 #### Preconditions
 
@@ -491,10 +491,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-004 [SCN-AUTH-004](../scenarios/authentication.md#scn-auth-004--registration-email-and-password-validation)            |
 | Related Requirement | REQ-AUTH-008 [REQ-AUTH-008](../../docs/requirements/authentication.md#req-auth-008--registration-email-and-password-validation) |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
-| Risk Level          | Medium                                                                                                                          |
+| Risk Level          | High                                                                                                                            |
 | Test Design Method  | Requirement-Based / Boundary Value Analysis                                                                                     |
 | Test Type           | Validation / Boundary                                                                                                           |
-| Priority            | Medium                                                                                                                          |
+| Priority            | High                                                                                                                            |
 
 #### Preconditions
 
@@ -534,10 +534,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-004 [SCN-AUTH-004](../scenarios/authentication.md#scn-auth-004--registration-email-and-password-validation)            |
 | Related Requirement | REQ-AUTH-008 [REQ-AUTH-008](../../docs/requirements/authentication.md#req-auth-008--registration-email-and-password-validation) |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
-| Risk Level          | Medium                                                                                                                          |
+| Risk Level          | High                                                                                                                            |
 | Test Design Method  | Requirement-Based                                                                                                               |
 | Test Type           | Functional / Positive                                                                                                           |
-| Priority            | Medium                                                                                                                          |
+| Priority            | High                                                                                                                            |
 
 #### Preconditions
 
@@ -573,9 +573,9 @@ Execution-specific information such as browser environment, browser version, ope
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | Test Case ID        | TC-AUTH-004-05                                                                                                                  |
 | Title               | Login does not apply the registration minimum password-length rule                                                              |
-| Related Scenario    | SCN-AUTH-004 [SCN-AUTH-004](../scenarios/authentication.md#scn-auth-004--registration-email-and-password-validation)            |
+| Related Scenario    | SCN-AUTH-003 [SCN-AUTH-003](../scenarios/authentication.md#scn-auth-003--login-required-field-validation)                       |
 | Related Requirement | REQ-AUTH-008 [REQ-AUTH-008](../../docs/requirements/authentication.md#req-auth-008--registration-email-and-password-validation) |
-| Related Risk        | RSK-007 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                     |
+| Related Risk        | RSK-003 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                     |
 | Risk Level          | Medium                                                                                                                          |
 | Test Design Method  | Requirement-Based                                                                                                               |
 | Test Type           | Validation / Negative                                                                                                           |
@@ -614,10 +614,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-005 [SCN-AUTH-005](../scenarios/authentication.md#scn-auth-005--registration-application-level-validation-and-error-priority) |
 | Related Requirement | REQ-AUTH-009 [REQ-AUTH-009](../../docs/requirements/authentication.md#req-auth-009--registration-application-level-validation-errors)  |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                   |
-| Risk Level          | Medium                                                                                                                                 |
+| Risk Level          | High                                                                                                                                   |
 | Test Design Method  | Requirement-Based                                                                                                                      |
 | Test Type           | Functional / Negative                                                                                                                  |
-| Priority            | Medium                                                                                                                                 |
+| Priority            | High                                                                                                                                   |
 
 #### Preconditions
 
@@ -655,10 +655,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-005 [SCN-AUTH-005](../scenarios/authentication.md#scn-auth-005--registration-application-level-validation-and-error-priority) |
 | Related Requirement | REQ-AUTH-009 [REQ-AUTH-009](../../docs/requirements/authentication.md#req-auth-009--registration-application-level-validation-errors)  |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                   |
-| Risk Level          | Medium                                                                                                                                 |
+| Risk Level          | High                                                                                                                                   |
 | Test Design Method  | Requirement-Based                                                                                                                      |
 | Test Type           | Functional / Negative                                                                                                                  |
-| Priority            | Medium                                                                                                                                 |
+| Priority            | High                                                                                                                                   |
 
 #### Preconditions
 
@@ -696,10 +696,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-005 [SCN-AUTH-005](../scenarios/authentication.md#scn-auth-005--registration-application-level-validation-and-error-priority) |
 | Related Requirement | REQ-AUTH-009 [REQ-AUTH-009](../../docs/requirements/authentication.md#req-auth-009--registration-application-level-validation-errors)  |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                   |
-| Risk Level          | Medium                                                                                                                                 |
+| Risk Level          | High                                                                                                                                   |
 | Test Design Method  | Requirement-Based                                                                                                                      |
 | Test Type           | Functional / Negative                                                                                                                  |
-| Priority            | Medium                                                                                                                                 |
+| Priority            | High                                                                                                                                   |
 
 #### Preconditions
 
@@ -737,10 +737,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-005 [SCN-AUTH-005](../scenarios/authentication.md#scn-auth-005--registration-application-level-validation-and-error-priority) |
 | Related Requirement | REQ-AUTH-009 [REQ-AUTH-009](../../docs/requirements/authentication.md#req-auth-009--registration-application-level-validation-errors)  |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                   |
-| Risk Level          | Medium                                                                                                                                 |
+| Risk Level          | High                                                                                                                                   |
 | Test Design Method  | Requirement-Based / Decision Table                                                                                                     |
 | Test Type           | Functional / Negative                                                                                                                  |
-| Priority            | Medium                                                                                                                                 |
+| Priority            | High                                                                                                                                   |
 
 #### Preconditions
 
@@ -780,10 +780,10 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Scenario    | SCN-AUTH-005 [SCN-AUTH-005](../scenarios/authentication.md#scn-auth-005--registration-application-level-validation-and-error-priority) |
 | Related Requirement | REQ-AUTH-009 [REQ-AUTH-009](../../docs/requirements/authentication.md#req-auth-009--registration-application-level-validation-errors)  |
 | Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                   |
-| Risk Level          | Medium                                                                                                                                 |
+| Risk Level          | High                                                                                                                                   |
 | Test Design Method  | Requirement-Based / Decision Table                                                                                                     |
 | Test Type           | Functional / Negative                                                                                                                  |
-| Priority            | Medium                                                                                                                                 |
+| Priority            | High                                                                                                                                   |
 
 #### Preconditions
 
@@ -1567,8 +1567,8 @@ This table maps each approved authentication scenario to the test cases designed
 | ------------ | -------------------------- | ------------------ | ------------------------------------------------------------------------------ |
 | SCN-AUTH-001 | REQ-AUTH-001               | RSK-007            | TC-AUTH-001-01                                                                 |
 | SCN-AUTH-002 | REQ-AUTH-006               | RSK-007, RSK-014   | TC-AUTH-002-01, TC-AUTH-002-02, TC-AUTH-002-03, TC-AUTH-002-04                 |
-| SCN-AUTH-003 | REQ-AUTH-006               | RSK-007            | TC-AUTH-003-01, TC-AUTH-003-02, TC-AUTH-003-03                                 |
-| SCN-AUTH-004 | REQ-AUTH-008               | RSK-007, RSK-014   | TC-AUTH-004-01, TC-AUTH-004-02, TC-AUTH-004-03, TC-AUTH-004-04, TC-AUTH-004-05 |
+| SCN-AUTH-003 | REQ-AUTH-006, REQ-AUTH-008 | RSK-003            | TC-AUTH-003-01, TC-AUTH-003-02, TC-AUTH-003-03, TC-AUTH-004-05                 |
+| SCN-AUTH-004 | REQ-AUTH-008               | RSK-007, RSK-014   | TC-AUTH-004-01, TC-AUTH-004-02, TC-AUTH-004-03, TC-AUTH-004-04                 |
 | SCN-AUTH-005 | REQ-AUTH-009               | RSK-007, RSK-014   | TC-AUTH-005-01, TC-AUTH-005-02, TC-AUTH-005-03, TC-AUTH-005-04, TC-AUTH-005-05 |
 | SCN-AUTH-006 | REQ-AUTH-002               | RSK-003            | TC-AUTH-006-01                                                                 |
 | SCN-AUTH-007 | REQ-AUTH-007               | RSK-003, RSK-009   | TC-AUTH-007-01, TC-AUTH-007-02                                                 |

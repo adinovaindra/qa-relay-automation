@@ -76,7 +76,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Title               | Send a valid text message within an authorized conversation                                                 |
 | Related Scenario    | SCN-MSG-001 [SCN-MSG-001](../scenarios/messaging.md#scn-msg-001--send-text-message)                         |
 | Related Requirement | REQ-MSG-001 [REQ-MSG-001](../../docs/requirements/messaging.md#req-msg-001--message-sending-and-validation) |
-| Related Risk        | RSK-007 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                 |
+| Related Risk        | RSK-020 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                 |
 | Risk Level          | Medium                                                                                                      |
 | Test Design Method  | Requirement-Based                                                                                           |
 | Test Type           | Functional / Positive                                                                                       |
@@ -121,7 +121,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Title               | Empty message input disables the Send button                                                                                      |
 | Related Scenario    | SCN-MSG-002 [SCN-MSG-002](../scenarios/messaging.md#scn-msg-002--empty-and-whitespace-only-message-validation)                    |
 | Related Requirement | REQ-MSG-001, REQ-MSG-006 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-006--empty-message-input-handling) |
-| Related Risk        | RSK-007, RSK-012 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                              |
+| Related Risk        | RSK-012 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                       |
 | Risk Level          | Medium                                                                                                                            |
 | Test Design Method  | Requirement-Based                                                                                                                 |
 | Test Type           | Functional / Validation / Negative                                                                                                |
@@ -161,7 +161,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Title               | Whitespace-only message input disables the Send button                                                                            |
 | Related Scenario    | SCN-MSG-002 [SCN-MSG-002](../scenarios/messaging.md#scn-msg-002--empty-and-whitespace-only-message-validation)                    |
 | Related Requirement | REQ-MSG-001, REQ-MSG-006 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-006--empty-message-input-handling) |
-| Related Risk        | RSK-007, RSK-012 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                              |
+| Related Risk        | RSK-012 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                       |
 | Risk Level          | Medium                                                                                                                            |
 | Test Design Method  | Requirement-Based / Boundary and Edge Conditions                                                                                  |
 | Test Type           | Functional / Validation / Negative                                                                                                |
@@ -202,7 +202,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Title               | API rejects empty message content                                                                                      |
 | Related Scenario    | SCN-MSG-002 [SCN-MSG-002](../scenarios/messaging.md#scn-msg-002--empty-and-whitespace-only-message-validation)         |
 | Related Requirement | REQ-MSG-001 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-001--message-sending-and-validation) |
-| Related Risk        | RSK-007 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
+| Related Risk        | RSK-020 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
 | Risk Level          | Medium                                                                                                                 |
 | Test Design Method  | Requirement-Based                                                                                                      |
 | Test Type           | API / Negative                                                                                                         |
@@ -243,7 +243,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Title               | API rejects whitespace-only message content                                                                            |
 | Related Scenario    | SCN-MSG-002 [SCN-MSG-002](../scenarios/messaging.md#scn-msg-002--empty-and-whitespace-only-message-validation)         |
 | Related Requirement | REQ-MSG-001 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-001--message-sending-and-validation) |
-| Related Risk        | RSK-007 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
+| Related Risk        | RSK-020 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
 | Risk Level          | Medium                                                                                                                 |
 | Test Design Method  | Requirement-Based / Boundary and Edge Conditions                                                                       |
 | Test Type           | API / Negative                                                                                                         |
@@ -285,7 +285,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Title               | Submitted message content preserves whitespace and line breaks                                                         |
 | Related Scenario    | SCN-MSG-003 [SCN-MSG-003](../scenarios/messaging.md#scn-msg-003--message-content-preservation)                         |
 | Related Requirement | REQ-MSG-001 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-001--message-sending-and-validation) |
-| Related Risk        | RSK-007 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
+| Related Risk        | RSK-020 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
 | Risk Level          | Medium                                                                                                                 |
 | Test Design Method  | Requirement-Based / Boundary and Edge Conditions                                                                       |
 | Test Type           | Functional / Data Integrity                                                                                            |
@@ -798,10 +798,10 @@ Execution-specific information such as browser environment, browser version, ope
 This table maps each approved messaging scenario to the test cases designed to verify it. Requirement and risk IDs are included to make the coverage relationship reviewable without creating a separate risk-to-test-case traceability section.
 
 | Scenario ID | Related Requirement ID(s) | Related Risk ID(s) | Test Case ID(s)                                            |
-| ----------- | ------------------------- | ------------------ | ---------------------------------------------------------- |
-| SCN-MSG-001 | REQ-MSG-001               | RSK-007            | TC-MSG-001-01                                              |
-| SCN-MSG-002 | REQ-MSG-001, REQ-MSG-006  | RSK-007, RSK-012   | TC-MSG-002-01, TC-MSG-002-02, TC-MSG-002-03, TC-MSG-002-04 |
-| SCN-MSG-003 | REQ-MSG-001               | RSK-007            | TC-MSG-003-01                                              |
+|-------------|---------------------------|--------------------|------------------------------------------------------------|
+| SCN-MSG-001 | REQ-MSG-001               | RSK-020            | TC-MSG-001-01                                              |
+| SCN-MSG-002 | REQ-MSG-001, REQ-MSG-006  | RSK-012, RSK-020   | TC-MSG-002-01, TC-MSG-002-02, TC-MSG-002-03, TC-MSG-002-04 |
+| SCN-MSG-003 | REQ-MSG-001               | RSK-020            | TC-MSG-003-01                                              |
 | SCN-MSG-004 | REQ-MSG-002               | RSK-008            | TC-MSG-004-01                                              |
 | SCN-MSG-005 | REQ-MSG-002               | RSK-008            | TC-MSG-005-01, TC-MSG-005-02, TC-MSG-005-03                |
 | SCN-MSG-006 | REQ-MSG-003               | RSK-004            | TC-MSG-006-01, TC-MSG-006-02                               |

@@ -45,7 +45,7 @@ The end-to-end scenarios complement the feature-level scenarios. They do not rep
 Verify that a new user can complete the documented end-to-end workflow, from account registration through messaging, logout, and attempted access to a protected page.
 
 **Related Requirements:** REQ-AUTH-001, REQ-AUTH-002, REQ-CONV-002, REQ-MSG-001, REQ-AUTH-003, REQ-AUTH-004
-**Related Risks:** RSK-003, RSK-005, RSK-006, RSK-007
+**Related Risks:** RSK-003, RSK-005, RSK-006, RSK-007, RSK-020
 **Risk Level:** High
 
 **Coverage Considerations:**
@@ -90,17 +90,18 @@ Execution and Evidence
 | REQ-AUTH-001   | RSK-007            | SCN-E2E-001    |
 | REQ-AUTH-002   | RSK-003            | SCN-E2E-001    |
 | REQ-CONV-002   | RSK-005            | SCN-E2E-001    |
-| REQ-MSG-001    | RSK-007            | SCN-E2E-001    |
+| REQ-MSG-001    | RSK-020            | SCN-E2E-001    |
 | REQ-AUTH-003   | RSK-006            | SCN-E2E-001    |
 | REQ-AUTH-004   | RSK-006            | SCN-E2E-001    |
 
 ### Risk-to-Scenario Traceability
 
-| Risk ID | Risk Area                                 | Scenario ID(s) |
-| ------- | ----------------------------------------- | -------------- |
-| RSK-003 | Authentication                            | SCN-E2E-001    |
-| RSK-005 | Conversation Access                       | SCN-E2E-001    |
-| RSK-006 | Session and Logout Behavior               | SCN-E2E-001    |
-| RSK-007 | Registration and Message Input Validation | SCN-E2E-001    |
+| Risk ID | Risk Area                   | Scenario ID(s) |
+| ------- | --------------------------- | -------------- |
+| RSK-003 | Authentication              | SCN-E2E-001    |
+| RSK-005 | Conversation Access         | SCN-E2E-001    |
+| RSK-006 | Session and Logout Behavior | SCN-E2E-001    |
+| RSK-007 | Registration Validation     | SCN-E2E-001    |
+| RSK-020 | Message Input Validation    | SCN-E2E-001    |
 
 The scenario set is intended to guide subsequent test-case design. Scenario coverage does not imply that the scenarios have been executed or that the corresponding functionality has passed testing.
