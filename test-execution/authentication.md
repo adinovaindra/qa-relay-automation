@@ -31,8 +31,8 @@ Test Case IDs, titles, Risk Levels, and Source Priorities follow the current Aut
 
 | Automation Order | Test Case ID   | Test Case Title                                                                       | Risk Level | Source Priority | Automation Layer | Automation Decision                                     | Execution Status |
 | ---------------: | -------------- | ------------------------------------------------------------------------------------- | ---------- | --------------- | ---------------- | ------------------------------------------------------- | ---------------- |
-|                1 | TC-AUTH-001-01 | Register a new account with valid required information                                | High       | High            | UI               | Include                                                 | Not Executed Yet |
-|                2 | TC-AUTH-006-01 | Registered user logs in successfully                                                  | High       | High            | UI               | Include                                                 | Not Executed Yet |
+|                1 | TC-AUTH-001-01 | Register a new account with valid required information                                | High       | High            | UI               | Include                                                 | Passed           |
+|                2 | TC-AUTH-006-01 | Registered user logs in successfully                                                  | High       | High            | UI               | Include                                                 | Passed           |
 |                3 | TC-AUTH-007-01 | Login rejects an unregistered email with the generic authentication error             | High       | High            | UI               | Include                                                 | Not Executed Yet |
 |                4 | TC-AUTH-007-02 | Login rejects an incorrect password with the generic authentication error             | High       | High            | UI               | Include                                                 | Not Executed Yet |
 |                5 | TC-AUTH-008-01 | Invalid credential conditions produce identical login error feedback                  | High       | High            | UI               | Include                                                 | Not Executed Yet |
@@ -114,17 +114,16 @@ The test must verify the documented expected behavior using an actual request wi
 | ---------------------------------- | ----: |
 | Test Cases in Coverage Matrix      |    37 |
 | Test Cases Selected for Automation |    37 |
-| Test Cases Implemented             |     0 |
-| Test Cases Executed                |     0 |
-| Passed                             |     0 |
+| Test Cases Implemented             |     2 |
+| Test Cases Executed                |     2 |
+| Passed                             |     2 |
 | Failed                             |     0 |
 | Blocked                            |     0 |
-| Not Executed                       |    37 |
+| Not Executed                       |    35 |
 
 ### 3.2 Summary Notes
 
 - The Authentication automation scope contains 37 selected test cases.
-- No Authentication automated test has been executed.
 - Selection and implementation do not constitute execution evidence.
 - A failed assertion is recorded as a failed execution only after the test has actually run.
 - A test that cannot run because of environment or setup problems must be recorded using the applicable blocked or infrastructure-failure classification rather than being reported as passed.
@@ -161,54 +160,105 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 ## 6. Execution Records
 
-### 6.1 Execution Record Template
+### TC-AUTH-001-01 — Register a new account with valid required information
 
-Use the following template to record each automated test execution. Replace the example identifiers and fields with verified information for the actual test run.
-
-#### TC-AUTH-XXX-XX — [Test Case Title]
-
-**Test Case Reference:** [Authentication Test Cases](../test-design/test-cases/authentication.md)
-
-**Scenario Reference:** [Scenario ID]
-
-**Requirement Reference:** [Requirement ID]
-
-**Risk Reference:** [Risk ID]
-
-**Execution Date:** YYYY-MM-DD
+- **Test Case Reference:** [Authentication Test Cases](../test-design/test-cases/authentication.md)
+- **Scenario Reference:** SCN-AUTH-001 [SCN-AUTH-001](../test-design/scenarios/authentication.md#scn-auth-001--user-registration)
+- **Requirement Reference:** REQ-AUTH-001 [REQ-AUTH-001](../docs/requirements/authentication.md#req-auth-001--successful-registration)
+- **Risk Reference:** RSK-007 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-10-30
 
 **Environment**
 
-- Application URL: [URL]
-- Browser / Project: [Browser and Playwright project]
-- Browser Version: [Version]
-- Operating System: [Operating system]
-- Execution Mode: Headed / Headless
-- Test Run / Commit Reference: [Run identifier or commit]
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Test Run / Commit Reference: Local execution
 
 **Preconditions**
 
-- [Record the verified preconditions used for this execution.]
+- Relay application is accessible.
+- The email address `test.user@example.com` is not registered.
+- The local QA automation database is available.
+- The QA application and cleanup database roles are configured.
 
 **Expected Result**
 
-- [Copy or summarize the expected result from the source test case without changing its acceptance criteria.]
+- The account is registered successfully.
+- The application redirects to `/login`.
+- No success message or confirmation notification is displayed.
 
 **Actual Result**
 
-- [Record only behavior observed during the actual execution.]
+- Relay homepage opened successfully.
+- Clicking `Create one` navigated to the Register page.
+- All registration fields accepted the provided test data.
+- Registration completed successfully.
+- The application redirected to `/login`.
+- The `Welcome back` heading was visible.
+- No success message or confirmation notification was observed during headed execution.
+- The same static email address was successfully reused across five consecutive successful re-runs.
 
-**Execution Result:** NOT EXECUTED
+**Execution Result:** PASS
 
 **Evidence**
 
-- Test report: [Reference]
-- Screenshot / Trace / Video: [Reference, where applicable]
+- Playwright terminal output: `1 passed (21.5s)` for the reported successful run.
+- Playwright HTML report generated locally.
+- Headed browser execution used for visual observation.
 
-**Defect Reference:** None identified / [Defect reference]
+**Defect Reference:** None identified.
 
-**Execution Notes**
+### TC-AUTH-006-01 — Registered user logs in successfully
 
-- [Record relevant observations, limitations, or investigation notes.]
+- **Test Case Reference:** [Authentication Test Cases](../test-design/test-cases/authentication.md)
+- **Scenario Reference:** SCN-AUTH-006 [SCN-AUTH-006](../test-design/scenarios/authentication.md#scn-auth-006--valid-user-login)
+- **Requirement Reference:** REQ-AUTH-002 [REQ-AUTH-002](../docs/requirements/authentication.md#req-auth-002--successful-login)
+- **Risk Reference:** RSK-003 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-10-30
 
----
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Test Run / Commit Reference: Local execution
+
+**Preconditions**
+
+- Relay application is accessible.
+- The QA database is available.
+- The QA application and cleanup database roles are configured.
+- The registered test account is prepared using Prisma upsert before UI execution.
+
+**Expected Result**
+
+- Authentication succeeds.
+- The application redirects to `/chat`.
+- No success message is displayed and no additional redirect occurs after reaching `/chat`.
+
+**Actual Result**
+
+- The test account was successfully prepared using Prisma upsert with the predefined test credentials.
+- The Login page was opened successfully.
+- The registered user credentials were submitted through the UI.
+- Authentication completed successfully.
+- The application redirected to `/chat`.
+- The `/chat` page was displayed successfully during headed browser execution.
+- The `Conversations` heading was visible, satisfying the corresponding Playwright assertion.
+- The cleanup operation completed without reporting an error.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- Playwright terminal output: `1 passed (9.3s)`.
+- QA Safety Guard passed before test execution.
+- Playwright HTML report generated locally.
+- Headed browser execution confirmed that the `/chat` page was displayed successfully.
+
+**Defect Reference:** None identified.

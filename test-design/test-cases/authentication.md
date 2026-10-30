@@ -89,19 +89,21 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data             | Value                                              |
-| ---------------- | -------------------------------------------------- |
-| Name             | Dino Test                                          |
-| Email            | dino.auth.001@example.com (unique, unused address) |
-| Password         | simplepass                                         |
-| Confirm Password | simplepass                                         |
+| Data             | Value                                          |
+| ---------------- | ---------------------------------------------- |
+| Name             | Test User                                      |
+| Email            | test.user@example.com (unique, unused address) |
+| Password         | testuser123                                    |
+| Confirm Password | testuser123                                    |
 
 #### Steps
 
-1. Open the Register page.
-2. Enter the valid Name, Email, Password, and Confirm Password values.
-3. Submit the registration form.
-4. Observe the resulting page and any success feedback.
+1. Open Relay Application webpage.
+2. Go to `Create one` button.
+3. Verify the register page is opened.
+4. Enter the valid Name, Email, Password, and Confirm Password values.
+5. Submit the registration form.
+6. Observe the resulting page and any success feedback.
 
 #### Expected Result
 
@@ -835,14 +837,14 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data     | Value                                     |
-| -------- | ----------------------------------------- |
-| Email    | registered.user@example.com               |
-| Password | Valid password for the registered account |
+| Data     | Value                       |
+| -------- | --------------------------- |
+| Email    | registered.user@example.com |
+| Password | password123                 |
 
 #### Steps
 
-1. Open the Login page.
+1. Open Relay Application webpage.
 2. Enter the registered user credentials.
 3. Submit the form.
 4. Observe the resulting route and user feedback.

@@ -22,6 +22,7 @@ try {
   delete process.env.QA_AUTOMATION_ENABLED;
   delete process.env.RELAY_APP_DIR;
   delete process.env.DATABASE_URL;
+  delete process.env.DATABASE_CLEANUP_URL;
   delete process.env.JWT_SECRET;
 
   process.loadEnvFile(envFile);
@@ -76,6 +77,51 @@ if (
   /(replace_with|change_me|your_password)/i.test(databaseUrl.password)
 ) {
   fail("Replace the password placeholder with the test role password.");
+}
+
+const rawCleanupDatabaseUrl = process.env.DATABASE_CLEANUP_URL;
+
+if (!rawCleanupDatabaseUrl) {
+  fail("DATABASE_CLEANUP_URL is missing.");
+}
+
+let cleanupDatabaseUrl;
+
+try {
+  cleanupDatabaseUrl = new URL(rawCleanupDatabaseUrl);
+} catch {
+  fail("DATABASE_CLEANUP_URL is not a valid URL.");
+}
+
+if (!["postgres:", "postgresql:"].includes(cleanupDatabaseUrl.protocol)) {
+  fail("Cleanup database must use PostgreSQL.");
+}
+
+if (!["localhost", "127.0.0.1"].includes(cleanupDatabaseUrl.hostname)) {
+  fail("Cleanup database host must be localhost or 127.0.0.1.");
+}
+
+if (cleanupDatabaseUrl.port !== "5432") {
+  fail("Cleanup database port must be 5432.");
+}
+
+const cleanupDatabaseName = decodeURIComponent(
+  cleanupDatabaseUrl.pathname.replace(/^\/+/, ""),
+);
+
+if (cleanupDatabaseName !== "relay_qa_automation") {
+  fail("Refusing to run: cleanup database must be relay_qa_automation.");
+}
+
+if (decodeURIComponent(cleanupDatabaseUrl.username) !== "relay_qa_cleanup") {
+  fail("Cleanup database role must be relay_qa_cleanup.");
+}
+
+if (
+  !cleanupDatabaseUrl.password ||
+  /(replace_with|change_me|your_password)/i.test(cleanupDatabaseUrl.password)
+) {
+  fail("Replace the password placeholder with the cleanup role password.");
 }
 
 const jwtSecret = process.env.JWT_SECRET;
