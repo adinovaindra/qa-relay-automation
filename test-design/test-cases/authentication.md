@@ -89,12 +89,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data             | Value                                          |
-| ---------------- | ---------------------------------------------- |
-| Name             | Test User                                      |
-| Email            | test.user@example.com (unique, unused address) |
-| Password         | testuser123                                    |
-| Confirm Password | testuser123                                    |
+| Data             | Value                 |
+| ---------------- | --------------------- |
+| Name             | Test User             |
+| Email            | test.user@example.com |
+| Password         | testuser123           |
+| Confirm Password | testuser123           |
 
 #### Steps
 
@@ -628,18 +628,19 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data             | Value                      |
-| ---------------- | -------------------------- |
-| Name             | Dino Test                  |
-| Email            | dino.auth.005a@example.com |
-| Password         | simplepass                 |
-| Confirm Password | differentpass              |
+| Data             | Value                 |
+| ---------------- | --------------------- |
+| Name             | Test User             |
+| Email            | test.user@example.com |
+| Password         | password123           |
+| Confirm Password | password124           |
 
 #### Steps
 
-1. Open the Register page.
-2. Enter valid required values except that Password and Confirm Password differ.
-3. Submit the form.
+1. Open Relay Application webpage.
+2. Go to `Create one` button.
+3. Enter valid required values with given test data.
+4. Submit the form.
 
 #### Expected Result
 
@@ -881,12 +882,12 @@ Execution-specific information such as browser environment, browser version, ope
 | Data     | Value                         |
 | -------- | ----------------------------- |
 | Email    | unregistered.user@example.com |
-| Password | Any non-empty password        |
+| Password | password123                   |
 
 #### Steps
 
-1. Open the Login page.
-2. Enter the unregistered email and a non-empty password.
+1. Open the Relay Application page.
+2. Enter the email and a password as published by test data.
 3. Submit the form.
 
 #### Expected Result
@@ -922,12 +923,12 @@ Execution-specific information such as browser environment, browser version, ope
 | Data     | Value                       |
 | -------- | --------------------------- |
 | Email    | registered.user@example.com |
-| Password | Incorrect password          |
+| Password | password124                 |
 
 #### Steps
 
-1. Open the Login page.
-2. Enter the registered email and an incorrect non-empty password.
+1. Open the Relay Application page.
+2. Enter the email and a password as published by test data.
 3. Submit the form.
 
 #### Expected Result
@@ -961,17 +962,18 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data      | Value                                              |
-| --------- | -------------------------------------------------- |
-| Attempt A | Unregistered email with non-empty password         |
-| Attempt B | Registered email with incorrect non-empty password |
+| Data      | Value                                                                         |
+| --------- | ----------------------------------------------------------------------------- |
+| Attempt A | Unregistered email : `unregistered.user@example.com` password : `password123` |
+| Attempt B | Registered email : `registered.user@example.com` password : `password124`     |
 
 #### Steps
 
-1. Submit a login attempt using an unregistered email.
-2. Record the displayed application error.
-3. Submit a second login attempt using a registered email and incorrect password.
-4. Compare the displayed errors.
+1. Open the Relay Application page.
+2. Submit a login attempt using an unregistered email.
+3. Record the displayed application error.
+4. Submit a second login attempt using a registered email and incorrect password.
+5. Compare the displayed errors.
 
 #### Expected Result
 
@@ -1002,17 +1004,18 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data            | Value                                    |
-| --------------- | ---------------------------------------- |
-| Invalid attempt | Registered email with incorrect password |
-| Valid attempt   | Correct credentials for the same account |
+| Data            | Value                                                                     |
+| --------------- | ------------------------------------------------------------------------- |
+| Invalid attempt | Registered email : `registered.user@example.com` password : `password124` |
+| Valid attempt   | Registered email : `registered.user@example.com` password : `password123` |
 
 #### Steps
 
-1. Submit a login attempt with an incorrect password.
-2. Verify the generic authentication error appears.
-3. Replace the credentials with the valid credentials.
-4. Submit the form again.
+1. Open the Relay Application page.
+2. Submit a login attempt with an incorrect password.
+3. Verify the generic authentication error appears.
+4. Replace the credentials with the valid credentials.
+5. Submit the form again.
 
 #### Expected Result
 

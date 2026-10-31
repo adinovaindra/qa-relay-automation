@@ -33,9 +33,9 @@ Test Case IDs, titles, Risk Levels, and Source Priorities follow the current Aut
 | ---------------: | -------------- | ------------------------------------------------------------------------------------- | ---------- | --------------- | ---------------- | ------------------------------------------------------- | ---------------- |
 |                1 | TC-AUTH-001-01 | Register a new account with valid required information                                | High       | High            | UI               | Include                                                 | Passed           |
 |                2 | TC-AUTH-006-01 | Registered user logs in successfully                                                  | High       | High            | UI               | Include                                                 | Passed           |
-|                3 | TC-AUTH-007-01 | Login rejects an unregistered email with the generic authentication error             | High       | High            | UI               | Include                                                 | Not Executed Yet |
-|                4 | TC-AUTH-007-02 | Login rejects an incorrect password with the generic authentication error             | High       | High            | UI               | Include                                                 | Not Executed Yet |
-|                5 | TC-AUTH-008-01 | Invalid credential conditions produce identical login error feedback                  | High       | High            | UI               | Include                                                 | Not Executed Yet |
+|                3 | TC-AUTH-007-01 | Login rejects an unregistered email with the generic authentication error             | High       | High            | UI               | Include                                                 | Failed           |
+|                4 | TC-AUTH-007-02 | Login rejects an incorrect password with the generic authentication error             | High       | High            | UI               | Include                                                 | Failed           |
+|                5 | TC-AUTH-008-01 | Invalid credential conditions produce identical login error feedback                  | High       | High            | UI               | Include                                                 | Failed           |
 |                6 | TC-AUTH-008-02 | Successful login clears a previous authentication error                               | High       | High            | UI               | Include                                                 | Not Executed Yet |
 |                7 | TC-AUTH-005-01 | Registration displays the password mismatch error                                     | High       | High            | UI               | Include                                                 | Not Executed Yet |
 |                8 | TC-AUTH-005-03 | Registration rejects an already registered email address                              | High       | High            | UI               | Include                                                 | Not Executed Yet |
@@ -114,12 +114,12 @@ The test must verify the documented expected behavior using an actual request wi
 | ---------------------------------- | ----: |
 | Test Cases in Coverage Matrix      |    37 |
 | Test Cases Selected for Automation |    37 |
-| Test Cases Implemented             |     2 |
-| Test Cases Executed                |     2 |
+| Test Cases Implemented             |     5 |
+| Test Cases Executed                |     5 |
 | Passed                             |     2 |
-| Failed                             |     0 |
+| Failed                             |     3 |
 | Blocked                            |     0 |
-| Not Executed                       |    35 |
+| Not Executed                       |    32 |
 
 ### 3.2 Summary Notes
 
@@ -162,7 +162,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 ### TC-AUTH-001-01 — Register a new account with valid required information
 
-- **Test Case Reference:** [Authentication Test Cases](../test-design/test-cases/authentication.md)
+- **Test Case Reference:** [TC-AUTH-001-01](../test-design/test-cases/authentication.md#tc-auth-001-01--register-a-new-account-with-valid-required-information)
 - **Scenario Reference:** SCN-AUTH-001 [SCN-AUTH-001](../test-design/scenarios/authentication.md#scn-auth-001--user-registration)
 - **Requirement Reference:** REQ-AUTH-001 [REQ-AUTH-001](../docs/requirements/authentication.md#req-auth-001--successful-registration)
 - **Risk Reference:** RSK-007 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
@@ -213,7 +213,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 ### TC-AUTH-006-01 — Registered user logs in successfully
 
-- **Test Case Reference:** [Authentication Test Cases](../test-design/test-cases/authentication.md)
+- **Test Case Reference:** [TC-AUTH-006-01](../test-design/test-cases/authentication.md#tc-auth-006-01--registered-user-logs-in-successfully)
 - **Scenario Reference:** SCN-AUTH-006 [SCN-AUTH-006](../test-design/scenarios/authentication.md#scn-auth-006--valid-user-login)
 - **Requirement Reference:** REQ-AUTH-002 [REQ-AUTH-002](../docs/requirements/authentication.md#req-auth-002--successful-login)
 - **Risk Reference:** RSK-003 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
@@ -262,3 +262,179 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Headed browser execution confirmed that the `/chat` page was displayed successfully.
 
 **Defect Reference:** None identified.
+
+### TC-AUTH-007-01 — Login rejects an unregistered email with the generic authentication error
+
+- **Test Case Reference:** [TC-AUTH-007-01](../test-design/test-cases/authentication.md#tc-auth-007-01--login-rejects-an-unregistered-email-with-the-generic-authentication-error)
+- **Scenario Reference:** SCN-AUTH-007 [SCN-AUTH-007](../test-design/scenarios/authentication.md#scn-auth-007--invalid-user-login)
+- **Requirement Reference:** REQ-AUTH-007 [REQ-AUTH-007](../docs/requirements/authentication.md#req-auth-007--invalid-login-credentials)
+- **Risk Reference:** RSK-003, RSK-009 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-10-31
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Test Run / Commit Reference: Local execution
+
+**Preconditions**
+
+- Relay Login page is accessible.
+- The email address `unregistered.user@example.com` is not registered.
+- The QA database is available.
+- The precondition was verified using Prisma before UI execution.
+
+**Expected Result**
+
+- The application displays exactly `Invalid email or password.`
+- The user remains on the Login page.
+- No authenticated access is granted.
+- The message does not reveal whether the email address is registered.
+
+**Actual Result**
+
+- The precondition verification completed successfully.
+- The Login page was opened successfully.
+- The unregistered email and password were submitted through the UI.
+- The application displayed `Invalid email or password` without a trailing period.
+- The application remained on the Login page (`/login`), satisfying the corresponding URL assertion.
+- The actual error message did not exactly match the documented expected message.
+- The test execution failed at the error-message assertion.
+
+**Execution Result:** FAIL
+
+**Evidence**
+
+- Playwright terminal output: `1 failed`.
+- Assertion comparison:
+  - Expected: `Invalid email or password.`
+  - Received: `Invalid email or password`
+- Playwright screenshot, video, error context, and trace generated locally.
+- QA Safety Guard passed before execution.
+
+**Defect Reference:** [BUG-001](../defect-reports/authentication.md#bug-001--generic-login-error-message-missing-trailing-period)
+
+### TC-AUTH-007-02 — Login rejects an incorrect password with the generic authentication error
+
+- **Test Case Reference:** [TC-AUTH-007-02](../test-design/test-cases/authentication.md#tc-auth-007-02--login-rejects-an-incorrect-password-with-the-generic-authentication-error)
+- **Scenario Reference:** SCN-AUTH-007 [SCN-AUTH-007](../test-design/scenarios/authentication.md#scn-auth-007--invalid-user-login)
+- **Requirement Reference:** REQ-AUTH-007 [REQ-AUTH-007](../docs/requirements/authentication.md#req-auth-007--invalid-login-credentials)
+- **Risk Reference:** RSK-003, RSK-009 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-10-31
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Test Run / Commit Reference: Local execution
+
+**Preconditions**
+
+- Relay Login page is accessible.
+- The registered test account `registered.user@example.com` exists.
+- The valid password for the registered account is known.
+- The QA database is available.
+- The QA application and cleanup database roles are configured.
+- The registered test account is prepared using Prisma upsert before UI execution.
+
+**Expected Result**
+
+- The application displays exactly `Invalid email or password.`
+- The user remains on the Login page.
+- No authenticated access is granted.
+- The message does not reveal whether the email address is registered.
+
+**Actual Result**
+
+- The registered test account was successfully prepared using Prisma upsert with the predefined valid credentials.
+- The Login page was opened successfully.
+- The registered email address and incorrect password were submitted through the UI.
+- The application displayed `Invalid email or password` without a trailing period.
+- The application remained on the Login page (`/login`), satisfying the corresponding URL assertion.
+- The actual error message did not exactly match the documented expected message.
+- The test execution failed at the error-message assertion.
+- The same message discrepancy was observed in two test executions.
+- Cleanup completed without reporting an error.
+
+**Execution Result:** FAIL
+
+**Evidence**
+
+- Playwright terminal output: `1 failed` for each reported execution.
+- Assertion comparison:
+  - Expected: `Invalid email or password.`
+  - Received: `Invalid email or password`
+- Playwright screenshot, video, error context, and trace generated locally for the failed execution.
+- QA Safety Guard passed before test execution.
+
+**Defect Reference:** [BUG-002](../defect-reports/authentication.md#bug-002--generic-login-error-message-missing-trailing-period-for-incorrect-password)
+
+### TC-AUTH-008-01 — Invalid credential conditions produce identical login error feedback
+
+- **Test Case Reference:** [TC-AUTH-008-01](../test-design/test-cases/authentication.md#tc-auth-008-01--invalid-credential-conditions-produce-identical-login-error-feedback)
+- **Scenario Reference:** SCN-AUTH-008 [SCN-AUTH-008](../test-design/scenarios/authentication.md#scn-auth-008--consistent-login-error-feedback)
+- **Requirement Reference:** REQ-AUTH-007 [REQ-AUTH-007](../docs/requirements/authentication.md#req-auth-007--invalid-login-credentials)
+- **Risk Reference:** RSK-003, RSK-009 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-10-31
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Test Run / Commit Reference: Local execution
+
+**Preconditions**
+
+- Relay Login page is accessible.
+- The email address `unregistered.user@example.com` is not registered.
+- A registered account `registered.user@example.com` is available with known valid credentials.
+- The QA database is available.
+- The QA application and cleanup database roles are configured.
+
+**Test Data**
+
+| Attempt | Email                           | Password      |
+| ------- | ------------------------------- | ------------- |
+| A       | `unregistered.user@example.com` | `password123` |
+| B       | `registered.user@example.com`   | `password124` |
+
+**Expected Result**
+
+- Both attempts display exactly `Invalid email or password.`
+- Neither message reveals whether the email address is registered.
+- Both attempts remain on the Login page.
+
+**Actual Result**
+
+- Attempt A using an unregistered email displayed `Invalid email or password` without a trailing period.
+- The application remained on the Login page (`/login`).
+- Attempt B using a registered email and incorrect password displayed the same message: `Invalid email or password`.
+- The application remained on the Login page (`/login`).
+- The comparison assertion confirmed that both error messages were identical.
+- The exact error-message assertion failed because the messages did not match the documented expected result.
+- The same outcome was observed in two test executions.
+
+**Execution Result:** FAIL
+
+**Evidence**
+
+- Playwright terminal output: Two executions reported the same failure.
+- Error-message comparison:
+  - Attempt A: `Invalid email or password`
+  - Attempt B: `Invalid email or password`
+- Exact expected message: `Invalid email or password.`
+- QA Safety Guard passed before test execution.
+
+**Defect Reference:**
+
+- [BUG-001 — Unregistered Email](../defect-reports/authentication.md#bug-001)
+- [BUG-002 — Incorrect Password](../defect-reports/authentication.md#bug-002)

@@ -68,3 +68,24 @@ export async function upsertRegisteredUser(user: RegisteredUserSetup): Promise<v
 export async function disconnectSetupDatabase(): Promise<void> {
   await setupPrisma.$disconnect();
 }
+
+export async function verifyUserDoesNotExist(email: string): Promise<void> {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (!normalizedEmail) {
+    throw new Error("Test user email cannot be empty.");
+  }
+
+  const existingUser = await setupPrisma.user.findUnique({
+    where: {
+      email: normalizedEmail,
+    },
+    select: {
+      email: true,
+    },
+  });
+
+  if (existingUser) {
+    throw new Error(`Precondition failed: ${normalizedEmail} is already registered.`);
+  }
+}
