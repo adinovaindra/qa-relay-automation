@@ -65,6 +65,69 @@ export async function upsertRegisteredUser(user: RegisteredUserSetup): Promise<v
   });
 }
 
+export async function createTestConversationBetweenUsers(firstUserEmail: string, secondUserEmail: string): Promise<string> {
+  const normalizedFirstEmail = firstUserEmail.trim().toLowerCase();
+  const normalizedSecondEmail = secondUserEmail.trim().toLowerCase();
+
+  if (!normalizedFirstEmail || !normalizedSecondEmail) {
+    throw new Error("Both user emails are required to create a test conversation.");
+  }
+
+  if (normalizedFirstEmail === normalizedSecondEmail) {
+    throw new Error("A test conversation requires two different users.");
+  }
+
+  const firstUser = await setupPrisma.user.findUnique({
+    where: {
+      email: normalizedFirstEmail,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  const secondUser = await setupPrisma.user.findUnique({
+    where: {
+      email: normalizedSecondEmail,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!firstUser || !secondUser) {
+    throw new Error("Precondition failed: both users must be registered before creating a test conversation.");
+  }
+
+  const conversation = await setupPrisma.conversation.create({
+    data: {
+      participants: {
+        create: [
+          {
+            user: {
+              connect: {
+                id: firstUser.id,
+              },
+            },
+          },
+          {
+            user: {
+              connect: {
+                id: secondUser.id,
+              },
+            },
+          },
+        ],
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  return conversation.id;
+}
+
 export async function disconnectSetupDatabase(): Promise<void> {
   await setupPrisma.$disconnect();
 }

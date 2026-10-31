@@ -400,13 +400,6 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - The QA database is available.
 - The QA application and cleanup database roles are configured.
 
-**Test Data**
-
-| Attempt | Email                           | Password      |
-| ------- | ------------------------------- | ------------- |
-| A       | `unregistered.user@example.com` | `password123` |
-| B       | `registered.user@example.com`   | `password124` |
-
 **Expected Result**
 
 - Both attempts display exactly `Invalid email or password.`

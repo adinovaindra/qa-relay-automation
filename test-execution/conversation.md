@@ -31,9 +31,9 @@ Test Case IDs, titles, Risk Levels, and Source Priorities follow the current Con
 
 | Automation Order | Test Case ID   | Test Case Title                                                                                  | Risk Level | Source Priority | Automation Layer | Automation Decision | Execution Status |
 | ---------------: | -------------- | ------------------------------------------------------------------------------------------------ | ---------- | --------------- | ---------------- | ------------------- | ---------------- |
-|                1 | TC-CONV-002-01 | User can create a conversation with another user when no conversation exists                     | High       | High            | UI               | Include             | Not Executed Yet |
-|                2 | TC-CONV-002-02 | Existing conversation is retrieved instead of creating a duplicate                               | High       | High            | UI               | Include             | Not Executed Yet |
-|                3 | TC-CONV-003-01 | User cannot create a conversation with themselves through the UI                                 | Medium     | Medium          | UI               | Include             | Not Executed Yet |
+|                1 | TC-CONV-002-01 | User can create a conversation with another user when no conversation exists                     | High       | High            | UI               | Include             | Passed           |
+|                2 | TC-CONV-002-02 | Existing conversation is retrieved instead of creating a duplicate                               | High       | High            | UI               | Include             | Passed           |
+|                3 | TC-CONV-003-01 | User cannot create a conversation with themselves through the UI                                 | Medium     | Medium          | UI               | Include             | Passed           |
 |                4 | TC-CONV-004-01 | Conversation list displays the correct counterpart name                                          | Medium     | Medium          | UI               | Include             | Not Executed Yet |
 |                5 | TC-CONV-005-01 | Conversation list displays the latest message preview                                            | Medium     | Medium          | UI               | Include             | Not Executed Yet |
 |                6 | TC-CONV-005-02 | Empty conversation displays the documented empty preview                                         | Medium     | Medium          | UI               | Include             | Not Executed Yet |
@@ -114,12 +114,12 @@ When implemented, the test must verify the documented one-line display and ellip
 | ---------------------------------- | ----: |
 | Test Cases in Coverage Matrix      |    13 |
 | Test Cases Selected for Automation |    13 |
-| Test Cases Implemented             |     0 |
-| Test Cases Executed                |     0 |
-| Passed                             |     0 |
+| Test Cases Implemented             |     3 |
+| Test Cases Executed                |     3 |
+| Passed                             |     3 |
 | Failed                             |     0 |
 | Blocked                            |     0 |
-| Not Executed                       |    13 |
+| Not Executed                       |    10 |
 
 ### 3.2 Summary Notes
 
@@ -164,54 +164,163 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 ## 6. Execution Records
 
-### 6.1 Execution Record Template
+### TC-CONV-002-01 — User can create a conversation with another user when no conversation exists
 
-Use the following template to record each automated test execution. Replace the example identifiers and fields with verified information for the actual test run.
-
-#### TC-CONV-XXX-XX — [Test Case Title]
-
-**Test Case Reference:** [Conversation Test Cases](../test-design/test-cases/conversation.md)
-
-**Scenario Reference:** [Scenario ID]
-
-**Requirement Reference:** [Requirement ID]
-
-**Risk Reference:** [Risk ID]
-
-**Execution Date:** YYYY-MM-DD
+- **Test Case Reference:** [TC-CONV-002-01](../test-design/test-cases/conversation.md#tc-conv-002-01--user-can-create-a-conversation-with-another-user-when-no-conversation-exists)
+- **Scenario Reference:** SCN-CONV-002 [SCN-CONV-002](../test-design/scenarios/conversation.md#scn-conv-002--conversation-creation-and-retrieval)
+- **Requirement Reference:** REQ-CONV-002 [REQ-CONV-002](../docs/requirements/conversation.md#req-conv-002--conversation-creation-and-retrieval)
+- **Risk Reference:** RSK-005 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-10-31
 
 **Environment**
 
-- Application URL: [URL]
-- Browser / Project: [Browser and Playwright project]
-- Browser Version: [Version]
-- Operating System: [Operating system]
-- Execution Mode: Headed / Headless
-- Test Run / Commit Reference: [Run identifier or commit]
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Test Run / Commit Reference: Local execution; two consecutive runs
 
 **Preconditions**
 
-- [Record the verified preconditions used for this execution.]
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard passes for `relay_qa_automation` using `relay_test_user`.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users using Prisma upsert before UI execution.
+- Any existing one-to-one conversation between Alice and Bob is removed before the test through `deleteTestConversationBetweenUsers()` using the cleanup database role.
+- Alice's valid credentials are available.
 
 **Expected Result**
 
-- [Copy or summarize the expected result from the source test case without changing its acceptance criteria.]
+- A conversation between User Alice and User Bob is created according to the documented behavior.
+- The resulting conversation corresponds to the intended user pair.
+- The conversation is available to the initiating user.
 
 **Actual Result**
 
-- [Record only behavior observed during the actual execution.]
+- The QA Safety Guard passed before each execution.
+- The pre-test cleanup completed, and Alice and Bob were prepared as registered test users.
+- The Login page was opened successfully.
+- Alice successfully signed in through the UI.
+- The application redirected to `/chat`, and the `Conversations` heading was visible.
+- Alice selected Bob (`Bob (bob@example.com)`) from the conversation counterpart selector and clicked `Start Chat`.
+- The resulting conversation view displayed the `Bob` heading.
+- The browser URL matched `/chat?conversationId=...`, confirming that the conversation view was opened with a conversation ID.
+- All Playwright assertions passed in two consecutive headed Chromium executions.
+- The test's final cleanup completed without reporting an error.
 
-**Execution Result:** NOT EXECUTED
+**Execution Result:** PASS
 
 **Evidence**
 
-- Test report: [Reference]
-- Screenshot / Trace / Video: [Reference, where applicable]
+- Playwright terminal result: one test passed in each of two consecutive runs (`2/2` successful runs).
+- QA Safety Guard passed before both executions.
+- Playwright HTML reports generated locally for the executions.
 
-**Defect Reference:** None identified / [Defect reference]
+**Defect Reference:** None identified.
 
-**Execution Notes**
+### TC-CONV-002-02 — Existing conversation is retrieved instead of creating a duplicate
 
-- [Record relevant observations, limitations, or investigation notes.]
+- **Test Case Reference:** [TC-CONV-002-02](../test-design/test-cases/conversation.md#tc-conv-002-02--existing-conversation-is-retrieved-instead-of-creating-a-duplicate)
+- **Scenario Reference:** SCN-CONV-002 [SCN-CONV-002](../test-design/scenarios/conversation.md#scn-conv-002--conversation-creation-and-retrieval)
+- **Requirement Reference:** REQ-CONV-002 [REQ-CONV-002](../docs/requirements/conversation.md#req-conv-002--conversation-creation-and-retrieval)
+- **Risk Reference:** RSK-005 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-10-31
 
----
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Test Run / Commit Reference: Local execution; two consecutive runs
+
+**Preconditions**
+
+- Relay is accessible.
+- User A and User B are registered users.
+- An existing conversation between User A and User B is available.
+- User A's valid credentials are available.
+
+**Expected Result**
+
+- Relay returns or opens the existing conversation for the same user pair.
+- A duplicate conversation is not created for that pair.
+- The resulting conversation corresponds to the existing conversation.
+
+**Actual Result**
+
+- The QA Safety Guard passed before each execution.
+- The pre-test cleanup completed, and Alice and Bob were prepared as registered test users.
+- An existing conversation between Alice and Bob was created through the setup database helper, and its conversation ID was captured successfully.
+- The Login page was opened, and Alice successfully signed in through the UI.
+- The application redirected to `/chat`, and the `Conversations` heading was visible.
+- Alice selected Bob (`Bob (bob@example.com)`) from the conversation counterpart selector and clicked `Start Chat`.
+- The resulting conversation view displayed the `Bob` heading.
+- The browser URL contained a `conversationId` query parameter.
+- The resulting conversation ID matched the ID captured during test setup.
+- All Playwright assertions passed in two consecutive headed Chromium executions.
+- The test's final cleanup completed without reporting an error.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- Playwright terminal result: one test passed in each of two consecutive runs (`2/2` successful runs).
+- QA Safety Guard passed before both executions.
+- Playwright HTML report generated locally for the executions.
+
+**Defect Reference:** None identified.
+
+### TC-CONV-003-01 — User cannot create a conversation with themselves through the UI
+
+- **Test Case ID:** TC-CONV-003-01
+- **Related Scenario:** SCN-CONV-003 — Self-Conversation Prevention
+- **Related Requirement:** REQ-CONV-007 — Self-Conversation Restriction
+- **Related Risk:** RSK-013
+- **Execution Date:** 2026-10-31
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Execution Mode: Headed
+- Workers: 1
+- Execution Command:
+
+**Preconditions**
+
+- Relay application is accessible.
+- Alice (`alice@example.com`) is a registered test user.
+- Alice's valid credentials are available.
+- The UI workflow for starting a conversation is available.
+- QA automation database safety validation is enabled.
+
+**Expected Result**
+
+- Alice is not available as an option in the user dropdown.
+- Relay does not allow Alice to select herself as a conversation counterpart through the UI.
+- A self-conversation is not created.
+
+**Actual Result**
+
+- QA Safety Guard passed before test execution, confirming the target database was `relay_qa_automation` and the application role was `relay_test_user`.
+- Alice was prepared as a registered test user through the database setup helper.
+- Alice successfully signed in through the UI.
+- Relay redirected Alice to `/chat`, and the `Conversations` heading was visible.
+- The user dropdown did not contain an option matching `Alice (alice@example.com)`.
+- The assertion verifying that Alice's option count was zero passed.
+- The test completed successfully in two consecutive executions.
+- The test cleanup completed without reporting an error.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- Playwright terminal output showing `Running 2 tests using 1 worker`.
+- Both executions passed: `2 passed (17.9s)`.
+- QA Safety Guard passed.
+- Playwright HTML report generated locally.
+
+**Defect Reference:** None identified.

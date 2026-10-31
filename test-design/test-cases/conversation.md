@@ -148,15 +148,16 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Steps
 
-1. Sign in as User A.
-2. Navigate to the supported workflow for starting a conversation with another user.
-3. Select User B as the conversation counterpart.
-4. Complete the supported conversation creation action.
-5. Observe the resulting conversation and conversation list.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Navigate to the `Select a user` dropdown.
+4. Select User Bob as the conversation counterpart.
+5. Select `Start Chat` button.
+6. Observe the resulting conversation and conversation list.
 
 #### Expected Result
 
-- A conversation between User A and User B is created according to the documented behavior.
+- A conversation between User Alice and User Bob is created according to the documented behavior.
 - The resulting conversation corresponds to the intended user pair.
 - The conversation is available to the initiating user.
 
@@ -193,11 +194,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Steps
 
-1. Sign in as User A.
-2. Record the existing conversation between User A and User B.
-3. Start another conversation with User B using the supported workflow.
-4. Observe the resulting conversation.
-5. Compare the resulting conversation with the previously existing conversation.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Navigate to the `Select a user` dropdown.
+4. Select User Bob as the conversation counterpart.
+5. Select `Start Chat` button.
+6. Observe the resulting conversation.
+7. Compare the resulting conversation with the previously existing conversation.
 
 #### Expected Result
 
@@ -233,19 +236,18 @@ Execution-specific information such as browser environment, browser version, ope
 | Data                 | Value                       |
 | -------------------- | --------------------------- |
 | Authenticated User   | Alice (`alice@example.com`) |
-| Selected Counterpart | Alice (`alice@example.com`) |
 
 #### Steps
 
-1. Sign in as User A.
-2. Open the supported workflow for starting a conversation.
-3. Attempt to select User A as the conversation counterpart.
-4. If the UI permits the selection, attempt to complete the conversation creation action.
-5. Observe the resulting application state.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Navigate to the `Select a user` dropdown.
+4. Observe the resulting application state.
 
 #### Expected Result
 
-- Relay prevents User A from creating a conversation with themselves.
+- Alice (alice@example.com) is not available as an option in the user dropdown.
+- Relay does not allow Alice to select herself as a conversation counterpart through the UI.
 - A self-conversation is not created.
 
 ---
