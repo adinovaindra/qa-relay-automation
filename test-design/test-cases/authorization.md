@@ -113,7 +113,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-AUTHZ-002-01 — Non-participant cannot access another user's conversation through direct navigation
+### TC-AUTHZ-002-01 — Non-participant cannot access another user's conversation through direct navigation (BRAINSTORM!)
 
 | Field               | Value                                                                                                                                                                                                                                                              |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

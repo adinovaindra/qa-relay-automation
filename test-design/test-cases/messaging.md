@@ -90,18 +90,21 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data         | Value                               |
-| ------------ | ----------------------------------- |
-| Message      | Hello, this is a test message.      |
-| Conversation | An existing authorized conversation |
-| Sender       | User A                              |
+| Data         | Value                                |
+| ------------ | ------------------------------------ |
+| Sender       | User A - Alice (`alice@example.com`) |
+| Recipient    | User B - Bob (`bob@example.com`)     |
+| Message      | Hello, this is a test message.       |
+| Conversation | `Hello Bob, How are you?`            |
 
 #### Steps
 
-1. Open the authorized conversation.
-2. Enter the test message into the message input.
-3. Submit the message using the Send control.
-4. Observe the resulting conversation history.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Open the conversation with User Bob.
+4. Enter the test message into the message input.
+5. Submit the message using the Send control.
+6. Observe the resulting conversation history.
 
 #### Expected Result
 
@@ -135,16 +138,20 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data          | Value |
-| ------------- | ----- |
-| Message input | Empty |
+| Data          | Value                                |
+| ------------- | ------------------------------------ |
+| User A        | User A - Alice (`alice@example.com`) |
+| User B        | User B - Bob (`bob@example.com`)     |
+| Message input | Empty                                |
 
 #### Steps
 
-1. Open the conversation.
-2. Ensure the message input is empty.
-3. Observe the Send button.
-4. Attempt to interact with the Send button.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Open the conversation with user B.
+4. Ensure the message input is empty.
+5. Observe the Send button.
+6. Attempt to interact with the Send button.
 
 #### Expected Result
 
@@ -177,15 +184,19 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data          | Value                                                               |
 | ------------- | ------------------------------------------------------------------- |
+| User A        | User A - Alice (`alice@example.com`)                                |
+| User B        | User B - Bob (`bob@example.com`)                                    |
 | Message input | Spaces only                                                         |
 | Variation     | Other whitespace-only content, where supported by the input control |
 
 #### Steps
 
-1. Open the conversation.
-2. Enter whitespace-only content into the message input.
-3. Observe the Send button.
-4. Attempt to interact with the Send button.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Open the conversation with User Bob.
+4. Enter whitespace-only content into the message input.
+5. Observe the Send button.
+6. Attempt to interact with the Send button.
 
 #### Expected Result
 
@@ -194,7 +205,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-MSG-002-03 — API rejects empty message content
+### TC-MSG-002-03 — API rejects empty message content (BRAINSTORM!)
 
 | Field               | Value                                                                                                                  |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -235,7 +246,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-MSG-002-04 — API rejects whitespace-only message content
+### TC-MSG-002-04 — API rejects whitespace-only message content (BRAINSTORM!)
 
 | Field               | Value                                                                                                                  |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -301,6 +312,8 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data Variation               | Value                                                                               |
 | ---------------------------- | ----------------------------------------------------------------------------------- |
+| User A                       | User A - Alice (`alice@example.com`)                                                |
+| User B                       | User B - Bob (`bob@example.com`)                                                    |
 | Leading whitespace           | `  Hello`                                                                           |
 | Trailing whitespace          | `Hello  `                                                                           |
 | Repeated internal whitespace | `Hello   world`                                                                     |
@@ -309,10 +322,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Steps
 
-1. Open the authorized conversation.
-2. Submit each test-data variation as a separate message.
-3. Observe each message in the conversation history.
-4. Compare the displayed content with the submitted content.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Open the conversation with User Bob.
+4. Submit each test-data variation as a separate message.
+5. Observe each message in the conversation history.
+6. Compare the displayed content with the submitted content.
 
 #### Expected Result
 
@@ -347,21 +362,27 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data             | Value                                                               |
-| ---------------- | ------------------------------------------------------------------- |
-| Message sequence | At least three distinguishable messages sent in chronological order |
+| Data           | Value                                |
+| -------------- | ------------------------------------ |
+| User A         | User A - Alice (`alice@example.com`) |
+| User B         | User B - Bob (`bob@example.com`)     |
+| First Message  | `Hih Bob!`                           |
+| Second Message | `How are you?`                       |
+| Third Message  | `I hope you are good.`               |
 
 #### Steps
 
-1. Open the conversation.
-2. Observe the order of messages in the conversation history.
-3. Compare their displayed positions with the known chronological sequence.
-4. Verify that displayed timestamp text is not used as the sole basis for determining message order.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Open the conversation with user Bob.
+4. Try to send three messages.
+5. Compare their displayed positions with the known chronological sequence.
+6. Verify that displayed timestamp text is not used as the sole basis for determining message order.
 
 #### Expected Result
 
-- The oldest message appears above newer messages.
-- Newer messages appear below older messages.
+- The first message appears above the second message.
+- The third message appear below the second messages
 - Messages are displayed in chronological order.
 - Displayed timestamps do not determine message ordering.
 
@@ -388,16 +409,25 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data             | Value                                                            |
-| ---------------- | ---------------------------------------------------------------- |
-| Message sequence | Multiple distinguishable messages in a known chronological order |
+| Data           | Value                                |
+| -------------- | ------------------------------------ |
+| User A         | User A - Alice (`alice@example.com`) |
+| User B         | User B - Bob (`bob@example.com`)     |
+| First Message  | `Hih Bob!`                           |
+| Second Message | `How are you?`                       |
+| Third Message  | `I hope you are good.`               |
 
 #### Steps
 
-1. Open the conversation and record the current message order.
-2. Refresh the page.
-3. Reopen the conversation if necessary.
-4. Compare the displayed message order with the order recorded before refreshing.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Open the conversation with user Bob.
+4. Try to send three messages.
+5. Compare their displayed positions with the known chronological sequence.
+6. Verify that displayed timestamp text is not used as the sole basis for determining message order.
+7. Refresh the page.
+8. Reopen the conversation if necessary.
+9. Compare the displayed message order with the order recorded before refreshing.
 
 #### Expected Result
 
@@ -428,17 +458,26 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data             | Value                                                            |
-| ---------------- | ---------------------------------------------------------------- |
-| Message sequence | Multiple distinguishable messages in a known chronological order |
+| Data           | Value                                |
+| -------------- | ------------------------------------ |
+| User A         | User A - Alice (`alice@example.com`) |
+| User B         | User B - Bob (`bob@example.com`)     |
+| First Message  | `Hih Bob!`                           |
+| Second Message | `How are you?`                       |
+| Third Message  | `I hope you are good.`               |
 
 #### Steps
 
-1. Open the conversation and record the current message order.
-2. Log out.
-3. Log in again as User A.
-4. Reopen the same conversation.
-5. Compare the displayed message order with the order recorded before logout.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Open the conversation with user Bob.
+4. Try to send three messages.
+5. Compare their displayed positions with the known chronological sequence.
+6. Verify that displayed timestamp text is not used as the sole basis for determining message order.
+7. Log out.
+8. Log in again as User A.
+9. Reopen the same conversation.
+10. Compare the displayed message order with the order recorded before logout.
 
 #### Expected Result
 
@@ -448,7 +487,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-MSG-005-03 — Messages with equal timestamps maintain consistent relative ordering
+### TC-MSG-005-03 — Messages with equal timestamps maintain consistent relative ordering (BRAINSTORM!)
 
 | Field               | Value                                                                                                                      |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
@@ -491,7 +530,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-MSG-006-01 — Sent messages remain available after page refresh
+### TC-MSG-006-01 — Sent messages remain available after page refresh (POSSIBILITY REDUNDANT!)
 
 | Field               | Value                                                                                                       |
 | ------------------- | ----------------------------------------------------------------------------------------------------------- |
@@ -534,7 +573,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-MSG-006-02 — Sent messages remain available after logout and re-login
+### TC-MSG-006-02 — Sent messages remain available after logout and re-login (POSSIBILITY REDUNDANT!)
 
 | Field               | Value                                                                                                       |
 | ------------------- | ----------------------------------------------------------------------------------------------------------- |
@@ -555,10 +594,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data         | Value                               |
-| ------------ | ----------------------------------- |
-| Message      | Persistence check MSG-006-02        |
-| Conversation | An existing authorized conversation |
+| Data           | Value                                |
+| -------------- | ------------------------------------ |
+| User A         | User A - Alice (`alice@example.com`) |
+| User B         | User B - Bob (`bob@example.com`)     |
+| First Message  | `Hih Bob!`                           |
+| Second Message | `How are you?`                       |
+| Third Message  | `I hope you are good.`               |
 
 #### Steps
 
@@ -600,17 +642,25 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data           | Value                                                  |
-| -------------- | ------------------------------------------------------ |
-| Conversation   | An existing conversation with multiple messages        |
-| Latest message | A distinguishable message at the bottom of the history |
+| Data           | Value                                |
+| -------------- | ------------------------------------ |
+| User A         | User A - Alice (`alice@example.com`) |
+| User B         | User B - Bob (`bob@example.com`)     |
+| First Message  | `Hih Bob!`                           |
+| Second Message | `How are you?`                       |
+| Third Message  | `I hope you are good.`               |
 
 #### Steps
 
-1. Navigate away from the conversation.
-2. Open the conversation again.
-3. Observe the initial scroll position.
-4. Verify whether the latest message is visible.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Open the conversation with user Bob.
+4. Try to send three messages.
+5. Log out.
+6. Log in again as User Alice.
+7. Reopen the same conversation.
+8. Observe the initial scroll position.
+9. Verify whether the latest message is visible.
 
 #### Expected Result
 
@@ -619,7 +669,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-MSG-007-02 — Sending a message scrolls the conversation to the latest message
+### TC-MSG-007-02 — Sending a message scrolls the conversation to the latest message (BRAINSTORM!)
 
 | Field               | Value                                                                                                                      |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
@@ -640,17 +690,20 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data    | Value                       |
-| ------- | --------------------------- |
-| Message | Latest message scroll check |
+| Data   | Value                                |
+| ------ | ------------------------------------ |
+| User A | User A - Alice (`alice@example.com`) |
+| User B | User B - Bob (`bob@example.com`)     |
 
 #### Steps
 
-1. Open the conversation.
-2. Scroll away from the bottom of the conversation history.
-3. Enter the test message.
-4. Submit the message.
-5. Observe the conversation scroll position.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Open the conversation with user Bob.
+4. Scroll away from the bottom of the conversation history.
+5. Enter the test message.
+6. Submit the message.
+7. Observe the conversation scroll position.
 
 #### Expected Result
 
@@ -680,15 +733,22 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data            | Value                                             |
-| --------------- | ------------------------------------------------- |
-| Message history | Multiple messages with distinguishable timestamps |
+| Data           | Value                                |
+| -------------- | ------------------------------------ |
+| User A         | User A - Alice (`alice@example.com`) |
+| User B         | User B - Bob (`bob@example.com`)     |
+| First Message  | `Hih Bob!`                           |
+| Second Message | `How are you?`                       |
+| Third Message  | `I hope you are good.`               |
 
 #### Steps
 
-1. Open the conversation.
-2. Inspect the timestamp displayed under each message bubble.
-3. Compare the displayed timestamp format with the documented format.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Open the conversation with user Bob.
+4. Enter the test message.
+5. Inspect the timestamp displayed under each message bubble.
+6. Compare the displayed timestamp format with the documented format.
 
 #### Expected Result
 
@@ -698,7 +758,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-MSG-008-02 — Message date separators follow the user's local calendar date
+### TC-MSG-008-02 — Message date separators follow the user's local calendar date (BRAINSTORM!)
 
 | Field               | Value                                                                                                                          |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -744,7 +804,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-MSG-009-01 — Message becomes available to the recipient after refresh
+### TC-MSG-009-01 — Message becomes available to the recipient after refresh (BRAINSTORM!)
 
 | Field               | Value                                                                                                           |
 | ------------------- | --------------------------------------------------------------------------------------------------------------- |
@@ -798,7 +858,7 @@ Execution-specific information such as browser environment, browser version, ope
 This table maps each approved messaging scenario to the test cases designed to verify it. Requirement and risk IDs are included to make the coverage relationship reviewable without creating a separate risk-to-test-case traceability section.
 
 | Scenario ID | Related Requirement ID(s) | Related Risk ID(s) | Test Case ID(s)                                            |
-|-------------|---------------------------|--------------------|------------------------------------------------------------|
+| ----------- | ------------------------- | ------------------ | ---------------------------------------------------------- |
 | SCN-MSG-001 | REQ-MSG-001               | RSK-020            | TC-MSG-001-01                                              |
 | SCN-MSG-002 | REQ-MSG-001, REQ-MSG-006  | RSK-012, RSK-020   | TC-MSG-002-01, TC-MSG-002-02, TC-MSG-002-03, TC-MSG-002-04 |
 | SCN-MSG-003 | REQ-MSG-001               | RSK-020            | TC-MSG-003-01                                              |

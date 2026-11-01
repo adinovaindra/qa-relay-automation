@@ -91,12 +91,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data              | Value                             |
-| ----------------- | --------------------------------- |
-| User              | Registered test user              |
-| Theme             | Light Mode                        |
-| Application Pages | Register, Login, and Chat         |
-| UI Elements       | Page content and primary controls |
+| Data              | Value                                |
+| ----------------- | ------------------------------------ |
+| User              | User A - Alice (`alice@example.com`) |
+| Theme             | Light Mode                           |
+| Application Pages | Register, Login, and Chat            |
+| UI Elements       | Page content and primary controls    |
 
 #### Steps
 
@@ -145,12 +145,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data              | Value                             |
-| ----------------- | --------------------------------- |
-| User              | Registered test user              |
-| Theme             | Dark Mode                         |
-| Application Pages | Register, Login, and Chat         |
-| UI Elements       | Page content and primary controls |
+| Data              | Value                                |
+| ----------------- | ------------------------------------ |
+| User              | User A - Alice (`alice@example.com`) |
+| Theme             | Dark Mode                            |
+| Application Pages | Register, Login, and Chat            |
+| UI Elements       | Page content and primary controls    |
 
 #### Steps
 
@@ -199,11 +199,11 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data              | Value                            |
-| ----------------- | -------------------------------- |
-| User              | Registered test user             |
-| Selected Theme    | Dark Mode                        |
-| State Transitions | Page navigation and page refresh |
+| Data              | Value                                |
+| ----------------- | ------------------------------------ |
+| User              | User A - Alice (`alice@example.com`) |
+| Selected Theme    | Dark Mode                            |
+| State Transitions | Page navigation and page refresh     |
 
 #### Steps
 
@@ -248,11 +248,11 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data             | Value                |
-| ---------------- | -------------------- |
-| User             | Registered test user |
-| Selected Theme   | Dark Mode            |
-| State Transition | Browser restart      |
+| Data             | Value                                |
+| ---------------- | ------------------------------------ |
+| User             | User A - Alice (`alice@example.com`) |
+| Selected Theme   | Dark Mode                            |
+| State Transition | Browser restart                      |
 
 #### Steps
 
@@ -299,11 +299,11 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data             | Value                |
-| ---------------- | -------------------- |
-| User             | Registered test user |
-| Selected Theme   | Dark Mode            |
-| State Transition | Logout and re-login  |
+| Data             | Value                                |
+| ---------------- | ------------------------------------ |
+| User             | User A - Alice (`alice@example.com`) |
+| Selected Theme   | Dark Mode                            |
+| State Transition | Logout and re-login                  |
 
 #### Steps
 
@@ -349,7 +349,8 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data               | Value                                                         |
 | ------------------ | ------------------------------------------------------------- |
-| User               | Registered test user                                          |
+| User A             | User A - Alice (`alice@example.com`)                          |
+| User B             | User B - Bob (`bob@example.com`)                              |
 | Viewport           | Representative desktop viewport: 1366 × 768 pixels            |
 | Conversation State | Populated conversation and empty conversation-list state      |
 | UI Elements        | Conversation list, main area, message input, primary controls |
@@ -358,10 +359,10 @@ Execution-specific information such as browser environment, browser version, ope
 
 1. Open Relay in a desktop browser.
 2. Set the browser viewport to 1366 × 768 pixels.
-3. Sign in using valid credentials.
+3. Sign in as User Alice.
 4. Observe the conversation list and main chat area.
 5. Verify that the conversation list and primary controls are visible.
-6. Open an existing conversation.
+6. Open an existing conversation with User Bob.
 7. Observe the main chat area and message input.
 8. Verify that the conversation content and primary controls remain accessible.
 9. Inspect the layout for important elements that are clipped or overlapping.
@@ -404,7 +405,8 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data               | Value                                                         |
 | ------------------ | ------------------------------------------------------------- |
-| User               | Registered test user                                          |
+| User A             | User A - Alice (`alice@example.com`)                          |
+| User B             | User B - Bob (`bob@example.com`)                              |
 | Viewport           | Representative mobile viewport: 390 × 844 pixels              |
 | Conversation State | Populated conversation and empty conversation-list state      |
 | UI Elements        | Conversation list, main area, message input, primary controls |
@@ -412,10 +414,10 @@ Execution-specific information such as browser environment, browser version, ope
 #### Steps
 
 1. Open Relay in a mobile browser or configure the viewport to 390 × 844 pixels.
-2. Sign in using valid credentials.
+2. Sign in as User Alice.
 3. Observe the conversation list and main chat area.
 4. Verify that the conversation list can be accessed.
-5. Open an existing conversation.
+5. Open an existing conversation with User Bob.
 6. Observe the main chat area and message input.
 7. Verify that primary features and controls remain accessible.
 8. Inspect the layout for important elements that are clipped or overlapping.
@@ -458,7 +460,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data              | Value                                     |
 | ----------------- | ----------------------------------------- |
-| User              | Registered test user                      |
+| User              | User A - Alice (`alice@example.com`)      |
 | Conversation Data | No conversations associated with the user |
 | Layout            | Desktop                                   |
 
@@ -508,7 +510,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data                  | Value                                           |
 | --------------------- | ----------------------------------------------- |
-| User                  | Registered test user                            |
+| User                  | User A - Alice (`alice@example.com`)            |
 | Conversation Data     | At least one existing conversation              |
 | Selected Conversation | None                                            |
 | Empty Conversation    | One conversation with no messages, if available |
@@ -564,7 +566,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data                  | Value                                  |
 | --------------------- | -------------------------------------- |
-| User                  | Registered test user                   |
+| User                  | User A - Alice (`alice@example.com`)   |
 | Conversation          | Existing conversation with no messages |
 | Selected Conversation | The empty conversation                 |
 | Layout                | Desktop                                |
@@ -613,7 +615,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data              | Value                                     |
 | ----------------- | ----------------------------------------- |
-| User              | Registered test user                      |
+| User              | User A - Alice (`alice@example.com`)      |
 | Conversation Data | No conversations associated with the user |
 | Layout            | Mobile                                    |
 
@@ -663,7 +665,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data                  | Value                                           |
 | --------------------- | ----------------------------------------------- |
-| User                  | Registered test user                            |
+| User                  | User A - Alice (`alice@example.com`)            |
 | Conversation Data     | At least one existing conversation              |
 | Selected Conversation | None                                            |
 | Empty Conversation    | One conversation with no messages, if available |
@@ -716,7 +718,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data                  | Value                                  |
 | --------------------- | -------------------------------------- |
-| User                  | Registered test user                   |
+| User                  | User A - Alice (`alice@example.com`)   |
 | Conversation          | Existing conversation with no messages |
 | Selected Conversation | The empty conversation                 |
 | Layout                | Mobile                                 |

@@ -100,13 +100,14 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Steps
 
-1. Open Relay and sign in as User A.
-2. Navigate to the existing conversation between User A and User B.
-3. Verify that the conversation can be accessed and its content is displayed.
-4. Log out of User A's session.
-5. Sign in as User B.
-6. Navigate to the same conversation.
-7. Verify that User B can also access the conversation.
+1. Open Relay Application webpage.
+2. Sign in as User A - Alice.
+3. Navigate to the existing conversation between User A and User B.
+4. Verify that the conversation can be accessed and its content is displayed.
+5. Log out of User A's session.
+6. Sign in as User B - Bob.
+7. Navigate to the same conversation.
+8. Verify that User B can also access the conversation.
 
 #### Expected Result
 
@@ -233,9 +234,9 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data                 | Value                       |
-| -------------------- | --------------------------- |
-| Authenticated User   | Alice (`alice@example.com`) |
+| Data               | Value                       |
+| ------------------ | --------------------------- |
+| Authenticated User | Alice (`alice@example.com`) |
 
 #### Steps
 
@@ -320,19 +321,20 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data                      | Value                       |
-| ------------------------- | --------------------------- |
-| Authenticated User        | Alice (`alice@example.com`) |
-| Conversation Counterpart  | Bob (`bob@example.com`)     |
-| Expected Counterpart Name | Bob                         |
+| Data                      | Value                                |
+| ------------------------- | ------------------------------------ |
+| Authenticated User        | User A - Alice (`alice@example.com`) |
+| Conversation Counterpart  | User B - Bob (`bob@example.com`)     |
+| Expected Counterpart Name | Bob                                  |
 
 #### Steps
 
-1. Sign in as User A.
-2. Open the conversation list.
-3. Locate the conversation between User A and User B.
-4. Observe the counterpart name displayed for that conversation.
-5. Compare the displayed name with User B's expected name.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Observe the conversation list.
+4. Locate the conversation between User A and User B.
+5. Observe the counterpart name displayed for that conversation.
+6. Compare the displayed name with User B's expected name.
 
 #### Expected Result
 
@@ -364,20 +366,18 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data            | Value                           |
-| --------------- | ------------------------------- |
-| User A          | Alice (`alice@example.com`)     |
-| User B          | Bob (`bob@example.com`)         |
-| Earlier Message | `Previous conversation message` |
-| Latest Message  | `Latest conversation message`   |
+| Data            | Value                       |
+| --------------- | --------------------------- |
+| User A          | Alice (`alice@example.com`) |
+| User B          | Bob (`bob@example.com`)     |
+| Earlier Message | `Hello Bob!`                |
+| Latest Message  | `How are you?`              |
 
 #### Steps
 
-1. Ensure that the conversation contains the earlier message and the latest message in the specified order.
-2. Sign in as a participant in the conversation.
-3. Open the conversation list.
-4. Locate the conversation.
-5. Observe the message preview displayed for the conversation.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Observe the message preview displayed for the conversation with user B - Bob.
 
 #### Expected Result
 
@@ -409,17 +409,17 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data               | Value                       |
-| ------------------ | --------------------------- |
-| User A             | Alice (`alice@example.com`) |
-| User B             | Bob (`bob@example.com`)     |
-| Conversation State | Empty; no messages          |
-| Expected Preview   | `No messages yet.`          |
+| Data               | Value                                |
+| ------------------ | ------------------------------------ |
+| User A             | User A - Alice (`alice@example.com`) |
+| User B             | User B - Bob (`bob@example.com`)     |
+| Conversation State | Empty; no messages                   |
+| Expected Preview   | `No messages yet.`                   |
 
 #### Steps
 
-1. Sign in as User A.
-2. Open the conversation list.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
 3. Locate the empty conversation between User A and User B.
 4. Observe the message preview displayed for that conversation.
 
@@ -461,11 +461,10 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Steps
 
-1. Ensure that the long test message is the latest message in the conversation.
-2. Sign in as User A.
-3. Open the conversation list.
-4. Locate the conversation.
-5. Observe the preview's line layout and truncation.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Locate the conversation with user Bob.
+4. Observe the preview's line layout and truncation.
 
 #### Expected Result
 
@@ -475,7 +474,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-CONV-006-01 — Conversation activity timestamp uses the documented format for today, yesterday, and older dates
+### TC-CONV-006-01 — Conversation activity timestamp uses the documented format for today, yesterday, and older dates (BRAINSTROM!)
 
 | Field               | Value                                                                                                     |
 | ------------------- | --------------------------------------------------------------------------------------------------------- |
@@ -500,6 +499,8 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data                       | Value                                              |
 | -------------------------- | -------------------------------------------------- |
+| User C                     | User C - Charlie (`charlie@example.com`)           |
+| User D                     | User D - David (`david@example.com`)               |
 | Activity Today             | Activity on the user's current local calendar date |
 | Activity Yesterday         | Activity on the previous local calendar date       |
 | Older Activity             | Activity before the previous local calendar date   |
@@ -509,8 +510,8 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Steps
 
-1. Sign in to Relay.
-2. Open the conversation list.
+1. Open Relay Application webpage.
+2. Sign in as User Charlie.
 3. Locate the conversation whose latest activity occurred today.
 4. Verify that its activity timestamp uses the `HH.MM` format.
 5. Locate the conversation whose latest activity occurred yesterday.
@@ -550,20 +551,20 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data           | Value                                           |
-| -------------- | ----------------------------------------------- |
-| User A         | Alice (`alice@example.com`)                     |
-| Conversation 1 | Existing conversation between Alice and Bob     |
-| Conversation 2 | Existing conversation between Alice and Charlie |
-| New Message    | `Conversation ordering verification message`    |
+| Data           | Value                                            |
+| -------------- | ------------------------------------------------ |
+| User A         | User A - Alice (`alice@example.com`)             |
+| Conversation 1 | Existing conversation between Alice and Bob      |
+| Conversation 2 | Existing conversation between Alice and Charlie  |
+| New Message    | `Have you ever heard about the new MacBook Pro?` |
 
 #### Steps
 
-1. Sign in as User A.
-2. Open the conversation list and record the initial order of the two conversations.
-3. Open the conversation that is currently lower in the list.
-4. Send the new test message.
-5. Return to the conversation list.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Observe the initial order of the two conversations.
+4. Open the conversation that is currently lower in the list.
+5. Send the new test message.
 6. Observe the relative order of the two conversations.
 
 #### Expected Result
@@ -607,11 +608,11 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Steps
 
-1. Sign in as User A.
-2. Open the conversation list and observe the existing conversation order.
-3. Create a conversation with User C through the supported workflow.
-4. Do not send any messages in the new conversation.
-5. Return to the conversation list.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Observe the existing conversation order.
+4. Create a conversation with User Charlie through the supported workflow.
+5. Do not send any messages in the new conversation.
 6. Observe the position of the newly created empty conversation.
 
 #### Expected Result
@@ -647,7 +648,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 | Data                | Value                                           |
 | ------------------- | ----------------------------------------------- |
-| Authenticated User  | Alice (`alice@example.com`)                     |
+| Authenticated User  | User A - Alice (`alice@example.com`)            |
 | Target Conversation | A confirmed nonexistent conversation            |
 | Expected Heading    | `This page couldn’t load`                       |
 | Expected Message    | `A server error occurred. Reload to try again.` |
@@ -655,12 +656,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Steps
 
-1. Sign in to Relay as User A.
-2. Navigate to the supported conversation route or reference for the confirmed nonexistent conversation.
-3. Observe the resulting page.
-4. Verify the displayed error heading.
-5. Verify the displayed error message.
-6. Verify the presence of the `Reload` button.
+1. Open Relay Application webpage.
+2. Sign in as User Alice.
+3. Change the conversationId value in URL.
+4. Observe the resulting page.
+5. Verify the displayed error heading.
+6. Verify the displayed error message.
+7. Verify the presence of the `Reload` button.
 
 #### Expected Result
 
