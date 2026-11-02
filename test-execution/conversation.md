@@ -34,7 +34,7 @@ Test Case IDs, titles, Risk Levels, and Source Priorities follow the current Con
 |                1 | TC-CONV-002-01 | User can create a conversation with another user when no conversation exists                     | High       | High            | UI               | Include             | Passed           |
 |                2 | TC-CONV-002-02 | Existing conversation is retrieved instead of creating a duplicate                               | High       | High            | UI               | Include             | Passed           |
 |                3 | TC-CONV-003-01 | User cannot create a conversation with themselves through the UI                                 | Medium     | Medium          | UI               | Include             | Passed           |
-|                4 | TC-CONV-004-01 | Conversation list displays the correct counterpart name                                          | Medium     | Medium          | UI               | Include             | Not Executed Yet |
+|                4 | TC-CONV-004-01 | Conversation list displays the correct counterpart name                                          | Medium     | Medium          | UI               | Include             | Passed           |
 |                5 | TC-CONV-005-01 | Conversation list displays the latest message preview                                            | Medium     | Medium          | UI               | Include             | Not Executed Yet |
 |                6 | TC-CONV-005-02 | Empty conversation displays the documented empty preview                                         | Medium     | Medium          | UI               | Include             | Not Executed Yet |
 |                7 | TC-CONV-006-01 | Conversation activity timestamp uses the documented format for today, yesterday, and older dates | Medium     | Medium          | UI               | Include             | Not Executed Yet |
@@ -42,7 +42,7 @@ Test Case IDs, titles, Risk Levels, and Source Priorities follow the current Con
 |                9 | TC-CONV-007-02 | Newly created empty conversation can appear at the top of the conversation list                  | Medium     | Medium          | UI               | Include             | Not Executed Yet |
 |               10 | TC-CONV-008-01 | Accessing a nonexistent conversation displays the documented error state                         | Medium     | Medium          | UI               | Include             | Not Executed Yet |
 |               11 | TC-CONV-001-01 | Authorized participants can access their one-to-one conversation                                 | High       | High            | UI               | Defer               | Not Executed Yet |
-|               12 | TC-CONV-003-02 | API request cannot create a conversation with the same user as both participants                 | Medium     | Medium          | API              | Defer               | Not Executed Yet |
+|               12 | TC-CONV-003-02 | API request cannot create a conversation with the same user as both participants                 | Medium     | Medium          | API              | Include             | Passed           |
 |               13 | TC-CONV-005-03 | Long latest-message preview is displayed on one line and truncated with an ellipsis              | Medium     | Medium          | UI               | Defer               | Not Executed Yet |
 
 ### 2.3 Matrix Notes
@@ -114,17 +114,16 @@ When implemented, the test must verify the documented one-line display and ellip
 | ---------------------------------- | ----: |
 | Test Cases in Coverage Matrix      |    13 |
 | Test Cases Selected for Automation |    13 |
-| Test Cases Implemented             |     3 |
-| Test Cases Executed                |     3 |
-| Passed                             |     3 |
+| Test Cases Implemented             |     5 |
+| Test Cases Executed                |     5 |
+| Passed                             |     5 |
 | Failed                             |     0 |
 | Blocked                            |     0 |
-| Not Executed                       |    10 |
+| Not Executed                       |     8 |
 
 ### 3.2 Summary Notes
 
 - The initial Conversation automation scope contains 13 selected test cases.
-- No Conversation automated test has been executed.
 - Selection and implementation do not constitute execution evidence.
 - A failed assertion is recorded as a failed execution only after the test has actually run.
 - A test that cannot run because of environment or setup problems must be recorded using the applicable blocked classification rather than being reported as passed.
@@ -150,7 +149,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - The matrix defines intended automation coverage; it does not demonstrate that automated coverage has been achieved.
 - Source Risk Levels and Priorities are retained as documented. They are distinct from Automation Order.
 - Authorized access to one-to-one conversations is deferred from this matrix because it overlaps with the dedicated Authorization area. The test case remains part of the overall test design.
-- API-level self-conversation prevention is deferred until the supported API operation and request contract are identified. The requirement remains applicable.
+- API-level self-conversation prevention is included in the automation implementation and has passed execution. The test uses the documented conversation creation API operation and verifies that a self-conversation request is rejected.
 - Long-message preview truncation is deferred from the initial automation sequence. Its behavior has not been verified by the selected test cases.
 - Test data setup and cleanup must be repeatable and must not depend on another test having executed first.
 - Timestamp assertions must follow the documented format and account for the user's local calendar date.
@@ -285,9 +284,10 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 - Application URL: http://localhost:3000
 - Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
 - Execution Mode: Headed
-- Workers: 1
-- Execution Command:
+- Test Run / Commit Reference: Local execution; two consecutive runs
 
 **Preconditions**
 
@@ -321,6 +321,117 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Playwright terminal output showing `Running 2 tests using 1 worker`.
 - Both executions passed: `2 passed (17.9s)`.
 - QA Safety Guard passed.
+- Playwright HTML report generated locally.
+
+**Defect Reference:** None identified.
+
+### TC-CONV-003-02 — API request cannot create a conversation with the same user as both participants
+
+- **Test Case Reference:** [TC-CONV-003-02](../test-design/test-cases/conversation.md#tc-conv-003-02--api-request-cannot-create-a-conversation-with-the-same-user-as-both-participants)
+- **Scenario Reference:** SCN-CONV-003 [SCN-CONV-003](../test-design/scenarios/conversation.md#scn-conv-003--self-conversation-prevention)
+- **Requirement Reference:** REQ-CONV-007 [REQ-CONV-007](../docs/requirements/conversation.md#req-conv-007--self-conversation-restriction)
+- **Risk Reference:** RSK-013 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-11-02
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Test Type: API
+- API Client: Playwright built-in `request` fixture (`APIRequestContext`)
+- Browser / Project: Chromium project; no browser UI interaction
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: API request execution
+- Workers: 1
+- Test Run / Commit Reference: Local execution; two consecutive runs
+
+**Preconditions**
+
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard is enabled for the automation test execution.
+- Alice (`alice@example.com`) is prepared as a registered test user through the database setup helper.
+- Alice's valid credentials are available.
+- The documented conversation creation API operation and request contract are identified.
+
+**Expected Result**
+
+- Relay prevents creation of a self-conversation through the API.
+- No self-conversation is created.
+- The exact HTTP status code is not specified and is not assumed as an acceptance criterion.
+
+**Actual Result**
+
+- Alice was prepared as a registered test user through the database setup helper.
+- Alice's user ID was retrieved from the QA database.
+- Alice successfully authenticated through `POST /api/auth/login`.
+- The authentication response was verified as successful using `loginResponse.ok()`.
+- A `POST /api/conversations` request was submitted using Alice's own user ID as `targetUserId`.
+- The API returned a non-success HTTP response, satisfying the implemented negative assertion.
+- The Playwright test execution completed successfully.
+- The test cleanup completed without a reported error.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- Playwright test execution result confirmed by the test runner: PASS.
+- The authentication success assertion passed.
+- The conversation creation request's non-success response assertion passed.
+
+**Defect Reference:** None identified.
+
+### TC-CONV-004-01 — Conversation list displays the correct counterpart name
+
+- **Test Case Reference:** [TC-CONV-004-01](../test-design/test-cases/conversation.md)
+- **Scenario Reference:** SCN-CONV-004
+- **Requirement Reference:** REQ-CONV-008
+- **Risk Reference:** RSK-014
+- **Execution Date:** 2026-11-02
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Execution Mode: Headed
+- Workers: 1
+- Execution Command: `npm run test:headed -- conversation/conversation --grep "TC-CONV-004-01" --workers=1 --project=chromium`
+- Test Run / Commit Reference: Local execution; two consecutive runs
+
+**Preconditions**
+
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard is executed before Playwright test execution.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- A conversation between Alice and Bob is created through the database setup helper.
+- Alice's valid credentials are available.
+
+**Expected Result**
+
+- Alice can access the conversation list after successfully signing in.
+- The conversation list displays the correct counterpart name, Bob.
+- The displayed counterpart name corresponds to the existing conversation between Alice and Bob.
+
+**Actual Result**
+
+- The QA Safety Guard executed before Playwright test execution, and the test proceeded.
+- Any existing conversation between Alice and Bob was removed during test setup.
+- Alice and Bob were prepared as registered test users.
+- A conversation between Alice and Bob was created through the database setup helper.
+- Alice successfully signed in through the UI.
+- The application redirected to `/chat`.
+- The `Conversations` heading was visible.
+- The conversation list displayed Bob as the counterpart name.
+- The assertion verifying that Bob's name was visible and matched the expected text passed.
+- The test completed successfully.
+- The test cleanup completed without reporting an error.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- Playwright terminal output: `Running 2 test using 1 worker`.
+- Test result: `2 passed (15.9s)`.
 - Playwright HTML report generated locally.
 
 **Defect Reference:** None identified.

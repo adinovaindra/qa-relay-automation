@@ -29,15 +29,15 @@ Test Case IDs, titles, Risk Levels, and Source Priorities follow the current Aut
 
 ### 2.2 Automation Coverage
 
-| Automation Order | Test Case ID    | Test Case Title                                                                                   | Risk Level | Source Priority | Automation Layer | Automation Decision                               | Execution Status |
-| ---------------: | --------------- | ------------------------------------------------------------------------------------------------- | ---------- | --------------- | ---------------- | ------------------------------------------------- | ---------------- |
-|                1 | TC-AUTHZ-001-01 | Authorized user accesses an existing conversation                                                 | High       | High            | UI               | Include                                           | Not Executed Yet |
-|                2 | TC-AUTHZ-002-01 | Non-participant cannot access another user's conversation through direct navigation               | High       | High            | UI               | Include                                           | Not Executed Yet |
-|                3 | TC-AUTHZ-002-02 | API request cannot retrieve conversation data for a non-participant                               | High       | High            | API              | Include — API contract required                   | Not Executed Yet |
-|                4 | TC-AUTHZ-005-01 | Server-side authorization prevents unauthorized access when client-side restrictions are bypassed | High       | High            | API              | Include — API contract required                   | Not Executed Yet |
-|                5 | TC-AUTHZ-003-01 | Client-provided user identity does not override the authenticated user's identity                 | High       | High            | API              | Include — operation and request contract required | Not Executed Yet |
-|                6 | TC-AUTHZ-004-01 | Message is attributed to the authenticated user                                                   | High       | High            | UI + API         | Include                                           | Not Executed Yet |
-|                7 | TC-AUTHZ-004-02 | Client-provided sender identity cannot override the authenticated sender                          | High       | High            | API              | Include — operation and request contract required | Not Executed Yet |
+| Automation Order | Test Case ID    | Test Case Title                                                                                             | Risk Level | Source Priority | Automation Layer | Automation Decision | Execution Status |
+| ---------------: | --------------- | ----------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ---------------- | ------------------- | ---------------- |
+|                1 | TC-AUTHZ-001-01 | Authorized user accesses an existing conversation                                                           | High       | High            | UI               | Include             | Passed           |
+|                2 | TC-AUTHZ-002-01 | Non-participant cannot access another user's conversation through direct navigation                         | High       | High            | UI               | Include             | Passed           |
+|                3 | TC-AUTHZ-002-02 | API request cannot retrieve conversation data for a non-participant                                         | High       | High            | API              | Include             | Passed           |
+|                4 | TC-AUTHZ-005-01 | Server-side authorization prevents unauthorized message creation when client-side restrictions are bypassed | High       | High            | API              | Include             | Passed           |
+|                5 | TC-AUTHZ-003-01 | Client-provided user identity does not override the authenticated user's identity                           | High       | High            | API              | Include             | Passed           |
+|                6 | TC-AUTHZ-004-01 | Message is attributed to the authenticated user                                                             | High       | High            | UI + API         | Include             | Passed           |
+|                7 | TC-AUTHZ-004-02 | Client-provided sender identity cannot override the authenticated sender                                    | High       | High            | API              | Include             | Passed           |
 
 ### 2.3 Matrix Notes
 
@@ -87,17 +87,16 @@ The UI assertion verifies the sender identity visible to the user. The API-level
 | ---------------------------------- | ----: |
 | Test Cases in Coverage Matrix      |     7 |
 | Test Cases Selected for Automation |     7 |
-| Test Cases Implemented             |     0 |
-| Test Cases Executed                |     0 |
-| Passed                             |     0 |
+| Test Cases Implemented             |     7 |
+| Test Cases Executed                |     7 |
+| Passed                             |     7 |
 | Failed                             |     0 |
 | Blocked                            |     0 |
-| Not Executed                       |     7 |
+| Not Executed                       |     0 |
 
-### 3.2 Summary Notes
+### 3.2 Summary Note0
 
 - The Authorization automation scope contains 7 selected test cases.
-- No Authorization automated test has been executed.
 - Selection and implementation do not constitute execution evidence.
 - A failed assertion is recorded as a failed execution only after the test has actually run.
 - A test that cannot run because of environment or setup problems must be recorded using the applicable blocked or infrastructure-failure classification rather than being reported as passed.
@@ -136,54 +135,408 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 ## 6. Execution Records
 
-### 6.1 Execution Record Template
+#### TC-AUTHZ-001-01 — Authorized user accesses an existing conversation
 
-Use the following template to record each automated test execution. Replace the example identifiers and fields with verified information for the actual test run.
-
-#### TC-AUTHZ-XXX-XX — [Test Case Title]
-
-**Test Case Reference:** [Authorization Test Cases](../test-design/test-cases/authorization.md)
-
-**Scenario Reference:** [Scenario ID]
-
-**Requirement Reference:** [Requirement ID]
-
-**Risk Reference:** [Risk ID]
-
-**Execution Date:** YYYY-MM-DD
+**Test Case Reference:** [TC-AUTHZ-001-01](../test-design/test-cases/authorization.md#tc-authz-001-01--authorized-user-accesses-an-existing-conversation)
+**Scenario Reference:** SCN-AUTHZ-001
+**Requirement Reference:** REQ-AUTHZ-001, REQ-AUTHZ-002
+**Risk Reference:** RSK-001
+**Execution Date:** 2026-11-02
 
 **Environment**
 
-- Application URL: [URL]
-- Browser / Project: [Browser and Playwright project]
-- Browser Version: [Version]
-- Operating System: [Operating system]
-- Execution Mode: Headed / Headless
-- Test Run / Commit Reference: [Run identifier or commit]
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
 
-- [Record the verified preconditions used for this execution.]
+- Relay is accessible.
+- The QA Safety Guard passes and targets the `relay_qa_automation` database using the `relay_test_user` role.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are registered test users.
+- An existing conversation between Alice and Bob is prepared through the database setup helper.
+- Alice's valid credentials are available.
 
 **Expected Result**
 
-- [Copy or summarize the expected result from the source test case without changing its acceptance criteria.]
+- User A can access the existing conversation.
+- The conversation content is displayed to User A.
+- The displayed conversation corresponds to the conversation between User A and User B.
 
 **Actual Result**
 
-- [Record only behavior observed during the actual execution.]
+- The QA Safety Guard passed before Playwright execution.
+- Existing conversation data between Alice and Bob was removed during test setup.
+- Alice and Bob were prepared as registered test users.
+- An existing conversation between Alice and Bob was created through the database setup helper.
+- Alice successfully signed in through the UI.
+- The application displayed the Conversations heading.
+- Alice selected Bob's conversation from the conversation list.
+- The application navigated to the conversation URL containing the expected conversation ID.
+- Bob was displayed as the conversation counterpart.
+- The conversation content area and its empty-message state were displayed successfully.
+- Both consecutive test executions completed successfully.
 
-**Execution Result:** NOT EXECUTED
+**Execution Result:** PASS
 
 **Evidence**
 
-- Test report: [Reference]
-- Screenshot / Trace / Video: [Reference, where applicable]
+- QA Safety Guard output: `Passed: local PostgreSQL, database relay_qa_automation, role relay_test_user.`
+- Playwright terminal output: `Running 2 tests using 1 worker`.
+- Playwright test result: `2 passed (19.3s)`.
+- Playwright HTML report generated locally.
 
-**Defect Reference:** None identified / [Defect reference]
+**Defect Reference:** None identified.
 
-**Execution Notes**
+#### TC-AUTHZ-002-01 — Non-participant cannot access another user's conversation through direct navigation
 
-- [Record relevant observations, limitations, or investigation notes.]
+**Test Case Reference:** [TC-AUTHZ-002-01](../test-design/test-cases/authorization.md#tc-authz-002-01--non-participant-cannot-access-another-users-conversation-through-direct-navigation)
+**Scenario Reference:** SCN-AUTHZ-002
+**Requirement Reference:** REQ-AUTHZ-001, REQ-AUTHZ-002
+**Risk Reference:** RSK-001
+**Execution Date:** 2026-11-02
 
----
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
+
+**Preconditions**
+
+- Relay is accessible.
+- The QA Safety Guard passes and targets the `relay_qa_automation` database using the `relay_test_user` role.
+- Alice (`alice@example.com`), Bob (`bob@example.com`), and Charlie (`charlie@example.com`) are registered test users.
+- An existing conversation between Alice and Bob is prepared through the database setup helper.
+- The conversation contains the protected message `Hi Bob. How are you?`.
+- Charlie's valid credentials are available.
+- Charlie is not a participant in Alice and Bob's conversation.
+
+**Expected Result**
+
+- User C cannot access the conversation because User C is not an authorized participant.
+- Protected conversation content is not disclosed to User C.
+- The application does not grant access merely because the target conversation can be referenced through direct navigation.
+
+**Actual Result**
+
+- The QA Safety Guard passed before Playwright execution.
+- Alice, Bob, and Charlie were prepared as registered test users.
+- An existing conversation between Alice and Bob was created through the database setup helper.
+- The protected message `Hi Bob. How are you?` was inserted into the conversation.
+- Charlie successfully signed in through the UI.
+- The application displayed the Conversations heading after authentication.
+- The browser directly navigated to the target conversation URL using its conversation ID.
+- The Relay server executed the conversation participant authorization check.
+- The server rejected the unauthorized access attempt with `403 FORBIDDEN` and the error message `You are not a participant of this conversation`.
+- The protected message was not displayed to Charlie.
+- Both consecutive test executions completed successfully.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- QA Safety Guard output: `Passed: local PostgreSQL, database relay_qa_automation, role relay_test_user.`
+- Playwright terminal output: `Running 2 tests using 1 worker`.
+- Server authorization output: `statusCode: 403`, `code: FORBIDDEN`.
+- Playwright test result: `2 passed (17.6s)`.
+- Playwright HTML report generated locally.
+
+**Defect Reference:** None identified.
+
+#### TC-AUTHZ-002-02 — API request cannot retrieve conversation data for a non-participant
+
+**Test Case Reference:** [TC-AUTHZ-002-02](../test-design/test-cases/authorization.md#tc-authz-002-02--api-request-cannot-retrieve-conversation-data-for-a-non-participant)
+**Scenario Reference:** SCN-AUTHZ-002
+**Requirement Reference:** REQ-AUTHZ-001, REQ-AUTHZ-002
+**Risk Reference:** RSK-001
+**Execution Date:** 2026-11-02
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium Playwright project (API request fixture)
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed command; API request fixture (no browser UI interaction).
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
+
+**Preconditions**
+
+- Relay is accessible.
+- The QA Safety Guard passes and targets the `relay_qa_automation` database using the `relay_test_user` role.
+- Alice (`alice@example.com`), Bob (`bob@example.com`), and Charlie (`charlie@example.com`) are registered test users.
+- An existing conversation between Alice and Bob is prepared through the database setup helper.
+- The conversation contains the protected message `Hi Bob. How are you?`.
+- Charlie's valid credentials are available.
+- Charlie is not a participant in Alice and Bob's conversation.
+
+**Expected Result**
+
+- User C cannot access the conversation because User C is not an authorized participant.
+- Protected conversation content is not disclosed to User C.
+- The application does not grant access merely because the target conversation can be referenced through direct navigation.
+
+**Actual Result**
+
+- The QA Safety Guard passed before Playwright execution.
+- Alice, Bob, and Charlie were prepared as registered test users.
+- An existing conversation between Alice and Bob was created through the database setup helper.
+- The protected message `Hi Bob. How are you?` was inserted into the conversation.
+- Charlie successfully authenticated through the login API.
+- An API GET request was sent to the conversation messages endpoint using Alice and Bob's conversation ID.
+- The API response indicated an authorization denial with `success: false` and error code `FORBIDDEN`.
+- The response did not disclose the protected message.
+- Both consecutive test executions completed successfully.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- QA Safety Guard output: `Passed: local PostgreSQL, database relay_qa_automation, role relay_test_user.`
+- Playwright terminal output: `Running 2 tests using 1 worker`.
+- Playwright test result: `2 passed (13.1s)`.
+- Playwright HTML report generated locally.
+
+**Defect Reference:** None identified.
+
+#### TC-AUTHZ-005-01 — Server-side authorization prevents unauthorized message creation when client-side restrictions are bypassed
+
+**Test Case Reference:** [TC-AUTHZ-005-01](../test-design/test-cases/authorization.md)
+**Scenario Reference:** SCN-AUTHZ-005
+**Requirement Reference:** REQ-AUTHZ-005
+**Risk Reference:** RSK-001
+**Execution Date:** 2026-11-02
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Test Type: API
+- API Client: Playwright built-in `request` fixture (`APIRequestContext`)
+- Browser / Project: Chromium project; no browser UI interaction
+- Execution Mode: API request execution
+- Test Run / Commit Reference: Local execution; two consecutive runs using `--repeat-each=2`.
+
+**Preconditions**
+
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard is enabled for automated test execution.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are registered test users.
+- Charlie (`charlie@example.com`) is a registered test user and is not a participant in the Alice-Bob conversation.
+- An existing conversation between Alice and Bob is prepared through the database setup helper.
+- Charlie's valid credentials are available.
+- The message creation API operation and request contract are identified.
+
+**Expected Result**
+
+- The server rejects Charlie's attempt to create a message in a conversation for which he is not an authorized participant.
+- The API response indicates that the operation is forbidden.
+- The unauthorized message is not persisted in the database.
+- Server-side authorization prevents the protected operation even when client-side restrictions are bypassed.
+
+**Actual Result**
+
+- The QA Safety Guard passed, confirming the target database was `relay_qa_automation` and the application role was `relay_test_user`.
+- Alice, Bob, and Charlie were prepared as registered test users.
+- An existing conversation between Alice and Bob was created through the database setup helper.
+- Charlie successfully authenticated through `POST /api/auth/login`.
+- A direct API request was submitted to `POST /api/conversations/{conversationId}/messages` using Charlie's authenticated session.
+- The API returned HTTP `403 Forbidden`.
+- The response body indicated `success: false` and error code `FORBIDDEN`.
+- The database verification assertion confirmed that the unauthorized message was not persisted.
+- All Playwright assertions passed in two consecutive executions.
+- The test cleanup completed without reporting an error.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- QA Safety Guard output: `Passed: local PostgreSQL, database relay_qa_automation, role relay_test_user.`
+- Playwright terminal output: `Running 2 tests using 1 worker`.
+- Playwright test result: `2 passed (11.7s)`.
+- Playwright HTML report generated locally.
+
+**Defect Reference:** None identified.
+
+#### TC-AUTHZ-003-01 — Client-provided user identity does not override the authenticated user's identity
+
+**Test Case Reference:** [TC-AUTHZ-003-01](../test-design/test-cases/authorization.md)
+**Scenario Reference:** SCN-AUTHZ-003
+**Requirement Reference:** REQ-AUTHZ-003
+**Risk Reference:** RSK-002
+**Execution Date:** 2026-11-02
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Test Type: API
+- API Client: Playwright built-in `request` fixture (`APIRequestContext`)
+- Browser / Project: Chromium project; no browser UI interaction
+- Execution Mode: API request execution
+- Test Run / Commit Reference: Local execution; two consecutive runs using `--repeat-each=2`.
+
+**Preconditions**
+
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard is enabled for automated test execution.
+- Alice (`alice@example.com`), Bob (`bob@example.com`), and Charlie (`charlie@example.com`) are registered test users.
+- No existing conversation between Alice and Charlie or Bob and Charlie interferes with the test setup.
+- Alice's valid credentials are available.
+- The conversation creation API operation and request contract are identified.
+
+**Expected Result**
+
+- The system derives the requester identity from Alice's authenticated session.
+- The injected identity of Bob is not used as the requester identity.
+- The resulting conversation contains Alice and Charlie as participants.
+- Bob is not added as a participant as a result of the injected identity.
+
+**Actual Result**
+
+- The QA Safety Guard passed, confirming the target database was `relay_qa_automation` and the application role was `relay_test_user`.
+- Alice, Bob, and Charlie were prepared as registered test users.
+- Existing conversations between Alice and Charlie and Bob and Charlie were removed during test setup.
+- The user IDs of Alice, Bob, and Charlie were retrieved from the QA database.
+- Alice successfully authenticated through `POST /api/auth/login`.
+- A direct API request was submitted to `POST /api/conversations` with Charlie's user ID as `targetUserId` and Bob's user ID as an additional injected `userId` field.
+- The API successfully created the conversation.
+- Database verification confirmed that Alice and Charlie were the two conversation participants.
+- Bob was not included as a conversation participant.
+- All Playwright assertions passed in two consecutive executions.
+- The test cleanup completed without reporting an error.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- QA Safety Guard output: `Passed: local PostgreSQL, database relay_qa_automation, role relay_test_user.`
+- Playwright terminal output: `Running 2 tests using 1 worker`.
+- Playwright test result: `2 passed (10.1s)`.
+- Playwright HTML report generated locally.
+
+**Defect Reference:** None identified.
+
+#### TC-AUTHZ-004-01 — Message is attributed to the authenticated user
+
+**Test Case Reference:** [TC-AUTHZ-004-01](../test-design/test-cases/authorization.md)
+**Scenario Reference:** SCN-AUTHZ-004
+**Requirement Reference:** REQ-AUTHZ-004
+**Risk Reference:** RSK-001
+**Execution Date:** 2026-11-03
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Test Type: UI + API
+- Automation Framework: Playwright
+- Browser / Project: Chromium
+- Execution Mode: Headed
+- Test Run / Commit Reference: Local execution; two consecutive runs using `--repeat-each=2`.
+
+**Preconditions**
+
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are registered test users.
+- An existing conversation between Alice and Bob is prepared.
+- Alice's valid credentials are available.
+
+**Expected Result**
+
+- Alice can successfully authenticate.
+- Alice can send a message in the existing conversation.
+- The message is displayed as Alice's own message in the UI.
+- The API response identifies Alice as the message sender.
+- The persisted message record identifies Alice as the sender.
+
+**Actual Result**
+
+- Alice successfully authenticated through the UI.
+- The existing Alice-Bob conversation was opened.
+- Alice successfully sent a message through the UI.
+- The message creation API returned HTTP 201.
+- The API response indicated successful message creation and returned Alice's user ID as `senderId`.
+- The sent message was visible in the conversation UI.
+- The message bubble was aligned to the right, consistent with the UI representation of the authenticated user's own message.
+- Database verification confirmed that the persisted message's `senderId` matched Alice's user ID.
+- All Playwright assertions passed in two consecutive executions.
+- Test cleanup completed without a reported error.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- Playwright terminal output: `Running 2 tests using 1 worker`.
+- Playwright test result: `2 passed (24.3s)`.
+- HTML report generated locally.
+- Non-blocking warning observed: `Slow filesystem detected` during WebServer startup.
+
+**Defect Reference:** None identified.
+
+#### TC-AUTHZ-004-02 — Client-provided sender identity cannot override the authenticated sender
+
+**Test Case Reference:** [TC-AUTHZ-004-02](../test-design/test-cases/authorization.md)
+**Scenario Reference:** SCN-AUTHZ-004
+**Requirement Reference:** REQ-AUTHZ-004
+**Risk Reference:** RSK-001
+**Execution Date:** 2026-11-03
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Test Type: API
+- Automation Framework: Playwright
+- API Client: Playwright built-in `request` fixture (`APIRequestContext`)
+- Browser / Project: Chromium project; no browser UI interaction
+- Execution Mode: API request execution
+- Test Run / Commit Reference: Local execution; two consecutive runs using `--repeat-each=2`.
+
+**Preconditions**
+
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard is enabled for automated test execution.
+- Alice (`alice@example.com`), Bob (`bob@example.com`), and Charlie (`charlie@example.com`) are registered test users.
+- An existing conversation between Alice and Bob is prepared.
+- Alice's valid credentials are available.
+- The message creation API operation and request contract are identified.
+
+**Expected Result**
+
+- Alice successfully authenticates.
+- The server accepts the message creation request.
+- The injected sender identity belonging to Charlie does not override Alice's authenticated identity.
+- The API response identifies Alice as the message sender.
+- The persisted message record identifies Alice as the sender.
+
+**Actual Result**
+
+- The QA Safety Guard passed, confirming the target database was `relay_qa_automation` and the application role was `relay_test_user`.
+- Alice, Bob, and Charlie were prepared as registered test users.
+- An existing conversation between Alice and Bob was created through the database setup helper.
+- Alice successfully authenticated through `POST /api/auth/login`.
+- A direct API request was submitted to `POST /api/conversations/{conversationId}/messages` with Charlie's user ID injected as the `senderId` field.
+- The API returned HTTP 201, indicating successful message creation.
+- The API response identified Alice's user ID as `senderId`, rather than Charlie's injected user ID.
+- Database verification confirmed that the persisted message's `senderId` matched Alice's user ID and did not match Charlie's user ID.
+- All Playwright assertions passed in two consecutive executions.
+- Test cleanup completed without a reported error.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- QA Safety Guard output: `Passed: local PostgreSQL, database relay_qa_automation, role relay_test_user.`
+- Playwright terminal output: `Running 2 tests using 1 worker`.
+- Playwright test result: `2 passed (11.4s)`.
+- Playwright HTML report generated locally.
+
+**Defect Reference:** None identified.

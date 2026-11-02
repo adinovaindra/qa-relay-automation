@@ -117,3 +117,17 @@ export async function verifyCleanupDatabaseConnection(): Promise<void> {
   await cleanupPrisma.$connect();
   await cleanupPrisma.$queryRaw`SELECT 1`;
 }
+
+export async function deleteTestConversationById(conversationId: string): Promise<number> {
+  if (!conversationId.trim()) {
+    throw new Error("Conversation ID cannot be empty.");
+  }
+
+  const result = await cleanupPrisma.conversation.deleteMany({
+    where: {
+      id: conversationId,
+    },
+  });
+
+  return result.count;
+}

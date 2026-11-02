@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 import { deleteTestConversationBetweenUsers, deleteTestUserByEmail, disconnectCleanupDatabase } from "../support/database-cleanup";
 
-import { createTestConversationBetweenUsers, upsertRegisteredUser, disconnectSetupDatabase } from "../support/database-setup";
+import { getUserIdByEmail, createTestConversationBetweenUsers, upsertRegisteredUser, disconnectSetupDatabase } from "../support/database-setup";
 
 const alice = {
   name: "Alice",
@@ -186,6 +186,130 @@ test("TC-CONV-003-01 - User cannot create a conversation with themselves through
       await deleteTestUserByEmail(alice.email);
     } catch (error) {
       cleanupErrors.push(error);
+    }
+
+    const disconnectResults = await Promise.allSettled([disconnectCleanupDatabase(), disconnectSetupDatabase()]);
+
+    for (const result of disconnectResults) {
+      if (result.status === "rejected") {
+        cleanupErrors.push(result.reason);
+      }
+    }
+  }
+
+  if (primaryError && cleanupErrors.length > 0) {
+    throw new AggregateError([primaryError, ...cleanupErrors], "Test execution and cleanup both encountered errors.");
+  }
+
+  if (primaryError) {
+    throw primaryError;
+  }
+
+  if (cleanupErrors.length > 0) {
+    throw new AggregateError(cleanupErrors, "Test cleanup encountered errors.");
+  }
+});
+
+test("TC-CONV-003-02 — API request cannot create a conversation with the same user as both participants", async ({ request }) => {
+  let primaryError: unknown;
+  const cleanupErrors: unknown[] = [];
+
+  try {
+    await upsertRegisteredUser(alice);
+    const aliceUserid = await getUserIdByEmail(alice.email);
+
+    const loginResponse = await request.post("/api/auth/login", {
+      data: {
+        email: alice.email,
+        password: alice.password,
+      },
+    });
+
+    expect(loginResponse.ok()).toBeTruthy();
+
+    const conversationResponse = await request.post("/api/conversations", {
+      data: {
+        targetUserId: aliceUserid,
+      },
+    });
+
+    expect(conversationResponse.ok()).toBeFalsy();
+  } catch (error) {
+    primaryError = error;
+  } finally {
+    try {
+      await deleteTestUserByEmail(alice.email);
+    } catch (error) {
+      cleanupErrors.push(error);
+    }
+
+    const disconnectResults = await Promise.allSettled([disconnectCleanupDatabase(), disconnectSetupDatabase()]);
+
+    for (const result of disconnectResults) {
+      if (result.status === "rejected") {
+        cleanupErrors.push(result.reason);
+      }
+    }
+  }
+
+  if (primaryError && cleanupErrors.length > 0) {
+    throw new AggregateError([primaryError, ...cleanupErrors], "Test execution and cleanup both encountered errors.");
+  }
+
+  if (primaryError) {
+    throw primaryError;
+  }
+
+  if (cleanupErrors.length > 0) {
+    throw new AggregateError(cleanupErrors, "Test cleanup encountered errors.");
+  }
+});
+
+test("TC-CONV-004-01 - Conversation list displays the correct counterpart name", async ({ page }) => {
+  let primaryError: unknown;
+  const cleanupErrors: unknown[] = [];
+
+  try {
+    await deleteTestConversationBetweenUsers(alice.email, bob.email);
+
+    await upsertRegisteredUser(alice);
+    await upsertRegisteredUser(bob);
+
+    await createTestConversationBetweenUsers(alice.email, bob.email);
+
+    await page.goto("/");
+
+    await page.getByLabel("Email").fill(alice.email);
+    await page.getByLabel("Password").fill(alice.password);
+    await page.getByRole("button", { name: "Sign in" }).click();
+
+    await expect(page).toHaveURL(/\/chat\/?$/);
+    await expect(page.getByRole("heading", { name: "Conversations" })).toBeVisible();
+
+    const counterpartName = page.getByRole("button").getByText(bob.name, { exact: true });
+
+    await expect(counterpartName).toBeVisible();
+    await expect(counterpartName).toHaveText(bob.name);
+  } catch (error) {
+    primaryError = error;
+  } finally {
+    let conversationCleanupSucceeded = false;
+
+    try {
+      await deleteTestConversationBetweenUsers(alice.email, bob.email);
+      conversationCleanupSucceeded = true;
+    } catch (error) {
+      cleanupErrors.push(error);
+    }
+
+    if (conversationCleanupSucceeded) {
+      const userCleanupResults = await Promise.allSettled([deleteTestUserByEmail(alice.email), deleteTestUserByEmail(bob.email)]);
+
+      for (const result of userCleanupResults) {
+        if (result.status === "rejected") {
+          cleanupErrors.push(result.reason);
+        }
+      }
     }
 
     const disconnectResults = await Promise.allSettled([disconnectCleanupDatabase(), disconnectSetupDatabase()]);

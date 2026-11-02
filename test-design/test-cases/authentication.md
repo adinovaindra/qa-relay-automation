@@ -84,8 +84,10 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- The email address in the test data has not been registered.
+- Relay application is accessible.
+- The email address `test.user@example.com` is not registered.
+- The local QA automation database is available.
+- The QA application and cleanup database roles are configured.
 
 #### Test Data
 
@@ -833,8 +835,10 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- A registered user exists and the valid credentials are available.
+- Relay application is accessible.
+- The QA database is available.
+- The QA application and cleanup database roles are configured.
+- The registered test account is prepared using Prisma upsert before UI execution.
 
 #### Test Data
 
@@ -875,7 +879,9 @@ Execution-specific information such as browser environment, browser version, ope
 #### Preconditions
 
 - Relay Login page is accessible.
-- The email address in the test data is not registered.
+- The email address `unregistered.user@example.com` is not registered.
+- The QA database is available.
+- The precondition was verified using Prisma before UI execution.
 
 #### Test Data
 
@@ -916,7 +922,11 @@ Execution-specific information such as browser environment, browser version, ope
 #### Preconditions
 
 - Relay Login page is accessible.
-- A registered user exists and the valid password is known.
+- The registered test account `registered.user@example.com` exists.
+- The valid password for the registered account is known.
+- The QA database is available.
+- The QA application and cleanup database roles are configured.
+- The registered test account is prepared using Prisma upsert before UI execution.
 
 #### Test Data
 
@@ -957,8 +967,10 @@ Execution-specific information such as browser environment, browser version, ope
 #### Preconditions
 
 - Relay Login page is accessible.
-- One registered account is available.
-- The comparison can be performed in separate login attempts.
+- The email address `unregistered.user@example.com` is not registered.
+- A registered account `registered.user@example.com` is available with known valid credentials.
+- The QA database is available.
+- The QA application and cleanup database roles are configured.
 
 #### Test Data
 

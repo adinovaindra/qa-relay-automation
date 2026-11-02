@@ -133,11 +133,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A and User B are registered users.
-- No existing conversation exists between User A and User B.
-- User A's valid credentials are available.
-- The supported conversation creation workflow is known.
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard passes for `relay_qa_automation` using `relay_test_user`.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users using Prisma upsert before UI execution.
+- Any existing one-to-one conversation between Alice and Bob is removed before the test through `deleteTestConversationBetweenUsers()` using the cleanup database role.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -227,10 +228,11 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A is a registered user.
-- User A's valid credentials are available.
+- Relay application is accessible.
+- Alice (`alice@example.com`) is a registered test user.
+- Alice's valid credentials are available.
 - The UI workflow for starting a conversation is available.
+- QA automation database safety validation is enabled.
 
 #### Test Data
 
@@ -247,7 +249,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- Alice (alice@example.com) is not available as an option in the user dropdown.
+- Alice is not available as an option in the user dropdown.
 - Relay does not allow Alice to select herself as a conversation counterpart through the UI.
 - A self-conversation is not created.
 
@@ -269,9 +271,11 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A is a registered user.
-- User A's valid authentication context is available.
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard is enabled for the automation test execution.
+- Alice (`alice@example.com`) is prepared as a registered test user through the database setup helper.
+- Alice's valid credentials are available.
 - The documented conversation creation API operation and request contract are identified.
 
 #### Test Data
@@ -279,6 +283,7 @@ Execution-specific information such as browser environment, browser version, ope
 | Data                   | Value                                                                                                        |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------ |
 | Authenticated User     | Alice (`alice@example.com`)                                                                                  |
+| User password          | `password123`                                                                                                |
 | Participant Identity   | Alice (`alice@example.com`)                                                                                  |
 | Authentication Context | Valid authentication context for User A                                                                      |
 | Request                | Conversation creation request using the same user as both participants, if supported by the request contract |
@@ -294,7 +299,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 - Relay prevents creation of a self-conversation through the API.
 - No self-conversation is created.
-- The exact HTTP status code is not specified here and must not be assumed without support from the API contract.
+- The exact HTTP status code is not specified and is not assumed as an acceptance criterion.
 
 ---
 
@@ -314,10 +319,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A and User B are registered users.
-- An existing conversation between User A and User B is available.
-- The counterpart's displayed name is known.
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard is executed before Playwright test execution.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- A conversation between Alice and Bob is created through the database setup helper.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -338,8 +345,9 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- The conversation list displays the name of the other participant.
-- The displayed name corresponds to User B, not User A or an unrelated user.
+- Alice can access the conversation list after successfully signing in.
+- The conversation list displays the correct counterpart name, Bob.
+- The displayed counterpart name corresponds to the existing conversation between Alice and Bob.
 
 ---
 

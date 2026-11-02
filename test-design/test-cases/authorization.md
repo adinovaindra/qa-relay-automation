@@ -85,9 +85,10 @@ Execution-specific information such as browser environment, browser version, ope
 #### Preconditions
 
 - Relay is accessible.
-- User A and User B are registered users.
-- An existing conversation between User A and User B is available.
-- User A's valid credentials are available.
+- The QA Safety Guard passes and targets the `relay_qa_automation` database using the `relay_test_user` role.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are registered test users.
+- An existing conversation between Alice and Bob is prepared through the database setup helper.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -113,7 +114,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-AUTHZ-002-01 — Non-participant cannot access another user's conversation through direct navigation (BRAINSTORM!)
+### TC-AUTHZ-002-01 — Non-participant cannot access another user's conversation through direct navigation
 
 | Field               | Value                                                                                                                                                                                                                                                              |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -130,11 +131,12 @@ Execution-specific information such as browser environment, browser version, ope
 #### Preconditions
 
 - Relay is accessible.
-- User A and User B are registered users.
-- An existing conversation between User A and User B is available.
-- User C is a registered user who is not a participant in that conversation.
-- User C's valid credentials are available.
-- The application's supported navigation mechanism for opening a conversation is known.
+- The QA Safety Guard passes and targets the `relay_qa_automation` database using the `relay_test_user` role.
+- Alice (`alice@example.com`), Bob (`bob@example.com`), and Charlie (`charlie@example.com`) are registered test users.
+- An existing conversation between Alice and Bob is prepared through the database setup helper.
+- The conversation contains the protected message `Hi Bob. How are you?`.
+- Charlie's valid credentials are available.
+- Charlie is not a participant in Alice and Bob's conversation.
 
 #### Test Data
 
@@ -144,14 +146,17 @@ Execution-specific information such as browser environment, browser version, ope
 | Other Participant   | User B — Bob (`bob@example.com`)            |
 | Authenticated User  | User C — Charlie (`charlie@example.com`)    |
 | Target Conversation | Existing conversation between Alice and Bob |
+| Protected Message   | `Hi Bob. How are you?`                      |
 | Credentials         | Valid credentials for User C                |
 
 #### Steps
 
 1. Open the Relay application.
-2. Sign in as User C using valid credentials.
-3. Attempt to navigate directly to the existing conversation between User A and User B using the application's supported conversation navigation mechanism.
-4. Observe whether the target conversation can be accessed and whether its protected content is displayed.
+2. Ensure that an existing conversation between User A and User B is available and contains the protected message specified in the test data.
+3. Obtain the conversation ID of the existing conversation between User A and User B.
+4. Sign in as User C using valid credentials.
+5. Navigate directly to the target conversation using the application's supported URL format and the conversation ID obtained in Step 3.
+6. Observe whether User C can access the target conversation and whether its protected content is displayed.
 
 #### Expected Result
 
@@ -178,10 +183,12 @@ Execution-specific information such as browser environment, browser version, ope
 #### Preconditions
 
 - Relay is accessible.
-- User A and User B have an existing conversation.
-- User C is an authenticated user who is not a participant in that conversation.
-- The relevant conversation retrieval API endpoint and request contract are identified.
-- A request can be sent using User C's valid authentication context.
+- The QA Safety Guard passes and targets the `relay_qa_automation` database using the `relay_test_user` role.
+- Alice (`alice@example.com`), Bob (`bob@example.com`), and Charlie (`charlie@example.com`) are registered test users.
+- An existing conversation between Alice and Bob is prepared through the database setup helper.
+- The conversation contains the protected message `Hi Bob. How are you?`.
+- Charlie's valid credentials are available.
+- Charlie is not a participant in Alice and Bob's conversation.
 
 #### Test Data
 
@@ -201,10 +208,9 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- The API does not grant User C access to the target conversation.
-- Protected conversation content is not returned to User C.
-- The response does not provide unauthorized access to the conversation.
-- The exact HTTP status code is not specified by the authorization requirements and must not be invented as an acceptance criterion.
+- User C cannot access the conversation because User C is not an authorized participant.
+- Protected conversation content is not disclosed to User C.
+- The application does not grant access merely because the target conversation can be referenced through direct navigation.
 
 ---
 
@@ -224,11 +230,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A and User B are registered users.
-- User A's valid authentication context is available.
-- A protected operation relevant to the authorization requirements is identified.
-- The operation's request contract and any supported client-controlled identity fields are understood.
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard is enabled for automated test execution.
+- Alice (`alice@example.com`), Bob (`bob@example.com`), and Charlie (`charlie@example.com`) are registered test users.
+- No existing conversation between Alice and Charlie or Bob and Charlie interferes with the test setup.
+- Alice's valid credentials are available.
+- The conversation creation API operation and request contract are identified.
 
 #### Test Data
 
@@ -249,10 +257,10 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- Authorization decisions rely on the authenticated identity of User A rather than treating a client-provided identity as authoritative.
-- A client-provided identity value cannot grant User A permissions belonging to User B.
-- The protected operation follows the authorization rules applicable to the authenticated user.
-- If the selected operation does not accept a client-controlled identity field, no unsupported request field is assumed; the test setup must use a documented operation that allows the behavior to be evaluated.
+- The system derives the requester identity from Alice's authenticated session.
+- The injected identity of Bob is not used as the requester identity.
+- The resulting conversation contains Alice and Charlie as participants.
+- Bob is not added as a participant as a result of the injected identity.
 
 ---
 
@@ -272,10 +280,11 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A and User B are registered users.
-- A conversation exists between User A and User B.
-- User A's valid credentials are available.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are registered test users.
+- An existing conversation between Alice and Bob is prepared.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -297,9 +306,11 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- The message is created successfully.
-- The message is attributed to User A, the authenticated user who sent it.
-- The sender identity displayed for the message corresponds to User A.
+- Alice can successfully authenticate.
+- Alice can send a message in the existing conversation.
+- The message is displayed as Alice's own message in the UI.
+- The API response identifies Alice as the message sender.
+- The persisted message record identifies Alice as the sender.
 
 ---
 
@@ -319,11 +330,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A and User B are registered users.
-- A conversation exists in which User A is an authorized participant.
-- User A's valid authentication context is available.
-- The documented message-creation API operation and request contract are identified.
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard is enabled for automated test execution.
+- Alice (`alice@example.com`), Bob (`bob@example.com`), and Charlie (`charlie@example.com`) are registered test users.
+- An existing conversation between Alice and Bob is prepared.
+- Alice's valid credentials are available.
+- The message creation API operation and request contract are identified.
 
 #### Test Data
 
@@ -345,19 +358,20 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- The system derives the message sender identity from the authenticated user.
-- A client-provided sender identity cannot override User A's authenticated identity.
-- The resulting message is not attributed to User B merely because the client supplied User B's identity.
-- If the request contract does not expose a client-provided sender identity field, no unsupported field is assumed; the test setup must use the documented mechanism available for evaluating sender identity enforcement.
+- Alice successfully authenticates.
+- The server accepts the message creation request.
+- The injected sender identity belonging to Charlie does not override Alice's authenticated identity.
+- The API response identifies Alice as the message sender.
+- The persisted message record identifies Alice as the sender.
 
 ---
 
-### TC-AUTHZ-005-01 — Server-side authorization prevents unauthorized access when client-side restrictions are bypassed
+### TC-AUTHZ-005-01 — Server-side authorization prevents unauthorized message creation when client-side restrictions are bypassed
 
 | Field               | Value                                                                                                             |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | Test Case ID        | TC-AUTHZ-005-01                                                                                                   |
-| Title               | Server-side authorization prevents unauthorized access when client-side restrictions are bypassed                 |
+| Title               | Server-side authorization prevents unauthorized message creation when client-side restrictions are bypassed       |
 | Related Scenario    | SCN-AUTHZ-005 [SCN-AUTHZ-005](../scenarios/authorization.md#scn-authz-005--server-side-authorization-enforcement) |
 | Related Requirement | REQ-AUTHZ-005 [REQ-AUTHZ-005](../../docs/requirements/authorization.md#req-authz-005--server-side-authorization)  |
 | Related Risk        | RSK-001 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                       |
@@ -368,35 +382,40 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A and User B have an existing conversation.
-- User C is authenticated but is not a participant in that conversation.
-- The relevant protected API operation and request contract are identified.
-- User C's valid authentication context is available.
+- Relay application is accessible.
+- The QA database is available.
+- The QA Safety Guard is enabled for automated test execution.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are registered test users.
+- Charlie (`charlie@example.com`) is a registered test user and is not a participant in the Alice-Bob conversation.
+- An existing conversation between Alice and Bob is prepared through the database setup helper.
+- Charlie's valid credentials are available.
+- The message creation API operation and request contract are identified.
 
 #### Test Data
 
-| Data                   | Value                                                            |
-| ---------------------- | ---------------------------------------------------------------- |
-| Authenticated User     | User C — Charlie (`charlie@example.com`)                         |
-| Target Conversation    | Existing conversation between Alice and Bob                      |
-| Authentication Context | Valid authentication context for User C                          |
-| Access Method          | Direct API request without relying on UI navigation restrictions |
+| Data                 | Value                                       |
+| -------------------- | ------------------------------------------- |
+| Conversation Owner   | User A — Alice (`alice@example.com`)        |
+| Other Participant    | User B — Bob (`bob@example.com`)            |
+| Authenticated User   | User C — Charlie (`charlie@example.com`)    |
+| Target Conversation  | Existing conversation between Alice and Bob |
+| Unauthorized Message | Unauthorized message attemptC               |
+| Credentials          | Valid credentials for User C                |
 
 #### Steps
 
-1. Sign in as User C and obtain the authentication context required for API requests.
-2. Identify a protected API operation that accesses the conversation or its protected resources.
-3. Submit a request directly to the API using User C's authentication context and the target conversation reference, without relying on the UI to restrict access.
-4. Inspect the response for protected data or evidence that the operation was performed.
-5. Confirm whether the server enforced the authorization requirement independently of client-side restrictions.
+1. Prepare an existing conversation between User A and User B.
+2. Sign in as User C using valid credentials.
+3. Bypass client-side conversation access restrictions by submitting a direct API request to create a message in the target conversation.
+4. Observe the API response.
+5. Verify that the unauthorized message was not persisted in the target conversation.
 
 #### Expected Result
 
-- The server denies User C unauthorized access to the target conversation or its protected resources.
-- Protected conversation data is not disclosed.
-- Bypassing client-side navigation or visibility restrictions does not grant unauthorized access.
-- The exact HTTP status code is not specified by the authorization requirements and must not be invented as an acceptance criterion.
+- The server rejects Charlie's attempt to create a message in a conversation for which he is not an authorized participant.
+- The API response indicates that the operation is forbidden.
+- The unauthorized message is not persisted in the database.
+- Server-side authorization prevents the protected operation even when client-side restrictions are bypassed.
 
 ---
 

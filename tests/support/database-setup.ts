@@ -152,3 +152,160 @@ export async function verifyUserDoesNotExist(email: string): Promise<void> {
     throw new Error(`Precondition failed: ${normalizedEmail} is already registered.`);
   }
 }
+
+export async function getUserIdByEmail(email: string): Promise<string> {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  const user = await setupPrisma.user.findUnique({
+    where: {
+      email: normalizedEmail,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!user) {
+    throw new Error(`User not found: ${normalizedEmail}`);
+  }
+
+  return user.id;
+}
+
+export async function createTestMessageInConversation(conversationId: string, senderEmail: string, content: string): Promise<string> {
+  const normalizedConversationId = conversationId.trim();
+  const normalizedSenderEmail = senderEmail.trim().toLowerCase();
+  const normalizedContent = content.trim();
+
+  if (!normalizedConversationId) {
+    throw new Error("Conversation ID is required to create a test message.");
+  }
+
+  if (!normalizedSenderEmail) {
+    throw new Error("Sender email is required to create a test message.");
+  }
+
+  if (!normalizedContent) {
+    throw new Error("Test message content cannot be empty.");
+  }
+
+  const sender = await setupPrisma.user.findUnique({
+    where: {
+      email: normalizedSenderEmail,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!sender) {
+    throw new Error(`Test message sender not found: ${normalizedSenderEmail}`);
+  }
+
+  const participant = await setupPrisma.conversationParticipant.findUnique({
+    where: {
+      conversationId_userId: {
+        conversationId: normalizedConversationId,
+        userId: sender.id,
+      },
+    },
+    select: {
+      userId: true,
+    },
+  });
+
+  if (!participant) {
+    throw new Error("Precondition failed: message sender is not a participant in the target conversation.");
+  }
+
+  const message = await setupPrisma.message.create({
+    data: {
+      conversationId: normalizedConversationId,
+      senderId: sender.id,
+      content: normalizedContent,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  return message.id;
+}
+
+export async function verifyMessageDoesNotExist(conversationId: string, content: string): Promise<void> {
+  if (!conversationId.trim()) {
+    throw new Error("Conversation ID cannot be empty.");
+  }
+
+  if (!content.trim()) {
+    throw new Error("Message content cannot be empty.");
+  }
+
+  const existingMessage = await setupPrisma.message.findFirst({
+    where: {
+      conversationId,
+      content,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (existingMessage) {
+    throw new Error("Verification failed: the unauthorized message was persisted in the database.");
+  }
+}
+
+export async function getConversationParticipantIds(conversationId: string): Promise<string[]> {
+  if (!conversationId.trim()) {
+    throw new Error("Conversation ID cannot be empty.");
+  }
+
+  const conversation = await setupPrisma.conversation.findUnique({
+    where: {
+      id: conversationId,
+    },
+    select: {
+      participants: {
+        select: {
+          userId: true,
+        },
+      },
+    },
+  });
+
+  if (!conversation) {
+    throw new Error(`Conversation not found: ${conversationId}`);
+  }
+
+  return conversation.participants.map((participant: { userId: string }) => participant.userId);
+}
+
+export async function getMessageSenderIdByContent(
+  conversationId: string,
+  content: string,
+): Promise<string> {
+  if (!conversationId.trim()) {
+    throw new Error("Conversation ID cannot be empty.");
+  }
+
+  if (!content.trim()) {
+    throw new Error("Message content cannot be empty.");
+  }
+
+  const message = await setupPrisma.message.findFirst({
+    where: {
+      conversationId,
+      content,
+    },
+    select: {
+      senderId: true,
+    },
+  });
+
+  if (!message) {
+    throw new Error("Message not found in the database.");
+  }
+
+  return message.senderId;
+}
