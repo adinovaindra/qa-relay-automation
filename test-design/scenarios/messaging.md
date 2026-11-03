@@ -170,7 +170,8 @@ Verify that message timestamps and date separators follow the documented formats
 
 **Coverage Considerations:**
 
-- Display a timestamp under each message bubble in `HH.mm` 24-hour format.
+- Display a timestamp under each message bubble.
+- Display the timestamp according to the user's applicable browser/operating-system locale and time zone settings.
 - Display `Today` for messages on the current local calendar date.
 - Display `Yesterday` for messages on the previous local calendar date.
 - Display `DD Mmm` for messages from earlier calendar dates.

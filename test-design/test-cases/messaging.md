@@ -17,11 +17,11 @@ Messaging test cases are derived from the following sources:
 - Risk assessment
 - Approved messaging scenarios
 
-The design considers positive and negative testing, boundary and edge conditions, message content validation, chronological ordering, persistence, automatic scrolling, and timestamp and date-separator behavior where supported by the documented requirements.
+The design considers positive and negative testing, boundary and edge conditions, message content validation, chronological ordering, persistence, automatic scrolling, multi-user message availability, and timestamp and date-separator behavior.
 
 Test cases inherit their scope from the approved scenarios but map only to the requirements and risks directly relevant to the behavior being verified. Risk level informs execution priority; it does not determine the number of test cases required.
 
-Expected results are based on the documented requirements. Where a requirement does not specify a detail, such as an exact API status code or the setup needed to produce equal-timestamp messages, this document does not invent an acceptance criterion.
+Expected results are based on the documented requirements and the decisions recorded during test-case review. Where a requirement does not specify a detail, such as an exact API status code or the setup needed to produce equal-timestamp messages, this document does not invent an acceptance criterion.
 
 Browser, browser version, operating system, execution mode, actual result, status, evidence, and defect references belong in separate execution records rather than being repeated in each test case.
 
@@ -85,21 +85,21 @@ Execution-specific information such as browser environment, browser version, ope
 #### Preconditions
 
 - Relay is accessible.
-- User A is authenticated.
-- User A has access to an existing conversation.
+- User A has an active account and valid credentials.
+- User A has access to an existing conversation with User B.
 
 #### Test Data
 
-| Data         | Value                                |
-| ------------ | ------------------------------------ |
-| Sender       | User A - Alice (`alice@example.com`) |
-| Recipient    | User B - Bob (`bob@example.com`)     |
-| Message      | Hello, this is a test message.       |
-| Conversation | `Hello Bob, How are you?`            |
+| Data         | Value                                           |
+| ------------ | ----------------------------------------------- |
+| Sender       | User A - Alice (`alice@example.com`)            |
+| Recipient    | User B - Bob (`bob@example.com`)                |
+| Message      | `Hello Bob, this is a test message.`            |
+| Conversation | An existing authorized conversation with User B |
 
 #### Steps
 
-1. Open Relay Application webpage.
+1. Open the Relay application webpage.
 2. Sign in as User Alice.
 3. Open the conversation with User Bob.
 4. Enter the test message into the message input.
@@ -111,147 +111,62 @@ Execution-specific information such as browser environment, browser version, ope
 - The message is submitted successfully.
 - The message appears in the conversation after sending.
 - The displayed message content matches the submitted content.
-- The message is associated with the conversation in which it was sent.
-- The message is associated with the authenticated sender.
+- The message appears in the conversation in which it was sent.
 
 ---
 
-### TC-MSG-002-01 — Empty message input disables the Send button
+### TC-MSG-002-01 — Empty and whitespace-only message input disables the Send button
 
-| Field               | Value                                                                                                                             |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| Test Case ID        | TC-MSG-002-01                                                                                                                     |
-| Title               | Empty message input disables the Send button                                                                                      |
-| Related Scenario    | SCN-MSG-002 [SCN-MSG-002](../scenarios/messaging.md#scn-msg-002--empty-and-whitespace-only-message-validation)                    |
-| Related Requirement | REQ-MSG-001, REQ-MSG-006 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-006--empty-message-input-handling) |
-| Related Risk        | RSK-012 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                       |
-| Risk Level          | Medium                                                                                                                            |
-| Test Design Method  | Requirement-Based                                                                                                                 |
-| Test Type           | Functional / Validation / Negative                                                                                                |
-| Priority            | Medium                                                                                                                            |
+| Field               | Value                                                                                                                                                                                                                  |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test Case ID        | TC-MSG-002-01                                                                                                                                                                                                          |
+| Title               | Empty and whitespace-only message input disables the Send button                                                                                                                                                       |
+| Related Scenario    | SCN-MSG-002 [SCN-MSG-002](../scenarios/messaging.md#scn-msg-002--empty-and-whitespace-only-message-validation)                                                                                                         |
+| Related Requirement | REQ-MSG-001 [REQ-MSG-001](../../docs/requirements/messaging.md#req-msg-001--message-sending-and-validation), REQ-MSG-006 [REQ-MSG-006](../../docs/requirements/messaging.md#req-msg-006--empty-message-input-handling) |
+| Related Risk        | RSK-012 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                                                                                                            |
+| Risk Level          | Medium                                                                                                                                                                                                                 |
+| Test Design Method  | Requirement-Based / Boundary and Edge Conditions                                                                                                                                                                       |
+| Test Type           | Functional / Validation / Negative                                                                                                                                                                                     |
+| Priority            | Medium                                                                                                                                                                                                                 |
 
 #### Preconditions
 
 - Relay is accessible.
-- User A is authenticated.
-- User A has access to an existing conversation.
+- User A has an active account and valid credentials.
+- User A has access to an existing conversation with User B.
 
 #### Test Data
 
-| Data          | Value                                |
-| ------------- | ------------------------------------ |
-| User A        | User A - Alice (`alice@example.com`) |
-| User B        | User B - Bob (`bob@example.com`)     |
-| Message input | Empty                                |
+| Variation | Message input                                                              |
+| --------- | -------------------------------------------------------------------------- |
+| A         | Empty string (`""`)                                                        |
+| B         | Spaces only (`"   "`)                                                      |
+| C         | Tabs and line breaks only (`"\t\n"`), where supported by the input control |
 
 #### Steps
 
-1. Open Relay Application webpage.
-2. Sign in as User Alice.
-3. Open the conversation with user B.
-4. Ensure the message input is empty.
-5. Observe the Send button.
-6. Attempt to interact with the Send button.
-
-#### Expected Result
-
-- The Send button is disabled while the input is empty.
-- The UI prevents submission of an empty message.
-
----
-
-### TC-MSG-002-02 — Whitespace-only message input disables the Send button
-
-| Field               | Value                                                                                                                             |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| Test Case ID        | TC-MSG-002-02                                                                                                                     |
-| Title               | Whitespace-only message input disables the Send button                                                                            |
-| Related Scenario    | SCN-MSG-002 [SCN-MSG-002](../scenarios/messaging.md#scn-msg-002--empty-and-whitespace-only-message-validation)                    |
-| Related Requirement | REQ-MSG-001, REQ-MSG-006 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-006--empty-message-input-handling) |
-| Related Risk        | RSK-012 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                       |
-| Risk Level          | Medium                                                                                                                            |
-| Test Design Method  | Requirement-Based / Boundary and Edge Conditions                                                                                  |
-| Test Type           | Functional / Validation / Negative                                                                                                |
-| Priority            | Medium                                                                                                                            |
-
-#### Preconditions
-
-- Relay is accessible.
-- User A is authenticated.
-- User A has access to an existing conversation.
-
-#### Test Data
-
-| Data          | Value                                                               |
-| ------------- | ------------------------------------------------------------------- |
-| User A        | User A - Alice (`alice@example.com`)                                |
-| User B        | User B - Bob (`bob@example.com`)                                    |
-| Message input | Spaces only                                                         |
-| Variation     | Other whitespace-only content, where supported by the input control |
-
-#### Steps
-
-1. Open Relay Application webpage.
+1. Open the Relay application webpage.
 2. Sign in as User Alice.
 3. Open the conversation with User Bob.
-4. Enter whitespace-only content into the message input.
-5. Observe the Send button.
-6. Attempt to interact with the Send button.
+4. For each test-data variation, set the message input to the specified value.
+5. Verify the Send button's disabled state.
+6. For each variation, attempt submission using the Enter key where applicable.
+7. Check the conversation history for an unintended new message.
 
 #### Expected Result
 
-- The Send button is disabled while the input contains only whitespace.
-- The UI prevents submission of a whitespace-only message.
+- The Send button is disabled when the input is empty or contains only whitespace.
+- The UI prevents submission of empty and whitespace-only content through the tested keyboard interaction.
+- No message is added to the conversation for any invalid input variation.
 
 ---
 
-### TC-MSG-002-03 — API rejects empty message content (BRAINSTORM!)
+### TC-MSG-002-02 — API rejects empty and whitespace-only message content
 
 | Field               | Value                                                                                                                  |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Test Case ID        | TC-MSG-002-03                                                                                                          |
-| Title               | API rejects empty message content                                                                                      |
-| Related Scenario    | SCN-MSG-002 [SCN-MSG-002](../scenarios/messaging.md#scn-msg-002--empty-and-whitespace-only-message-validation)         |
-| Related Requirement | REQ-MSG-001 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-001--message-sending-and-validation) |
-| Related Risk        | RSK-020 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
-| Risk Level          | Medium                                                                                                                 |
-| Test Design Method  | Requirement-Based                                                                                                      |
-| Test Type           | API / Negative                                                                                                         |
-| Priority            | Medium                                                                                                                 |
-
-#### Preconditions
-
-- A valid authenticated API context is available.
-- The target conversation is authorized for the authenticated user.
-- The documented message-submission API contract is available.
-
-#### Test Data
-
-| Data            | Value        |
-| --------------- | ------------ |
-| Message content | Empty string |
-
-#### Steps
-
-1. Submit a message-creation request containing empty message content using the documented API contract.
-2. Inspect the API response.
-3. Verify whether a message was created.
-4. Inspect the conversation history, if necessary, to verify that no empty message was added.
-
-#### Expected Result
-
-- The API rejects empty message content.
-- No empty message is created or added to the conversation.
-- The specific HTTP status code and error response structure follow the documented API contract; they are not assumed by this test case.
-
----
-
-### TC-MSG-002-04 — API rejects whitespace-only message content (BRAINSTORM!)
-
-| Field               | Value                                                                                                                  |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Test Case ID        | TC-MSG-002-04                                                                                                          |
-| Title               | API rejects whitespace-only message content                                                                            |
+| Test Case ID        | TC-MSG-002-02                                                                                                          |
+| Title               | API rejects empty and whitespace-only message content                                                                  |
 | Related Scenario    | SCN-MSG-002 [SCN-MSG-002](../scenarios/messaging.md#scn-msg-002--empty-and-whitespace-only-message-validation)         |
 | Related Requirement | REQ-MSG-001 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-001--message-sending-and-validation) |
 | Related Risk        | RSK-020 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
@@ -268,74 +183,73 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data            | Value                                                                |
-| --------------- | -------------------------------------------------------------------- |
-| Message content | Spaces only                                                          |
-| Variation       | Other whitespace-only content, where supported by the request format |
+| Variation | Message content                      |
+| --------- | ------------------------------------ |
+| A         | Empty string (`""`)                  |
+| B         | Spaces only (`"   "`)                |
+| C         | Tabs and line breaks only (`"\t\n"`) |
 
 #### Steps
 
-1. Submit a message-creation request containing whitespace-only content using the documented API contract.
-2. Inspect the API response.
-3. Verify whether a message was created.
-4. Inspect the conversation history, if necessary, to verify that no whitespace-only message was added.
+1. For each test-data variation, submit a message-creation request containing the specified content using the documented API contract.
+2. Inspect the API response for each request.
+3. Verify whether a message was created for each variation.
+4. Inspect the conversation history or persisted test data, as appropriate, to verify that no invalid message was added.
 
 #### Expected Result
 
-- The API rejects whitespace-only message content.
-- No whitespace-only message is created or added to the conversation.
+- The API rejects empty and whitespace-only message content for all tested variations.
+- No empty or whitespace-only message is created or added to the conversation.
 - The specific HTTP status code and error response structure follow the documented API contract; they are not assumed by this test case.
 
 ---
 
 ### TC-MSG-003-01 — Submitted message content preserves whitespace and line breaks
 
-| Field               | Value                                                                                                                  |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Test Case ID        | TC-MSG-003-01                                                                                                          |
-| Title               | Submitted message content preserves whitespace and line breaks                                                         |
-| Related Scenario    | SCN-MSG-003 [SCN-MSG-003](../scenarios/messaging.md#scn-msg-003--message-content-preservation)                         |
-| Related Requirement | REQ-MSG-001 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-001--message-sending-and-validation) |
-| Related Risk        | RSK-020 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                            |
-| Risk Level          | Medium                                                                                                                 |
-| Test Design Method  | Requirement-Based / Boundary and Edge Conditions                                                                       |
-| Test Type           | Functional / Data Integrity                                                                                            |
-| Priority            | Medium                                                                                                                 |
+| Field               | Value                                                                                                       |
+| ------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Test Case ID        | TC-MSG-003-01                                                                                               |
+| Title               | Submitted message content preserves whitespace and line breaks                                              |
+| Related Scenario    | SCN-MSG-003 [SCN-MSG-003](../scenarios/messaging.md#scn-msg-003--message-content-preservation)              |
+| Related Requirement | REQ-MSG-001 [REQ-MSG-001](../../docs/requirements/messaging.md#req-msg-001--message-sending-and-validation) |
+| Related Risk        | RSK-020 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                 |
+| Risk Level          | Medium                                                                                                      |
+| Test Design Method  | Requirement-Based / Boundary and Edge Conditions                                                            |
+| Test Type           | Functional / Data Integrity                                                                                 |
+| Priority            | Medium                                                                                                      |
 
 #### Preconditions
 
 - Relay is accessible.
-- User A is authenticated.
-- User A has access to an existing conversation.
+- User A has an active account and valid credentials.
+- User A has access to an existing conversation with User B.
 
 #### Test Data
 
-| Data Variation               | Value                                                                               |
-| ---------------------------- | ----------------------------------------------------------------------------------- |
-| User A                       | User A - Alice (`alice@example.com`)                                                |
-| User B                       | User B - Bob (`bob@example.com`)                                                    |
-| Leading whitespace           | `  Hello`                                                                           |
-| Trailing whitespace          | `Hello  `                                                                           |
-| Repeated internal whitespace | `Hello   world`                                                                     |
-| Line break                   | `Hello` followed by a line break and `world`                                        |
-| Mixed content                | Content containing non-whitespace characters, repeated whitespace, and a line break |
+| Data Variation               | Value                                                                                       |
+| ---------------------------- | ------------------------------------------------------------------------------------------- |
+| Leading whitespace           | `  Hello`                                                                                   |
+| Trailing whitespace          | `Hello  `                                                                                   |
+| Repeated internal whitespace | `Hello   world`                                                                             |
+| Line break                   | `Hello` followed by a line break and `world`                                                |
+| Mixed content                | Text containing leading/trailing whitespace, repeated internal whitespace, and a line break |
 
 #### Steps
 
-1. Open Relay Application webpage.
+1. Open the Relay application webpage.
 2. Sign in as User Alice.
 3. Open the conversation with User Bob.
-4. Submit each test-data variation as a separate message.
-5. Observe each message in the conversation history.
-6. Compare the displayed content with the submitted content.
+4. Submit each test-data variation as a separate message. Use Shift+Enter to insert the line break in the relevant variations.
+5. Wait for each submitted message to appear in the conversation history.
+6. Compare each message's exact content with the corresponding submitted string, including leading/trailing whitespace and line breaks. Do not rely on visual inspection alone.
 
 #### Expected Result
 
 - Leading whitespace is preserved.
 - Trailing whitespace is preserved.
-- Repeated whitespace is preserved.
+- Repeated internal whitespace is preserved.
 - Line breaks are preserved.
-- Content containing both non-whitespace and whitespace characters is accepted.
+- Content containing both non-whitespace and whitespace characters is accepted and preserved exactly.
 - Content containing non-whitespace characters is not treated as whitespace-only.
 
 ---
@@ -356,9 +270,9 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- User A is authenticated.
-- An existing conversation contains multiple messages sent at different times.
-- The message sequence can be identified.
+- User A has an active account and valid credentials.
+- An existing conversation contains multiple distinguishable messages with different creation times.
+- The chronological sequence of the messages is known independently of their displayed timestamp text.
 
 #### Test Data
 
@@ -366,257 +280,172 @@ Execution-specific information such as browser environment, browser version, ope
 | -------------- | ------------------------------------ |
 | User A         | User A - Alice (`alice@example.com`) |
 | User B         | User B - Bob (`bob@example.com`)     |
-| First Message  | `Hih Bob!`                           |
+| First Message  | `Hi Bob!`                            |
 | Second Message | `How are you?`                       |
-| Third Message  | `I hope you are good.`               |
+| Third Message  | `I hope you are doing well.`         |
 
 #### Steps
 
-1. Open Relay Application webpage.
+1. Open the Relay application webpage.
 2. Sign in as User Alice.
-3. Open the conversation with user Bob.
-4. Try to send three messages.
+3. Open the conversation with User Bob.
+4. Identify the selected messages in the conversation history.
 5. Compare their displayed positions with the known chronological sequence.
 6. Verify that displayed timestamp text is not used as the sole basis for determining message order.
 
 #### Expected Result
 
-- The first message appears above the second message.
-- The third message appear below the second messages
+- The oldest selected message appears above the newer selected messages.
+- The newest selected message appears below the older selected messages.
 - Messages are displayed in chronological order.
-- Displayed timestamps do not determine message ordering.
+- Displayed timestamp text does not determine message ordering.
 
 ---
 
-### TC-MSG-005-01 — Message ordering remains consistent after page refresh
+### TC-MSG-005-01 — Messages with equal timestamps maintain consistent relative ordering across users, refreshes, and re-logins
 
 | Field               | Value                                                                                                                      |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | Test Case ID        | TC-MSG-005-01                                                                                                              |
-| Title               | Message ordering remains consistent after page refresh                                                                     |
-| Related Scenario    | SCN-MSG-005 [SCN-MSG-005](../scenarios/messaging.md#scn-msg-005--message-ordering-consistency-across-refresh-and-re-login) |
-| Related Requirement | REQ-MSG-002 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-002--message-ordering)                   |
-| Related Risk        | RSK-008 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                |
-| Risk Level          | Medium                                                                                                                     |
-| Test Design Method  | Requirement-Based                                                                                                          |
-| Test Type           | Functional / Consistency                                                                                                   |
-| Priority            | Medium                                                                                                                     |
-
-#### Preconditions
-
-- User A is authenticated.
-- An existing conversation contains multiple messages in a known order.
-
-#### Test Data
-
-| Data           | Value                                |
-| -------------- | ------------------------------------ |
-| User A         | User A - Alice (`alice@example.com`) |
-| User B         | User B - Bob (`bob@example.com`)     |
-| First Message  | `Hih Bob!`                           |
-| Second Message | `How are you?`                       |
-| Third Message  | `I hope you are good.`               |
-
-#### Steps
-
-1. Open Relay Application webpage.
-2. Sign in as User Alice.
-3. Open the conversation with user Bob.
-4. Try to send three messages.
-5. Compare their displayed positions with the known chronological sequence.
-6. Verify that displayed timestamp text is not used as the sole basis for determining message order.
-7. Refresh the page.
-8. Reopen the conversation if necessary.
-9. Compare the displayed message order with the order recorded before refreshing.
-
-#### Expected Result
-
-- The message order remains consistent after refresh.
-- Older messages remain above newer messages.
-- Refreshing does not change the established relative ordering of messages.
-
----
-
-### TC-MSG-005-02 — Message ordering remains consistent after logout and re-login
-
-| Field               | Value                                                                                                                      |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Test Case ID        | TC-MSG-005-02                                                                                                              |
-| Title               | Message ordering remains consistent after logout and re-login                                                              |
-| Related Scenario    | SCN-MSG-005 [SCN-MSG-005](../scenarios/messaging.md#scn-msg-005--message-ordering-consistency-across-refresh-and-re-login) |
-| Related Requirement | REQ-MSG-002 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-002--message-ordering)                   |
-| Related Risk        | RSK-008 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                |
-| Risk Level          | Medium                                                                                                                     |
-| Test Design Method  | Requirement-Based                                                                                                          |
-| Test Type           | Functional / Consistency                                                                                                   |
-| Priority            | Medium                                                                                                                     |
-
-#### Preconditions
-
-- User A is authenticated.
-- An existing conversation contains multiple messages in a known order.
-
-#### Test Data
-
-| Data           | Value                                |
-| -------------- | ------------------------------------ |
-| User A         | User A - Alice (`alice@example.com`) |
-| User B         | User B - Bob (`bob@example.com`)     |
-| First Message  | `Hih Bob!`                           |
-| Second Message | `How are you?`                       |
-| Third Message  | `I hope you are good.`               |
-
-#### Steps
-
-1. Open Relay Application webpage.
-2. Sign in as User Alice.
-3. Open the conversation with user Bob.
-4. Try to send three messages.
-5. Compare their displayed positions with the known chronological sequence.
-6. Verify that displayed timestamp text is not used as the sole basis for determining message order.
-7. Log out.
-8. Log in again as User A.
-9. Reopen the same conversation.
-10. Compare the displayed message order with the order recorded before logout.
-
-#### Expected Result
-
-- The message order remains consistent after re-login.
-- Older messages remain above newer messages.
-- Re-login does not change the established relative ordering of messages.
-
----
-
-### TC-MSG-005-03 — Messages with equal timestamps maintain consistent relative ordering (BRAINSTORM!)
-
-| Field               | Value                                                                                                                      |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Test Case ID        | TC-MSG-005-03                                                                                                              |
-| Title               | Messages with equal timestamps maintain consistent relative ordering                                                       |
+| Title               | Messages with equal timestamps maintain consistent relative ordering across users, refreshes, and re-logins                |
 | Related Scenario    | SCN-MSG-005 [SCN-MSG-005](../scenarios/messaging.md#scn-msg-005--message-ordering-consistency-across-refresh-and-re-login) |
 | Related Requirement | REQ-MSG-002 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-002--message-ordering)                   |
 | Related Risk        | RSK-008 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                |
 | Risk Level          | Medium                                                                                                                     |
 | Test Design Method  | Requirement-Based / Boundary and Edge Conditions                                                                           |
-| Test Type           | Functional / Consistency                                                                                                   |
+| Test Type           | Functional / Consistency / Multi-User                                                                                      |
 | Priority            | Medium                                                                                                                     |
 
 #### Preconditions
 
-- A conversation contains multiple distinguishable messages with equal timestamps.
-- Their relative order can be identified before refreshing or re-logging in.
-- The test environment allows the equal-timestamp condition to be reliably established or identified.
+- User A and User B have active accounts and access to the same conversation.
+- The test environment can create at least two distinguishable messages with exactly equal `createdAt` timestamps.
+- The equality of the selected messages' timestamps can be verified before evaluating their relative ordering.
+- The initial relative order of the selected messages is known.
 
 #### Test Data
 
-| Data             | Value                                                       |
-| ---------------- | ----------------------------------------------------------- |
-| Messages         | At least two distinguishable messages with equal timestamps |
-| Initial ordering | Known relative order of the selected messages               |
+| Data             | Value                                                               |
+| ---------------- | ------------------------------------------------------------------- |
+| Participants     | User A and User B                                                   |
+| Messages         | At least two distinguishable messages with exactly equal timestamps |
+| Timestamp        | One controlled timestamp value shared by the selected messages      |
+| Initial ordering | Known relative order of the selected messages                       |
 
 #### Steps
 
-1. Open the conversation and record the relative order of the equal-timestamp messages.
-2. Refresh the page and compare their relative order.
-3. Log out and log in again.
-4. Reopen the conversation and compare their relative order again.
-5. Where the same scenario is verified across users, compare the relative order displayed to each authorized participant.
+1. Prepare the selected messages in the shared conversation with exactly equal `createdAt` timestamps.
+2. Verify that the selected messages have equal timestamps and record their initial relative order.
+3. Open the conversation as User A and compare the displayed relative order with the recorded order.
+4. Refresh the page as User A and compare the relative order again.
+5. Log out as User A, sign in again, reopen the same conversation, and compare the relative order again.
+6. Open the same conversation as User B in an independent authenticated browser context and compare the relative order.
 
 #### Expected Result
 
-- Messages with equal timestamps maintain consistent relative ordering across the documented conditions.
+- The selected messages are confirmed to have equal timestamps before their order is evaluated.
+- Messages with equal timestamps maintain the same relative order across the tested users, refresh, and re-login conditions.
 - Refreshing or re-logging in does not arbitrarily change their established relative order.
-- Displayed timestamps do not determine message ordering.
+- Displayed timestamp text does not determine message ordering.
 
 ---
 
-### TC-MSG-006-01 — Sent messages remain available after page refresh (POSSIBILITY REDUNDANT!)
+### TC-MSG-006-01 — Sent messages remain available and correctly ordered after page refresh
 
-| Field               | Value                                                                                                       |
-| ------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Test Case ID        | TC-MSG-006-01                                                                                               |
-| Title               | Sent messages remain available after page refresh                                                           |
-| Related Scenario    | SCN-MSG-006 [SCN-MSG-006](../scenarios/messaging.md#scn-msg-006--message-persistence)                       |
-| Related Requirement | REQ-MSG-003 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-003--message-persistence) |
-| Related Risk        | RSK-004 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                 |
-| Risk Level          | High                                                                                                        |
-| Test Design Method  | Requirement-Based                                                                                           |
-| Test Type           | Functional / Persistence                                                                                    |
-| Priority            | High                                                                                                        |
+| Field               | Value                                                                                                                                                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test Case ID        | TC-MSG-006-01                                                                                                                                                                                                     |
+| Title               | Sent messages remain available and correctly ordered after page refresh                                                                                                                                           |
+| Related Scenario    | SCN-MSG-005 [SCN-MSG-005](../scenarios/messaging.md#scn-msg-005--message-ordering-consistency-across-refresh-and-re-login), SCN-MSG-006 [SCN-MSG-006](../scenarios/messaging.md#scn-msg-006--message-persistence) |
+| Related Requirement | REQ-MSG-002 [REQ-MSG-002](../../docs/requirements/messaging.md#req-msg-002--message-ordering), REQ-MSG-003 [REQ-MSG-003](../../docs/requirements/messaging.md#req-msg-003--message-persistence)                   |
+| Related Risk        | RSK-004 [Risk Register List](../../docs/risk-assessment.md#3-risk-register), RSK-008 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                          |
+| Risk Level          | High                                                                                                                                                                                                              |
+| Test Design Method  | Requirement-Based / Risk-Based                                                                                                                                                                                    |
+| Test Type           | Functional / Persistence / Consistency                                                                                                                                                                            |
+| Priority            | High                                                                                                                                                                                                              |
 
 #### Preconditions
 
-- User A is authenticated.
-- User A has access to an existing conversation.
+- Relay is accessible.
+- User A has an active account and valid credentials.
+- User A has access to an existing conversation with User B.
 
 #### Test Data
 
-| Data         | Value                               |
-| ------------ | ----------------------------------- |
-| Message      | Persistence check MSG-006-01        |
-| Conversation | An existing authorized conversation |
+| Data         | Value                                          |
+| ------------ | ---------------------------------------------- |
+| User A       | User A - Alice (`alice@example.com`)           |
+| User B       | User B - Bob (`bob@example.com`)               |
+| Message      | Unique message content for this test execution |
+| Conversation | An existing authorized conversation            |
 
 #### Steps
 
-1. Open the conversation.
-2. Send the test message.
-3. Verify that the message appears in the conversation.
-4. Refresh the page.
-5. Reopen the same conversation if necessary.
-6. Locate the test message and compare its content with the original input.
+1. Open the Relay application webpage and sign in as User Alice.
+2. Open the conversation with User Bob.
+3. Record the existing messages, their exact content, and their chronological relative order.
+4. Send the unique test message and verify that it appears in the conversation.
+5. Record the resulting message content and chronological order, including the newly sent message.
+6. Refresh the page and reopen the same conversation if necessary.
+7. Verify that all recorded messages, including the test message, are still available.
+8. Compare the content and chronological relative order with the records made before refreshing.
 
 #### Expected Result
 
-- The sent message remains available after refresh.
-- The message content remains unchanged.
-- The message remains associated with the correct conversation.
+- All previously recorded messages and the newly sent message remain available after refresh.
+- Message content remains unchanged.
+- Messages remain associated with the correct conversation.
+- Chronological relative ordering remains consistent after refresh, with older messages above newer messages.
 
 ---
 
-### TC-MSG-006-02 — Sent messages remain available after logout and re-login (POSSIBILITY REDUNDANT!)
+### TC-MSG-006-02 — Sent messages remain available and correctly ordered after logout and re-login
 
-| Field               | Value                                                                                                       |
-| ------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Test Case ID        | TC-MSG-006-02                                                                                               |
-| Title               | Sent messages remain available after logout and re-login                                                    |
-| Related Scenario    | SCN-MSG-006 [SCN-MSG-006](../scenarios/messaging.md#scn-msg-006--message-persistence)                       |
-| Related Requirement | REQ-MSG-003 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-003--message-persistence) |
-| Related Risk        | RSK-004 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                 |
-| Risk Level          | High                                                                                                        |
-| Test Design Method  | Requirement-Based                                                                                           |
-| Test Type           | Functional / Persistence                                                                                    |
-| Priority            | High                                                                                                        |
+| Field               | Value                                                                                                                                                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test Case ID        | TC-MSG-006-02                                                                                                                                                                                                     |
+| Title               | Sent messages remain available and correctly ordered after logout and re-login                                                                                                                                    |
+| Related Scenario    | SCN-MSG-005 [SCN-MSG-005](../scenarios/messaging.md#scn-msg-005--message-ordering-consistency-across-refresh-and-re-login), SCN-MSG-006 [SCN-MSG-006](../scenarios/messaging.md#scn-msg-006--message-persistence) |
+| Related Requirement | REQ-MSG-002 [REQ-MSG-002](../../docs/requirements/messaging.md#req-msg-002--message-ordering), REQ-MSG-003 [REQ-MSG-003](../../docs/requirements/messaging.md#req-msg-003--message-persistence)                   |
+| Related Risk        | RSK-004 [Risk Register List](../../docs/risk-assessment.md#3-risk-register), RSK-008 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                          |
+| Risk Level          | High                                                                                                                                                                                                              |
+| Test Design Method  | Requirement-Based / Risk-Based                                                                                                                                                                                    |
+| Test Type           | Functional / Persistence / Consistency                                                                                                                                                                            |
+| Priority            | High                                                                                                                                                                                                              |
 
 #### Preconditions
 
-- User A is authenticated.
-- User A has access to an existing conversation.
+- Relay is accessible.
+- User A has an active account and valid credentials.
+- User A has access to an existing conversation with User B.
 
 #### Test Data
 
-| Data           | Value                                |
-| -------------- | ------------------------------------ |
-| User A         | User A - Alice (`alice@example.com`) |
-| User B         | User B - Bob (`bob@example.com`)     |
-| First Message  | `Hih Bob!`                           |
-| Second Message | `How are you?`                       |
-| Third Message  | `I hope you are good.`               |
+| Data         | Value                                          |
+| ------------ | ---------------------------------------------- |
+| User A       | User A - Alice (`alice@example.com`)           |
+| User B       | User B - Bob (`bob@example.com`)               |
+| Message      | Unique message content for this test execution |
+| Conversation | An existing authorized conversation            |
 
 #### Steps
 
-1. Open the conversation.
-2. Send the test message.
-3. Verify that the message appears in the conversation.
-4. Log out.
-5. Log in again as User A.
-6. Reopen the same conversation.
-7. Locate the test message and compare its content with the original input.
+1. Open the Relay application webpage and sign in as User Alice.
+2. Open the conversation with User Bob.
+3. Record the existing messages, their exact content, and their chronological relative order.
+4. Send the unique test message and verify that it appears in the conversation.
+5. Record the resulting message content and chronological order, including the newly sent message.
+6. Log out as User Alice.
+7. Sign in again as User Alice and reopen the same conversation.
+8. Verify that all recorded messages, including the test message, are still available.
+9. Compare the content and chronological relative order with the records made before logout.
 
 #### Expected Result
 
-- The sent message remains available after re-login.
-- The message content remains unchanged.
-- The message remains associated with the correct conversation.
+- All previously recorded messages and the newly sent message remain available after re-login.
+- Message content remains unchanged.
+- Messages remain associated with the correct conversation.
+- Chronological relative ordering remains consistent after re-login, with older messages above newer messages.
 
 ---
 
@@ -636,40 +465,36 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- User A is authenticated.
-- An existing conversation contains enough messages to require scrolling.
-- The latest message is not fully visible when the conversation history is positioned at the top.
+- Relay is accessible.
+- User A has an active account and valid credentials.
+- User A has access to an existing conversation containing enough messages to make the message container scrollable.
+- The latest message is not fully visible when the message container is positioned at the top.
 
 #### Test Data
 
-| Data           | Value                                |
-| -------------- | ------------------------------------ |
-| User A         | User A - Alice (`alice@example.com`) |
-| User B         | User B - Bob (`bob@example.com`)     |
-| First Message  | `Hih Bob!`                           |
-| Second Message | `How are you?`                       |
-| Third Message  | `I hope you are good.`               |
+| Data         | Value                                                             |
+| ------------ | ----------------------------------------------------------------- |
+| User A       | User A - Alice (`alice@example.com`)                              |
+| User B       | User B - Bob (`bob@example.com`)                                  |
+| Conversation | A prepared conversation with enough messages to require scrolling |
 
 #### Steps
 
-1. Open Relay Application webpage.
+1. Open the Relay application webpage.
 2. Sign in as User Alice.
-3. Open the conversation with user Bob.
-4. Try to send three messages.
-5. Log out.
-6. Log in again as User Alice.
-7. Reopen the same conversation.
-8. Observe the initial scroll position.
-9. Verify whether the latest message is visible.
+3. Open the conversation with User Bob.
+4. Wait until the conversation history has finished loading.
+5. Observe the message container's initial scroll position and the visibility of the latest message.
 
 #### Expected Result
 
 - The conversation automatically scrolls to the latest message when opened.
+- The message container is positioned at the bottom of the conversation history.
 - The latest message is visible without requiring the user to scroll manually to the bottom.
 
 ---
 
-### TC-MSG-007-02 — Sending a message scrolls the conversation to the latest message (BRAINSTORM!)
+### TC-MSG-007-02 — Sending a message scrolls the conversation to the latest message
 
 | Field               | Value                                                                                                                      |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
@@ -685,80 +510,85 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- User A is authenticated.
-- User A has access to an existing conversation containing enough messages to require scrolling.
+- Relay is accessible.
+- User A has an active account and valid credentials.
+- User A has access to an existing conversation containing enough messages to make the message container scrollable.
 
 #### Test Data
 
-| Data   | Value                                |
-| ------ | ------------------------------------ |
-| User A | User A - Alice (`alice@example.com`) |
-| User B | User B - Bob (`bob@example.com`)     |
+| Data    | Value                                          |
+| ------- | ---------------------------------------------- |
+| User A  | User A - Alice (`alice@example.com`)           |
+| User B  | User B - Bob (`bob@example.com`)               |
+| Message | Unique message content for this test execution |
 
 #### Steps
 
-1. Open Relay Application webpage.
-2. Sign in as User Alice.
-3. Open the conversation with user Bob.
-4. Scroll away from the bottom of the conversation history.
-5. Enter the test message.
-6. Submit the message.
-7. Observe the conversation scroll position.
+1. Open the Relay application webpage and sign in as User Alice.
+2. Open the conversation with User Bob.
+3. Wait until the conversation history has finished loading.
+4. Scroll the message container to the top or a position sufficiently far from the bottom.
+5. Enter and submit the unique test message.
+6. Wait until the newly sent message appears in the conversation history.
+7. Observe the message container's scroll position and the visibility of the new message.
 
 #### Expected Result
 
-- After the message is sent, the conversation automatically scrolls to the latest message.
-- The newly sent message is visible.
+- After the message is successfully sent, the conversation automatically scrolls to the latest message.
+- The message container is positioned at the bottom of the conversation history.
+- The newly sent message is visible without requiring the user to scroll manually.
 
 ---
 
-### TC-MSG-008-01 — Message timestamps use the documented format
+### TC-MSG-008-01 — Message timestamps are displayed according to the user's locale and time zone
 
 | Field               | Value                                                                                                                          |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | Test Case ID        | TC-MSG-008-01                                                                                                                  |
-| Title               | Message timestamps use the documented format                                                                                   |
+| Title               | Message timestamps are displayed according to the user's locale and time zone                                                  |
 | Related Scenario    | SCN-MSG-008 [SCN-MSG-008](../scenarios/messaging.md#scn-msg-008--message-timestamps-and-date-separators)                       |
 | Related Requirement | REQ-MSG-005 [Messaging Requirements](../../docs/requirements/messaging.md#req-msg-005--message-timestamps-and-date-separators) |
 | Related Risk        | RSK-018 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                    |
 | Risk Level          | Low                                                                                                                            |
 | Test Design Method  | Requirement-Based                                                                                                              |
-| Test Type           | Functional / UI                                                                                                                |
+| Test Type           | Functional / UI / Date and Time                                                                                                |
 | Priority            | Low                                                                                                                            |
 
 #### Preconditions
 
-- User A is authenticated.
-- An existing conversation contains messages with available timestamps.
+- Relay is accessible.
+- User A has an active account and valid credentials.
+- An existing conversation contains messages with known creation timestamps.
+- The browser locale and time zone used for the test are known and can be controlled or identified.
 
 #### Test Data
 
-| Data           | Value                                |
-| -------------- | ------------------------------------ |
-| User A         | User A - Alice (`alice@example.com`) |
-| User B         | User B - Bob (`bob@example.com`)     |
-| First Message  | `Hih Bob!`                           |
-| Second Message | `How are you?`                       |
-| Third Message  | `I hope you are good.`               |
+| Data                  | Value                                                           |
+| --------------------- | --------------------------------------------------------------- |
+| User A                | User A - Alice (`alice@example.com`)                            |
+| User B                | User B - Bob (`bob@example.com`)                                |
+| Message creation time | A known timestamp that can be compared with the displayed value |
+| Browser locale        | The locale configured for the test                              |
+| Browser time zone     | The time zone configured for the test                           |
 
 #### Steps
 
-1. Open Relay Application webpage.
-2. Sign in as User Alice.
-3. Open the conversation with user Bob.
-4. Enter the test message.
-5. Inspect the timestamp displayed under each message bubble.
-6. Compare the displayed timestamp format with the documented format.
+1. Configure or identify the browser locale and time zone for the test execution.
+2. Open the Relay application webpage and sign in as User Alice.
+3. Open the conversation with User Bob.
+4. Inspect the timestamp displayed below each selected message bubble.
+5. Compare each displayed timestamp with the message's known creation time converted to the configured local time zone and rendered according to the configured locale.
 
 #### Expected Result
 
-- Each message bubble displays its timestamp.
-- Timestamps use the 24-hour `HH.mm` format.
-- A period separates the hours and minutes.
+- Each message bubble displays a timestamp.
+- Each displayed timestamp accurately represents the message creation time in the user's applicable local time zone.
+- The timestamp presentation follows the browser/operating-system locale conventions applicable to the user.
+- The requirement does not prescribe a specific separator or a 12-hour versus 24-hour clock format.
 
 ---
 
-### TC-MSG-008-02 — Message date separators follow the user's local calendar date (BRAINSTORM!)
+### TC-MSG-008-02 — Message date separators follow the user's local calendar date
 
 | Field               | Value                                                                                                                          |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -774,26 +604,28 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- User A is authenticated.
-- The conversation contains messages from multiple calendar dates.
-- The message dates can be reliably identified.
-- The user's local date and time zone are known for the test.
+- Relay is accessible.
+- User A has an active account and valid credentials.
+- The conversation contains messages with controlled timestamps spanning multiple local calendar dates.
+- The browser time zone is known and can be controlled for the test.
 
 #### Test Data
 
-| Data Variation               | Value                                        |
-| ---------------------------- | -------------------------------------------- |
-| Current local calendar date  | Messages sent on the current local date      |
-| Previous local calendar date | Messages sent on the previous local date     |
-| Older calendar date          | Messages sent before the previous local date |
+| Data Variation               | Value                                                          |
+| ---------------------------- | -------------------------------------------------------------- |
+| Current local calendar date  | A message whose timestamp falls on the current local date      |
+| Previous local calendar date | A message whose timestamp falls on the previous local date     |
+| Older local calendar date    | A message whose timestamp falls before the previous local date |
+| Browser time zone            | A known, controlled time zone                                  |
 
 #### Steps
 
-1. Open the conversation.
-2. Identify the date separator associated with messages from the current local calendar date.
-3. Identify the date separator associated with messages from the previous local calendar date.
-4. Identify the date separator associated with older messages.
-5. Compare each displayed separator with the corresponding message date using the user's local calendar date.
+1. Configure the browser time zone for the test execution.
+2. Prepare or identify messages whose timestamps fall on the current local date, previous local date, and an earlier local date in that time zone.
+3. Open the Relay application webpage and sign in as User Alice.
+4. Open the conversation with User Bob.
+5. Identify the date separator associated with each selected message.
+6. Compare each displayed separator with the corresponding message date using the configured local calendar date.
 
 #### Expected Result
 
@@ -804,12 +636,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-MSG-009-01 — Message becomes available to the recipient after refresh (BRAINSTORM!)
+### TC-MSG-009-01 — A message sent by one participant becomes available to the recipient after refresh
 
 | Field               | Value                                                                                                           |
 | ------------------- | --------------------------------------------------------------------------------------------------------------- |
 | Test Case ID        | TC-MSG-009-01                                                                                                   |
-| Title               | Message becomes available to the recipient after refresh                                                        |
+| Title               | A message sent by one participant becomes available to the recipient after refresh                              |
 | Related Scenario    | SCN-MSG-009 [SCN-MSG-009](../scenarios/messaging.md#scn-msg-009--message-availability-after-recipient-refresh)  |
 | Related Requirement | REQ-MSG-007 [REQ-MSG-007](../../docs/requirements/messaging.md#req-msg-007--message-availability-after-refresh) |
 | Related Risk        | RSK-004 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                     |
@@ -821,52 +653,53 @@ Execution-specific information such as browser environment, browser version, ope
 #### Preconditions
 
 - Relay is accessible.
-- User A and User B have separate authenticated sessions.
+- User A and User B have active accounts and valid credentials.
 - User A and User B have access to the same conversation.
 - User B has the shared conversation open before User A sends a new message.
-- The two users can access Relay through separate browser contexts or devices without interfering with each other's authenticated sessions.
+- The two users can access Relay through separate, independent authenticated browser contexts.
 
 #### Test Data
 
-| Data         | Value                                         |
-| ------------ | --------------------------------------------- |
-| Sender       | User A                                        |
-| Recipient    | User B                                        |
-| Conversation | An existing conversation shared by both users |
-| Message      | Message availability after recipient refresh  |
+| Data         | Value                                          |
+| ------------ | ---------------------------------------------- |
+| Sender       | User A                                         |
+| Recipient    | User B                                         |
+| Conversation | An existing conversation shared by both users  |
+| Message      | Unique message content for this test execution |
 
 #### Steps
 
-1. Open the shared conversation as User B and leave it open.
-2. Open the same conversation as User A in a separate browser context or device.
-3. Send the test message as User A.
-4. Observe User B's already-open conversation view without refreshing it.
-5. Refresh the conversation as User B.
-6. Inspect the conversation history and verify the new message's position.
+1. Open the shared conversation as User B in the first browser context and leave it open.
+2. Open the same conversation as User A in a second, independent browser context.
+3. Send the unique test message as User A.
+4. Verify that the message appears in User A's conversation.
+5. Inspect User B's already-open conversation without refreshing it.
+6. Refresh the conversation as User B.
+7. Inspect the conversation history and verify the new message's content, conversation, and position.
 
 #### Expected Result
 
-- The newly sent message does not appear automatically in User B's already-open conversation view.
+- The newly sent message appears in User A's conversation after sending.
+- The newly sent message does not appear automatically in User B's already-open conversation view before refresh.
 - After User B refreshes the conversation, the newly sent message becomes available.
-- The message is displayed in the conversation history in the documented chronological order, with older messages above newer messages.
-- The message remains associated with the shared conversation.
+- The message is displayed in the shared conversation in the documented chronological order, with older messages above newer messages.
 
 ---
 
 ## 5. Scenario-to-Test Case Traceability
 
-This table maps each approved messaging scenario to the test cases designed to verify it. Requirement and risk IDs are included to make the coverage relationship reviewable without creating a separate risk-to-test-case traceability section.
+This table maps each approved authentication scenario to the test cases designed to verify it. Requirement and risk IDs are included to make the coverage relationship reviewable without creating a separate risk-to-test-case traceability section.
 
-| Scenario ID | Related Requirement ID(s) | Related Risk ID(s) | Test Case ID(s)                                            |
-| ----------- | ------------------------- | ------------------ | ---------------------------------------------------------- |
-| SCN-MSG-001 | REQ-MSG-001               | RSK-020            | TC-MSG-001-01                                              |
-| SCN-MSG-002 | REQ-MSG-001, REQ-MSG-006  | RSK-012, RSK-020   | TC-MSG-002-01, TC-MSG-002-02, TC-MSG-002-03, TC-MSG-002-04 |
-| SCN-MSG-003 | REQ-MSG-001               | RSK-020            | TC-MSG-003-01                                              |
-| SCN-MSG-004 | REQ-MSG-002               | RSK-008            | TC-MSG-004-01                                              |
-| SCN-MSG-005 | REQ-MSG-002               | RSK-008            | TC-MSG-005-01, TC-MSG-005-02, TC-MSG-005-03                |
-| SCN-MSG-006 | REQ-MSG-003               | RSK-004            | TC-MSG-006-01, TC-MSG-006-02                               |
-| SCN-MSG-007 | REQ-MSG-004               | RSK-017            | TC-MSG-007-01, TC-MSG-007-02                               |
-| SCN-MSG-008 | REQ-MSG-005               | RSK-018            | TC-MSG-008-01, TC-MSG-008-02                               |
-| SCN-MSG-009 | REQ-MSG-007               | RSK-004            | TC-MSG-009-01                                              |
+| Scenario ID | Related Requirement ID(s) | Related Risk ID(s) | Test Case ID(s)                             |
+| ----------- | ------------------------- | ------------------ | ------------------------------------------- |
+| SCN-MSG-001 | REQ-MSG-001               | RSK-020            | TC-MSG-001-01                               |
+| SCN-MSG-002 | REQ-MSG-001, REQ-MSG-006  | RSK-012, RSK-020   | TC-MSG-002-01, TC-MSG-002-02                |
+| SCN-MSG-003 | REQ-MSG-001               | RSK-020            | TC-MSG-003-01                               |
+| SCN-MSG-004 | REQ-MSG-002               | RSK-008            | TC-MSG-004-01                               |
+| SCN-MSG-005 | REQ-MSG-002               | RSK-008            | TC-MSG-005-01, TC-MSG-006-01, TC-MSG-006-02 |
+| SCN-MSG-006 | REQ-MSG-003               | RSK-004            | TC-MSG-006-01, TC-MSG-006-02                |
+| SCN-MSG-007 | REQ-MSG-004               | RSK-017            | TC-MSG-007-01, TC-MSG-007-02                |
+| SCN-MSG-008 | REQ-MSG-005               | RSK-018            | TC-MSG-008-01, TC-MSG-008-02                |
+| SCN-MSG-009 | REQ-MSG-007               | RSK-004            | TC-MSG-009-01                               |
 
 The test cases are designed for subsequent execution and may be refined during review. Their presence in this document does not imply that they have been executed or passed.

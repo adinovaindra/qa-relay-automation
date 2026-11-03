@@ -16,7 +16,7 @@ Messaging requirements are grouped into the following functional areas:
 - **Message Ordering:** Defines the chronological order of messages and the consistency of that order across users and application sessions.
 - **Message Persistence:** Defines the availability of previously sent messages after application refresh and re-login.
 - **Message History Scrolling:** Defines automatic scrolling behavior when a conversation is opened, messages are sent or received, and the user navigates through older messages.
-- **Message Timestamps and Date Separators:** Defines the display format of message timestamps and the grouping of messages by calendar date.
+- **Message Timestamps and Date Separators:** Defines the display of message timestamps according to the user's applicable locale and time zone settings, and the grouping of messages by local calendar date.
 - **Empty Message Input Handling:** Defines the UI behavior when the message input is empty or contains only whitespace.
 
 Requirement IDs use the following format:
@@ -83,13 +83,15 @@ When a user sends a message, the application shall automatically scroll to the b
 
 The application shall display a timestamp for each message, positioned below the message bubble.
 
-Message timestamps shall use the 24-hour format `HH.mm` (e.g., `16.01`).
+Message timestamps shall accurately represent the message creation time and shall be displayed according to the locale and time zone settings applicable to the user's browser or operating system.
+
+The requirement does not prescribe a specific time separator or a 12-hour versus 24-hour clock format.
 
 The application shall group messages in the conversation history by calendar date using the following date separator labels:
 
-- **Today:** Messages sent on the current calendar date.
-- **Yesterday:** Messages sent on the previous calendar date.
-- **DD Mmm:** Messages sent before the previous calendar date, displayed using the day and abbreviated month format (e.g., `13 Oct`).
+- **Today:** Messages sent on the current local calendar date.
+- **Yesterday:** Messages sent on the previous local calendar date.
+- **DD Mmm:** Messages sent before the previous local calendar date, displayed using the day and abbreviated month format (e.g., `13 Oct`).
 
 Date separator labels shall be determined based on the user's local calendar date, rather than the elapsed time since a message was sent.
 
