@@ -366,9 +366,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A has an active account and valid credentials.
-- User A has access to an existing conversation with User B.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A conversation between Alice and Bob is created through the database setup helper.
+- Two messages are inserted into the conversation through the database setup helper in a known order before UI execution.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -688,7 +692,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ## 5. Scenario-to-Test Case Traceability
 
-This table maps each approved authentication scenario to the test cases designed to verify it. Requirement and risk IDs are included to make the coverage relationship reviewable without creating a separate risk-to-test-case traceability section.
+This table maps each approved messaging scenario to the test cases designed to verify it. Requirement and risk IDs are included to make the coverage relationship reviewable without creating a separate risk-to-test-case traceability section.
 
 | Scenario ID | Related Requirement ID(s) | Related Risk ID(s) | Test Case ID(s)                             |
 | ----------- | ------------------------- | ------------------ | ------------------------------------------- |

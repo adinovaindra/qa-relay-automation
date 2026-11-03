@@ -34,7 +34,7 @@ The scenario design prioritizes message persistence, message ordering, and corre
 
 Risk assessment is used to inform scenario coverage and testing priority. It does not establish additional product requirements or replace the expected behavior documented in the requirements.
 
-Where the requirements specify exact behavior or display formats, the scenarios preserve those expectations. Unspecified behavior is not assumed; any unresolved expectation must be clarified before it is treated as a definitive pass/fail criterion.
+Where the requirements specify exact behavior or date-separator labels, the scenarios preserve those expectations. Unspecified behavior is not assumed; any unresolved expectation must be clarified before it is treated as a definitive pass/fail criterion.
 
 ---
 
@@ -162,7 +162,7 @@ This scenario does not cover automatic scrolling in response to incoming message
 
 ### SCN-MSG-008 — Message Timestamps and Date Separators
 
-Verify that message timestamps and date separators follow the documented formats and the user's local calendar date.
+Verify that message timestamps are displayed according to the user's applicable locale and time zone settings, and that date separators follow the user's local calendar date.
 
 **Related Requirements:** REQ-MSG-005  
 **Related Risks:** RSK-018  
@@ -171,7 +171,8 @@ Verify that message timestamps and date separators follow the documented formats
 **Coverage Considerations:**
 
 - Display a timestamp under each message bubble.
-- Display the timestamp according to the user's applicable browser/operating-system locale and time zone settings.
+- Display each timestamp according to the locale and time zone settings applicable to the user's browser or operating system.
+- Do not enforce a specific time separator or a 12-hour versus 24-hour clock format.
 - Display `Today` for messages on the current local calendar date.
 - Display `Yesterday` for messages on the previous local calendar date.
 - Display `DD Mmm` for messages from earlier calendar dates.
@@ -190,7 +191,7 @@ Verify that a message sent by one participant becomes available to another autho
 **Coverage Considerations:**
 
 - User A sends a message in a conversation shared with User B.
-- User B has the same conversation open in another tab.
+- User B has the same conversation open in a separate authenticated session.
 - Verify that the newly sent message does not appear automatically in User B's already-open conversation view.
 - User B refreshes the conversation.
 - Verify that the newly sent message becomes available to User B after refresh.

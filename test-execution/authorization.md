@@ -149,7 +149,8 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Browser / Project: Chromium
 - Browser Version: 156.0.8078.4 (Official Build) (64-bit)
 - Operating System: Windows 11 Pro 25H2
-- Execution Mode: Headed
+- Execution Mode:
+- Workers: 1
 - Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
@@ -206,6 +207,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Browser Version: 156.0.8078.4 (Official Build) (64-bit)
 - Operating System: Windows 11 Pro 25H2
 - Execution Mode: Headed
+- Workers: 1
 - Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
@@ -265,6 +267,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Browser Version: 156.0.8078.4 (Official Build) (64-bit)
 - Operating System: Windows 11 Pro 25H2
 - Execution Mode: Headed command; API request fixture (no browser UI interaction).
+- Workers: 1
 - Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
@@ -321,7 +324,8 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - API Client: Playwright built-in `request` fixture (`APIRequestContext`)
 - Browser / Project: Chromium project; no browser UI interaction
 - Execution Mode: API request execution
-- Test Run / Commit Reference: Local execution; two consecutive runs using `--repeat-each=2`.
+- Workers: 1
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
 
@@ -380,7 +384,8 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - API Client: Playwright built-in `request` fixture (`APIRequestContext`)
 - Browser / Project: Chromium project; no browser UI interaction
 - Execution Mode: API request execution
-- Test Run / Commit Reference: Local execution; two consecutive runs using `--repeat-each=2`.
+- Workers: 1
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
 
@@ -439,7 +444,8 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Automation Framework: Playwright
 - Browser / Project: Chromium
 - Execution Mode: Headed
-- Test Run / Commit Reference: Local execution; two consecutive runs using `--repeat-each=2`.
+- Workers: 1
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
 
@@ -497,7 +503,8 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - API Client: Playwright built-in `request` fixture (`APIRequestContext`)
 - Browser / Project: Chromium project; no browser UI interaction
 - Execution Mode: API request execution
-- Test Run / Commit Reference: Local execution; two consecutive runs using `--repeat-each=2`.
+- Workers: 1
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
 
