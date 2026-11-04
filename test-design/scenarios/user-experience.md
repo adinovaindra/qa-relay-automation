@@ -42,14 +42,16 @@ Where the requirements specify exact display text, layout behavior, or persisten
 
 ### SCN-UX-001 — Light Mode Rendering
 
-Verify that Light Mode is applied correctly across the Register, Login, and Chat pages.
+Verify that Light Mode is available and can be selected while the user is unauthenticated, and that it is applied correctly across the Register, Login, and Chat pages.
 
-**Related Requirements:** REQ-UX-001
-**Related Risks:** RSK-019
+**Related Requirements:** REQ-UX-001, REQ-UX-003  
+**Related Risks:** RSK-019, RSK-016  
 **Risk Level:** Low
 
 **Coverage Considerations:**
 
+- Availability of Light Mode selection while the user is unauthenticated.
+- Ability to select and save Light Mode without requiring login.
 - Light Mode on the Register page.
 - Light Mode on the Login page.
 - Light Mode on the Chat page.
@@ -60,14 +62,16 @@ Verify that Light Mode is applied correctly across the Register, Login, and Chat
 
 ### SCN-UX-002 — Dark Mode Rendering
 
-Verify that Dark Mode is applied correctly across the Register, Login, and Chat pages.
+Verify that Dark Mode is available and can be selected while the user is unauthenticated, and that it is applied correctly across the Register, Login, and Chat pages.
 
-**Related Requirements:** REQ-UX-002
-**Related Risks:** RSK-019
+**Related Requirements:** REQ-UX-002, REQ-UX-003  
+**Related Risks:** RSK-019, RSK-016  
 **Risk Level:** Low
 
 **Coverage Considerations:**
 
+- Availability of Dark Mode selection while the user is unauthenticated.
+- Ability to select and save Dark Mode without requiring login.
 - Dark Mode on the Register page.
 - Dark Mode on the Login page.
 - Dark Mode on the Chat page.
@@ -78,19 +82,21 @@ Verify that Dark Mode is applied correctly across the Register, Login, and Chat 
 
 ### SCN-UX-003 — Theme Persistence
 
-Verify that the last selected theme persists across navigation, refresh, browser restart, logout, and subsequent login while the stored browser preference remains available.
+Verify that the last selected theme persists across navigation, refresh, browser restart, logout, and subsequent login while the stored browser preference remains available. Theme selection and saving must also be available while the user is unauthenticated.
 
-**Related Requirements:** REQ-UX-003
-**Related Risks:** RSK-016
+**Related Requirements:** REQ-UX-003  
+**Related Risks:** RSK-016  
 **Risk Level:** Low
 
 **Coverage Considerations:**
 
+- Theme preference can be selected and saved while the user is unauthenticated.
 - Theme persistence across navigation between the Register, Login, and Chat pages.
 - Theme persistence after page refresh.
 - Theme persistence after browser restart.
 - Theme persistence after logout and subsequent login.
 - Consistent application of the stored theme preference across the application's pages.
+- Persistence verification must retain the relevant browser-stored preference; clearing site data or using a new browser profile does not verify persistence of the original preference.
 
 ---
 
@@ -98,14 +104,18 @@ Verify that the last selected theme persists across navigation, refresh, browser
 
 Verify that Relay's layout adapts to modern desktop and mobile screen sizes while keeping primary features and controls usable.
 
-**Related Requirements:** REQ-UX-004
-**Related Risks:** RSK-010
+**Related Requirements:** REQ-UX-004  
+**Related Risks:** RSK-010  
 **Risk Level:** Medium
 
 **Coverage Considerations:**
 
 - Layout behavior at representative modern desktop screen sizes.
 - Layout behavior at representative modern mobile screen sizes.
+- On desktop layouts, the conversation list panel and main chat area are displayed side by side.
+- On mobile layouts, the conversation list panel is displayed when no conversation is selected.
+- On mobile layouts, selecting a conversation displays the main chat area and hides the conversation list panel.
+- A back button is available when a conversation is selected on mobile layouts to return to the conversation list.
 - Usability of primary features and controls across the tested screen sizes.
 - Important elements are not clipped.
 - Horizontal scrolling is not required.
@@ -117,8 +127,8 @@ Verify that Relay's layout adapts to modern desktop and mobile screen sizes whil
 
 Verify that the desktop layout displays the documented empty-state content when the user has no conversations.
 
-**Related Requirements:** REQ-UX-005
-**Related Risks:** RSK-015
+**Related Requirements:** REQ-UX-005  
+**Related Risks:** RSK-015  
 **Risk Level:** Low
 
 **Coverage Considerations:**
@@ -135,8 +145,8 @@ Verify that the desktop layout displays the documented empty-state content when 
 
 Verify that the desktop layout displays available conversations while showing the documented empty state in the main area when no conversation is selected.
 
-**Related Requirements:** REQ-UX-005
-**Related Risks:** RSK-015
+**Related Requirements:** REQ-UX-005  
+**Related Risks:** RSK-015  
 **Risk Level:** Low
 
 **Coverage Considerations:**
@@ -153,8 +163,8 @@ Verify that the desktop layout displays available conversations while showing th
 
 Verify that the desktop layout displays the documented empty state when the user selects a conversation that contains no messages.
 
-**Related Requirements:** REQ-UX-005
-**Related Risks:** RSK-015
+**Related Requirements:** REQ-UX-005  
+**Related Risks:** RSK-015  
 **Risk Level:** Low
 
 **Coverage Considerations:**
@@ -170,8 +180,8 @@ Verify that the desktop layout displays the documented empty state when the user
 
 Verify that the mobile layout displays the documented conversation-list empty state when the user has no conversations.
 
-**Related Requirements:** REQ-UX-005
-**Related Risks:** RSK-015
+**Related Requirements:** REQ-UX-005  
+**Related Risks:** RSK-015  
 **Risk Level:** Low
 
 **Coverage Considerations:**
@@ -187,8 +197,8 @@ Verify that the mobile layout displays the documented conversation-list empty st
 
 Verify that the mobile layout displays available conversations without displaying the main chat area when no conversation is selected.
 
-**Related Requirements:** REQ-UX-005
-**Related Risks:** RSK-015
+**Related Requirements:** REQ-UX-005  
+**Related Risks:** RSK-015  
 **Risk Level:** Low
 
 **Coverage Considerations:**
@@ -204,8 +214,8 @@ Verify that the mobile layout displays available conversations without displayin
 
 Verify that the mobile layout displays the documented empty state when the user selects a conversation that contains no messages.
 
-**Related Requirements:** REQ-UX-005
-**Related Risks:** RSK-015
+**Related Requirements:** REQ-UX-005  
+**Related Risks:** RSK-015  
 **Risk Level:** Low
 
 **Coverage Considerations:**
@@ -214,7 +224,7 @@ Verify that the mobile layout displays the documented empty state when the user 
 - The conversation list is hidden.
 - The main area displays `No messages yet.`
 - The main area displays `Send a message to start the conversation.`
-- The back button is available.
+- The back button is available to return to the conversation list.
 
 ---
 
@@ -242,17 +252,17 @@ Execution and Evidence
 | -------------- | ------------------ | ---------------------------------------------------------------------- |
 | REQ-UX-001     | RSK-019            | SCN-UX-001                                                             |
 | REQ-UX-002     | RSK-019            | SCN-UX-002                                                             |
-| REQ-UX-003     | RSK-016            | SCN-UX-003                                                             |
+| REQ-UX-003     | RSK-016            | SCN-UX-001, SCN-UX-002, SCN-UX-003                                     |
 | REQ-UX-004     | RSK-010            | SCN-UX-004                                                             |
 | REQ-UX-005     | RSK-015            | SCN-UX-005, SCN-UX-006, SCN-UX-007, SCN-UX-008, SCN-UX-009, SCN-UX-010 |
 
 ### Risk-to-Scenario Traceability
 
-| Risk ID | Risk Area                               | Scenario ID(s)                                                         |
-| ------- | --------------------------------------- | ---------------------------------------------------------------------- |
-| RSK-010 | Responsive Behavior                     | SCN-UX-004                                                             |
-| RSK-015 | Empty States                            | SCN-UX-005, SCN-UX-006, SCN-UX-007, SCN-UX-008, SCN-UX-009, SCN-UX-010 |
-| RSK-016 | Theme Persistence                       | SCN-UX-003                                                             |
-| RSK-019 | Theme Rendering and Application Failure | SCN-UX-001, SCN-UX-002                                                 |
+| Risk ID | Risk Area                               | Risk Level | Scenario ID(s)                                                         |
+| ------- | --------------------------------------- | ---------- | ---------------------------------------------------------------------- |
+| RSK-010 | Responsive Behavior                     | Medium     | SCN-UX-004                                                             |
+| RSK-015 | Empty States                            | Low        | SCN-UX-005, SCN-UX-006, SCN-UX-007, SCN-UX-008, SCN-UX-009, SCN-UX-010 |
+| RSK-016 | Theme Persistence                       | Low        | SCN-UX-001, SCN-UX-002, SCN-UX-003                                     |
+| RSK-019 | Theme Rendering and Application Failure | Low        | SCN-UX-001, SCN-UX-002                                                 |
 
 The scenario set is intended to guide subsequent test-case design. Scenario coverage does not imply that the scenarios have been executed or that the corresponding functionality has passed testing.

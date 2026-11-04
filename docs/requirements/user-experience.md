@@ -30,6 +30,8 @@ The application shall persist the user's last selected theme across page navigat
 
 The selected theme shall remain applied across all Relay pages, including Register, Login, and Chat, as long as the stored theme preference remains available in the browser.
 
+The application shall allow users to select and save their theme preference while unauthenticated, without requiring a login.
+
 ## 4. Responsive Layout Requirements
 
 ### REQ-UX-004 — Responsive Layout
@@ -37,6 +39,10 @@ The selected theme shall remain applied across all Relay pages, including Regist
 The application shall provide a responsive layout that adapts to modern desktop and mobile device screen sizes.
 
 The application's primary features and controls shall remain usable across supported screen sizes without important elements being clipped or requiring horizontal scrolling.
+
+On desktop layouts, the conversation list panel and main chat area shall be displayed side by side.
+
+On mobile layouts, when a conversation is selected, the main chat area shall be displayed and the conversation list panel shall be hidden. A back button shall be available to allow the user to return to the conversation list.
 
 ## 5. Empty-State Requirements
 
