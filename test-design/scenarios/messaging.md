@@ -74,9 +74,9 @@ Verify that empty and whitespace-only message content is rejected according to t
 
 ---
 
-### SCN-MSG-003 — Message Content Preservation
+### SCN-MSG-003 — Message Whitespace Handling
 
-Verify that submitted message content preserves the documented whitespace and line-break behavior.
+Verify that submitted message content trims leading and trailing whitespace while preserving internal whitespace and line breaks.
 
 **Related Requirements:** REQ-MSG-001  
 **Related Risks:** RSK-020  
@@ -84,10 +84,11 @@ Verify that submitted message content preserves the documented whitespace and li
 
 **Coverage Considerations:**
 
-- Preserve leading whitespace.
-- Preserve trailing whitespace.
-- Preserve repeated whitespace.
-- Preserve line breaks.
+- Trim leading whitespace from submitted message content.
+- Trim trailing whitespace from submitted message content.
+- Preserve repeated internal whitespace.
+- Preserve line breaks within submitted message content.
+- Preserve whitespace within the message that is not at the beginning or end of the overall content.
 - Accept content containing both non-whitespace and whitespace characters.
 - Do not treat content containing non-whitespace characters as whitespace-only.
 

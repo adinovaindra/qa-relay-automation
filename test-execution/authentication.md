@@ -175,6 +175,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Browser Version: 156.0.8078.4 (Official Build) (64-bit)
 - Operating System: Windows 11 Pro 25H2
 - Execution Mode: Headed
+- Workers: 1
 - Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
@@ -226,6 +227,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Browser Version: 156.0.8078.4 (Official Build) (64-bit)
 - Operating System: Windows 11 Pro 25H2
 - Execution Mode: Headed
+- Workers: 1
 - Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
@@ -278,6 +280,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Browser Version: 156.0.8078.4 (Official Build) (64-bit)
 - Operating System: Windows 11 Pro 25H2
 - Execution Mode: Headed
+- Workers: 1
 - Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
@@ -332,6 +335,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Browser Version: 156.0.8078.4 (Official Build) (64-bit)
 - Operating System: Windows 11 Pro 25H2
 - Execution Mode: Headed
+- Workers: 1
 - Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**
@@ -390,6 +394,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Browser Version: 156.0.8078.4 (Official Build) (64-bit)
 - Operating System: Windows 11 Pro 25H2
 - Execution Mode: Headed
+- Workers: 1
 - Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`.
 
 **Preconditions**

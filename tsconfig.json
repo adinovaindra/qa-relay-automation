@@ -43,5 +43,5 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "include": ["playwright.config.ts", "tests/**/*.ts"]
+  "include": ["playwright.config.ts", "tests/**/*.ts", "tests/messaging/coba.js"]
 }

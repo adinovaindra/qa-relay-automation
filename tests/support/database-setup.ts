@@ -172,7 +172,7 @@ export async function getUserIdByEmail(email: string): Promise<string> {
   return user.id;
 }
 
-export async function createTestMessageInConversation(conversationId: string, senderEmail: string, content: string): Promise<string> {
+export async function createTestMessageInConversation(conversationId: string, senderEmail: string, content: string, createdAt?: Date): Promise<string> {
   const normalizedConversationId = conversationId.trim();
   const normalizedSenderEmail = senderEmail.trim().toLowerCase();
   const normalizedContent = content.trim();
@@ -223,6 +223,7 @@ export async function createTestMessageInConversation(conversationId: string, se
       conversationId: normalizedConversationId,
       senderId: sender.id,
       content: normalizedContent,
+      ...(createdAt ? { createdAt } : {}),
     },
     select: {
       id: true,
@@ -281,10 +282,7 @@ export async function getConversationParticipantIds(conversationId: string): Pro
   return conversation.participants.map((participant: { userId: string }) => participant.userId);
 }
 
-export async function getMessageSenderIdByContent(
-  conversationId: string,
-  content: string,
-): Promise<string> {
+export async function getMessageSenderIdByContent(conversationId: string, content: string): Promise<string> {
   if (!conversationId.trim()) {
     throw new Error("Conversation ID cannot be empty.");
   }
@@ -308,4 +306,34 @@ export async function getMessageSenderIdByContent(
   }
 
   return message.senderId;
+}
+
+export async function verifyMessagesHaveEqualTimestamps(messageIds: string[]): Promise<void> {
+  if (messageIds.length < 2) {
+    throw new Error("At least two message IDs are required.");
+  }
+
+  const messages = await setupPrisma.message.findMany({
+    where: {
+      id: {
+        in: messageIds,
+      },
+    },
+    select: {
+      id: true,
+      createdAt: true,
+    },
+  });
+
+  if (messages.length !== messageIds.length) {
+    throw new Error("Not all seeded messages were found.");
+  }
+
+  const firstTimestamp = messages[0].createdAt.getTime();
+
+  const allTimestampsEqual = messages.every((message: { id: string; createdAt: Date }) => message.createdAt.getTime() === firstTimestamp);
+
+  if (!allTimestampsEqual) {
+    throw new Error("Precondition failed: seeded messages do not have equal timestamps.");
+  }
 }

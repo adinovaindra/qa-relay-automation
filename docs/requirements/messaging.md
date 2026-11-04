@@ -12,7 +12,7 @@ The requirements are derived from the available Relay project documentation and 
 
 Messaging requirements are grouped into the following functional areas:
 
-- **Message Sending and Validation:** Defines the rules for sending text messages, validating message content, and preserving the content entered by the user.
+- **Message Sending and Validation:** Defines the rules for sending text messages, validating message content, normalizing submitted content, and preserving internal whitespace and line breaks.
 - **Message Ordering:** Defines the chronological order of messages and the consistency of that order across users and application sessions.
 - **Message Persistence:** Defines the availability of previously sent messages after application refresh and re-login.
 - **Message History Scrolling:** Defines automatic scrolling behavior when a conversation is opened, messages are sent or received, and the user navigates through older messages.
@@ -33,7 +33,9 @@ The application shall allow users to send text messages within an authorized con
 
 The API shall reject messages that are empty or contain only whitespace characters.
 
-The application shall preserve the exact message content entered by the user, including leading whitespace, trailing whitespace, repeated whitespace, and line breaks.
+The application shall trim leading and trailing whitespace characters from submitted message content before storing and displaying the message.
+
+The application shall preserve internal whitespace, including repeated spaces and line breaks.
 
 Messages containing text alongside whitespace characters shall be accepted, provided that the message is not empty or composed entirely of whitespace.
 

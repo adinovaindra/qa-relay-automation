@@ -84,9 +84,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A has an active account and valid credentials.
-- User A has access to an existing conversation with User B.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A conversation between Alice and Bob is created through the database setup helper.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -131,9 +134,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A has an active account and valid credentials.
-- User A has access to an existing conversation with User B.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A conversation between Alice and Bob is created through the database setup helper.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -177,9 +183,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- A valid authenticated API context is available.
-- The target conversation is authorized for the authenticated user.
-- The documented message-submission API contract is available.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A conversation between Alice and Bob is created through the database setup helper.
+- Alice's valid credentials are available for API authentication.
 
 #### Test Data
 
@@ -200,17 +209,17 @@ Execution-specific information such as browser environment, browser version, ope
 
 - The API rejects empty and whitespace-only message content for all tested variations.
 - No empty or whitespace-only message is created or added to the conversation.
-- The specific HTTP status code and error response structure follow the documented API contract; they are not assumed by this test case.
+- The test does not assume a specific HTTP status code or error response structure beyond the documented API contract.
 
 ---
 
-### TC-MSG-003-01 — Submitted message content preserves whitespace and line breaks
+### TC-MSG-003-01 — Submitted message content trims outer whitespace while preserving internal whitespace and line breaks
 
 | Field               | Value                                                                                                       |
 | ------------------- | ----------------------------------------------------------------------------------------------------------- |
 | Test Case ID        | TC-MSG-003-01                                                                                               |
-| Title               | Submitted message content preserves whitespace and line breaks                                              |
-| Related Scenario    | SCN-MSG-003 [SCN-MSG-003](../scenarios/messaging.md#scn-msg-003--message-content-preservation)              |
+| Title               | Submitted message content trims outer whitespace while preserving internal whitespace and line breaks       |
+| Related Scenario    | SCN-MSG-003 [SCN-MSG-003](../scenarios/messaging.md#scn-msg-003--message-whitespace-handling)               |
 | Related Requirement | REQ-MSG-001 [REQ-MSG-001](../../docs/requirements/messaging.md#req-msg-001--message-sending-and-validation) |
 | Related Risk        | RSK-020 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                 |
 | Risk Level          | Medium                                                                                                      |
@@ -220,37 +229,44 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A has an active account and valid credentials.
-- User A has access to an existing conversation with User B.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A conversation between Alice and Bob is created through the database setup helper.
+- Alice's valid credentials are available.
 
 #### Test Data
 
-| Data Variation               | Value                                                                                       |
-| ---------------------------- | ------------------------------------------------------------------------------------------- |
-| Leading whitespace           | `  Hello`                                                                                   |
-| Trailing whitespace          | `Hello  `                                                                                   |
-| Repeated internal whitespace | `Hello   world`                                                                             |
-| Line break                   | `Hello` followed by a line break and `world`                                                |
-| Mixed content                | Text containing leading/trailing whitespace, repeated internal whitespace, and a line break |
+| Data Variation               | Submitted Content            | Expected Displayed Content |
+| ---------------------------- | ---------------------------- | -------------------------- |
+| Leading whitespace           | `  Hello`                    | `Hello`                    |
+| Trailing whitespace          | `Hello  `                    | `Hello`                    |
+| Repeated internal whitespace | `Hello   world`              | `Hello   world`            |
+| Line break                   | `Hello\nworld`               | `Hello\nworld`             |
+| Mixed content                | `  Hello   world\n  Again  ` | `Hello   world\n  Again`   |
 
 #### Steps
 
 1. Open the Relay application webpage.
 2. Sign in as User Alice.
 3. Open the conversation with User Bob.
-4. Submit each test-data variation as a separate message. Use Shift+Enter to insert the line break in the relevant variations.
+4. Submit each test-data variation as a separate message.
 5. Wait for each submitted message to appear in the conversation history.
-6. Compare each message's exact content with the corresponding submitted string, including leading/trailing whitespace and line breaks. Do not rely on visual inspection alone.
+6. Compare the displayed message content with its corresponding expected displayed content.
+7. Verify that leading and trailing whitespace are trimmed while internal whitespace and line breaks are preserved.
+8. Verify the exact content programmatically rather than relying on visual inspection alone.
 
 #### Expected Result
 
-- Leading whitespace is preserved.
-- Trailing whitespace is preserved.
+- Leading whitespace is trimmed from submitted message content.
+- Trailing whitespace is trimmed from submitted message content.
 - Repeated internal whitespace is preserved.
-- Line breaks are preserved.
-- Content containing both non-whitespace and whitespace characters is accepted and preserved exactly.
+- Line breaks within submitted message content are preserved.
+- Whitespace within the message that is not at the beginning or end of the overall content is preserved.
+- Content containing both non-whitespace and whitespace characters is accepted.
 - Content containing non-whitespace characters is not treated as whitespace-only.
+- The displayed message content matches the expected normalized content for every tested variation.
 
 ---
 
@@ -270,9 +286,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- User A has an active account and valid credentials.
-- An existing conversation contains multiple distinguishable messages with different creation times.
-- The chronological sequence of the messages is known independently of their displayed timestamp text.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A new conversation between Alice and Bob is created through the database setup helper.
+- Three distinguishable messages are inserted into the conversation through the database setup helper in a known chronological sequence.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -318,10 +338,14 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- User A and User B have active accounts and access to the same conversation.
-- The test environment can create at least two distinguishable messages with exactly equal `createdAt` timestamps.
-- The equality of the selected messages' timestamps can be verified before evaluating their relative ordering.
-- The initial relative order of the selected messages is known.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A new conversation between Alice and Bob is created through the database setup helper.
+- Three distinguishable messages are inserted into the conversation by Alice using the same timestamp.
+- The timestamp equality precondition is verified through `verifyMessagesHaveEqualTimestamps()`.
+- Alice's and Bob's valid credentials are available.
 
 #### Test Data
 
@@ -343,10 +367,10 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- The selected messages are confirmed to have equal timestamps before their order is evaluated.
-- Messages with equal timestamps maintain the same relative order across the tested users, refresh, and re-login conditions.
-- Refreshing or re-logging in does not arbitrarily change their established relative order.
-- Displayed timestamp text does not determine message ordering.
+- Messages with identical timestamps are displayed in a consistent relative order.
+- The relative order remains consistent after application refresh.
+- The relative order remains consistent after Alice logs out and logs in again.
+- Bob sees the same relative message order when accessing the conversation through an independent browser context.
 
 ---
 
@@ -419,9 +443,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A has an active account and valid credentials.
-- User A has access to an existing conversation with User B.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A conversation between Alice and Bob is created through the database setup helper.
+- Two messages are inserted into the conversation through the database setup helper in a known order before UI execution.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -469,10 +497,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A has an active account and valid credentials.
-- User A has access to an existing conversation containing enough messages to make the message container scrollable.
-- The latest message is not fully visible when the message container is positioned at the top.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A conversation between Alice and Bob is created through the database setup helper.
+- The conversation is populated with 30 messages to ensure that the message container is scrollable.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -514,9 +545,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A has an active account and valid credentials.
-- User A has access to an existing conversation containing enough messages to make the message container scrollable.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup.
+- A conversation between Alice and Bob is created through the database setup helper.
+- The conversation is populated with 30 messages in chronological order.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -538,9 +573,9 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- After the message is successfully sent, the conversation automatically scrolls to the latest message.
-- The message container is positioned at the bottom of the conversation history.
-- The newly sent message is visible without requiring the user to scroll manually.
+- The conversation automatically scrolls to the latest message when a new message is sent.
+- The newly sent message is displayed as the latest message.
+- The latest message is fully visible without requiring the user to scroll manually.
 
 ---
 
@@ -560,10 +595,14 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A has an active account and valid credentials.
-- An existing conversation contains messages with known creation timestamps.
-- The browser locale and time zone used for the test are known and can be controlled or identified.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A conversation between Alice and Bob is created through the database setup helper.
+- Two messages with known creation timestamps are inserted into the conversation through the database setup helper.
+- Alice's valid credentials are available.
+- The browser locale and time zone are explicitly configured as `en-US` and `America/Los_Angeles`, respectively.
 
 #### Test Data
 
@@ -586,8 +625,8 @@ Execution-specific information such as browser environment, browser version, ope
 #### Expected Result
 
 - Each message bubble displays a timestamp.
-- Each displayed timestamp accurately represents the message creation time in the user's applicable local time zone.
-- The timestamp presentation follows the browser/operating-system locale conventions applicable to the user.
+- Each displayed timestamp accurately represents the message creation time in the configured local time zone.
+- Timestamp presentation follows the configured browser locale conventions.
 - The requirement does not prescribe a specific separator or a 12-hour versus 24-hour clock format.
 
 ---
@@ -608,10 +647,17 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A has an active account and valid credentials.
-- The conversation contains messages with controlled timestamps spanning multiple local calendar dates.
-- The browser time zone is known and can be controlled for the test.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A conversation between Alice and Bob is created through the database setup helper.
+- Three messages are inserted into the conversation through the database setup helper, with creation timestamps dynamically calculated relative to the current date:
+  - Two calendar days ago.
+  - Yesterday.
+  - Today.
+- The browser context is configured with locale `en-GB`.
+- Alice's valid credentials are available.
 
 #### Test Data
 
@@ -633,10 +679,10 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- Messages from the current local calendar date are grouped under `Today`.
-- Messages from the previous local calendar date are grouped under `Yesterday`.
-- Messages from earlier calendar dates use the `DD Mmm` format.
-- Date classification follows the user's local calendar date rather than elapsed time alone.
+- Messages belonging to the current local calendar date are grouped under the `Today` separator.
+- Messages belonging to the previous local calendar date are grouped under the `Yesterday` separator.
+- Messages belonging to an earlier calendar date are grouped under a date separator formatted according to the configured locale using `DD Mmm`.
+- Date separators accurately reflect the local calendar dates of the messages.
 
 ---
 
@@ -656,11 +702,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- User A and User B have active accounts and valid credentials.
-- User A and User B have access to the same conversation.
-- User B has the shared conversation open before User A sends a new message.
-- The two users can access Relay through separate, independent authenticated browser contexts.
+- Relay application is accessible.
+- The QA database is available.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) are prepared as registered test users through the database setup helper.
+- Any existing conversation between Alice and Bob is removed before setup through `deleteTestConversationBetweenUsers()`.
+- A conversation between Alice and Bob is created through the database setup helper.
+- Two messages are inserted into the conversation through the database setup helper in a known order before UI execution.
+- Alice's and Bob's valid credentials are available.
 
 #### Test Data
 
@@ -683,10 +731,11 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- The newly sent message appears in User A's conversation after sending.
-- The newly sent message does not appear automatically in User B's already-open conversation view before refresh.
-- After User B refreshes the conversation, the newly sent message becomes available.
-- The message is displayed in the shared conversation in the documented chronological order, with older messages above newer messages.
+- Both participants can access the same conversation through independent authenticated browser contexts.
+- A message sent by Alice becomes available in Alice's conversation.
+- The newly sent message is not automatically displayed in Bob's already-open conversation before refresh.
+- After Bob refreshes the conversation, the newly sent message becomes available.
+- The message content remains unchanged and appears in the correct chronological order relative to previously recorded messages.
 
 ---
 

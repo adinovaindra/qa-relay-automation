@@ -163,7 +163,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 ## 6. Execution Records
 
-### TC-CONV-002-01 — User can create a conversation with another user when no conversation exists
+#### TC-CONV-002-01 — User can create a conversation with another user when no conversation exists
 
 - **Test Case Reference:** [TC-CONV-002-01](../test-design/test-cases/conversation.md#tc-conv-002-01--user-can-create-a-conversation-with-another-user-when-no-conversation-exists)
 - **Scenario Reference:** SCN-CONV-002 [SCN-CONV-002](../test-design/scenarios/conversation.md#scn-conv-002--conversation-creation-and-retrieval)
@@ -218,7 +218,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 **Defect Reference:** None identified.
 
-### TC-CONV-002-02 — Existing conversation is retrieved instead of creating a duplicate
+#### TC-CONV-002-02 — Existing conversation is retrieved instead of creating a duplicate
 
 - **Test Case Reference:** [TC-CONV-002-02](../test-design/test-cases/conversation.md#tc-conv-002-02--existing-conversation-is-retrieved-instead-of-creating-a-duplicate)
 - **Scenario Reference:** SCN-CONV-002 [SCN-CONV-002](../test-design/scenarios/conversation.md#scn-conv-002--conversation-creation-and-retrieval)
@@ -272,7 +272,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 **Defect Reference:** None identified.
 
-### TC-CONV-003-01 — User cannot create a conversation with themselves through the UI
+#### TC-CONV-003-01 — User cannot create a conversation with themselves through the UI
 
 - **Test Case ID:** TC-CONV-003-01
 - **Related Scenario:** SCN-CONV-003 — Self-Conversation Prevention
@@ -325,7 +325,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 **Defect Reference:** None identified.
 
-### TC-CONV-003-02 — API request cannot create a conversation with the same user as both participants
+#### TC-CONV-003-02 — API request cannot create a conversation with the same user as both participants
 
 - **Test Case Reference:** [TC-CONV-003-02](../test-design/test-cases/conversation.md#tc-conv-003-02--api-request-cannot-create-a-conversation-with-the-same-user-as-both-participants)
 - **Scenario Reference:** SCN-CONV-003 [SCN-CONV-003](../test-design/scenarios/conversation.md#scn-conv-003--self-conversation-prevention)
@@ -380,7 +380,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 **Defect Reference:** None identified.
 
-### TC-CONV-004-01 — Conversation list displays the correct counterpart name
+#### TC-CONV-004-01 — Conversation list displays the correct counterpart name
 
 - **Test Case Reference:** [TC-CONV-004-01](../test-design/test-cases/conversation.md)
 - **Scenario Reference:** SCN-CONV-004
