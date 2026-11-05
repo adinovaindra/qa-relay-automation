@@ -31,9 +31,9 @@ Test Case IDs, titles, Risk Levels, and Source Priorities follow the current Use
 
 | Automation Order | Test Case ID | Test Case Title                                                                | Risk Level | Source Priority | Automation Layer | Automation Decision | Execution Status |
 | ---------------: | ------------ | ------------------------------------------------------------------------------ | ---------- | --------------- | ---------------- | ------------------- | ---------------- |
-|                1 | TC-UX-004-01 | Verify Desktop Layout with Conversations Available and None Selected           | Medium     | Medium          | UI               | Include             | Not Executed Yet |
-|                2 | TC-UX-004-02 | Verify Mobile Layout with Conversations Available and None Selected            | Medium     | Medium          | UI               | Include             | Not Executed Yet |
-|                3 | TC-UX-008-01 | Verify Mobile Empty State Without Conversations and After Starting a New Chat  | Medium     | Medium          | UI               | Include             | Not Executed Yet |
+|                1 | TC-UX-004-01 | Verify Desktop Layout with Conversations Available and None Selected           | Medium     | Medium          | UI               | Include             | Failed           |
+|                2 | TC-UX-004-02 | Verify Mobile Layout with Conversations Available and None Selected            | Medium     | Medium          | UI               | Include             | Passed           |
+|                3 | TC-UX-008-01 | Verify Mobile Empty State Without Conversations and After Starting a New Chat  | Medium     | Medium          | UI               | Include             | Failed           |
 |                4 | TC-UX-001-01 | Verify Light Mode Across Register, Login, and Chat Pages                       | Low        | Low             | UI               | Include             | Not Executed Yet |
 |                5 | TC-UX-002-01 | Verify Dark Mode Across Register, Login, and Chat Pages                        | Low        | Low             | UI               | Include             | Not Executed Yet |
 |                6 | TC-UX-005-01 | Verify Desktop Empty State Without Conversations and After Starting a New Chat | Low        | Low             | UI               | Include             | Not Executed Yet |
@@ -120,12 +120,12 @@ The implementation must select Dark Mode, log out, verify the theme on the unaut
 | ---------------------------------- | ----: |
 | Test Cases in Coverage Matrix      |     8 |
 | Test Cases Selected for Automation |     8 |
-| Test Cases Implemented             |     0 |
-| Test Cases Executed                |     0 |
-| Passed                             |     0 |
-| Failed                             |     0 |
+| Test Cases Implemented             |     3 |
+| Test Cases Executed                |     3 |
+| Passed                             |     1 |
+| Failed                             |     2 |
 | Blocked                            |     0 |
-| Not Executed                       |     8 |
+| Not Executed                       |     5 |
 
 ### 3.2 Summary Notes
 
@@ -173,54 +173,227 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 ## 6. Execution Records
 
-### 6.1 Execution Record Template
+### TC-UX-004-01 — Verify Desktop Layout with Conversations Available and None Selected
 
-Use the following template to record each automated test execution. Replace the example identifiers and fields with verified information for the actual test run.
-
-#### TC-UX-XXX-XX — [Test Case Title]
-
-**Test Case Reference:** [User Experience Test Cases](../test-design/test-cases/user-experience.md)
-
-**Scenario Reference:** [Scenario ID]
-
-**Requirement Reference:** [Requirement ID]
-
-**Risk Reference:** [Risk ID]
-
-**Execution Date:** YYYY-MM-DD
+- **Test Case Reference:** [TC-UX-004-01](../test-design/test-cases/user-experience.md#tc-ux-004-01--verify-desktop-layout-with-conversations-available-and-none-selected)
+- **Scenario Reference:** SCN-UX-004 [SCN-UX-004](../test-design/scenarios/user-experience.md#scn-ux-004--responsive-layout), SCN-UX-006 [SCN-UX-006](../test-design/scenarios/user-experience.md#scn-ux-006--desktop-empty-state-conversations-exist-but-none-is-selected)
+- **Requirement Reference:** REQ-UX-004 [REQ-UX-004](../docs/requirements/user-experience.md#req-ux-004--responsive-layout), REQ-UX-005 [REQ-UX-005](../docs/requirements/user-experience.md#req-ux-005--empty-state-behavior)
+- **Risk Reference:** RSK-010, RSK-015 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-11-05
 
 **Environment**
 
-- Application URL: [URL]
-- Browser / Project: [Browser and Playwright project]
-- Browser Version: [Version]
-- Operating System: [Operating system]
-- Execution Mode: Headed / Headless
-- Test Run / Commit Reference: [Run identifier or commit]
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Workers: 1
+- Test Framework: Playwright 1.64.1
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`
 
 **Preconditions**
 
-- [Record the verified preconditions used for this execution.]
+- Relay is accessible.
+- Alice (`alice@example.com`) has a registered account and valid credentials.
+- Alice has two existing populated conversations: one with Bob (`bob@example.com`) and one with Charlie (`charlie@example.com`).
+- The Alice–Bob conversation contains `Hi Bob. How are you?`.
+- The Alice–Charlie conversation contains `Hi Charlie. How are you?`.
+- No conversation is selected when the Chat page is displayed.
+- The viewport is configured to 1366 × 768 pixels.
+- Test data is prepared and cleaned up by the test's database setup/cleanup flow.
 
 **Expected Result**
 
-- [Copy or summarize the expected result from the source test case without changing its acceptance criteria.]
+- The layout adapts to the representative desktop viewport.
+- The conversation list panel and main chat area are displayed side by side.
+- Available conversations are displayed in the conversation list panel.
+- The main chat area displays the exact heading `Select a conversation.`.
+- The main chat area displays `Choose a conversation from the list or start a new chat to begin messaging.`.
+- Messages from a conversation are not displayed in the main area when no conversation is selected.
+- Primary features and controls remain usable.
+- Important elements are not clipped in a way that prevents their use.
+- Horizontal scrolling is not required to access the primary interface.
 
 **Actual Result**
 
-- [Record only behavior observed during the actual execution.]
+- The QA Safety Guard passed before Playwright execution, confirming the local PostgreSQL QA database `relay_qa_automation` and role `relay_test_user`.
+- Alice successfully signed in and the application navigated to `/chat`.
+- The `Conversations` heading, conversation list panel, and main chat area were visible.
+- The conversation list and main chat area were positioned side by side. The recorded layout geometry and element-bound checks passed.
+- Both populated conversations (Alice–Bob and Alice–Charlie) were visible and enabled in the conversation list.
+- Both conversation previews displayed their respective seeded messages.
+- The main chat area displayed the supporting text `Choose a conversation from the list or start a new chat to begin messaging.`.
+- Messages from both conversations were absent from the unselected main chat area, and the message input was not present.
+- The empty-state heading was rendered as `Select a conversation` without a trailing period.
+- The exact heading assertion failed because the documented expected text is `Select a conversation.`.
+- The text clipping checks, New Chat control checks/interactions, theme toggle checks, logout visibility/enabled checks, important-element viewport bounds, and horizontal-overflow check completed without reported assertion failures in the Playwright trace.
+- The same heading mismatch occurred in both repetitions. No other assertion failure was shown in the supplied execution trace.
 
-**Execution Result:** NOT EXECUTED
+**Execution Result:** FAIL
 
 **Evidence**
 
-- Test report: [Reference]
-- Screenshot / Trace / Video: [Reference, where applicable]
+- Playwright terminal output: `2 failed` across two repetitions; both failures were the same exact-heading assertion.
+- QA Safety Guard passed before test execution.
+- Assertion comparison:
+  - Expected: `Select a conversation.`
+  - Received: `Select a conversation`
+- Playwright screenshot, video, error context, and trace generated locally.
+- QA Safety Guard passed before execution.
 
-**Defect Reference:** None identified / [Defect reference]
+**Defect Reference:** [BUG-003](../defect-reports/user-experience.md#bug-003--desktop-empty-state-heading-is-missing-the-required-trailing-period)
 
-**Execution Notes**
+### TC-UX-004-02 — Verify Mobile Layout with Conversations Available and None Selected
 
-- [Record relevant observations, limitations, or investigation notes.]
+- **Test Case Reference:** [TC-UX-004-02](../test-design/test-cases/user-experience.md#tc-ux-004-02--verify-mobile-layout-with-conversations-available-and-none-selected)
+- **Scenario Reference:** SCN-UX-004 [SCN-UX-004](../test-design/scenarios/user-experience.md#scn-ux-004--responsive-layout), SCN-UX-009 [SCN-UX-009](../test-design/scenarios/user-experience.md#scn-ux-009--mobile-empty-state-conversations-exist-but-none-is-selected)
+- **Requirement Reference:** REQ-UX-004 [REQ-UX-004](../docs/requirements/user-experience.md#req-ux-004--responsive-layout), REQ-UX-005 [REQ-UX-005](../docs/requirements/user-experience.md#req-ux-005--empty-state-behavior)
+- **Risk Reference:** RSK-010, RSK-015 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-11-05
 
----
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Workers: 1
+- Test Framework: Playwright 1.64.1
+- Viewport: 390 × 844 pixels
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`
+
+**Preconditions**
+
+- Relay is accessible.
+- Alice (`alice@example.com`) has a registered account and valid credentials.
+- Alice has two existing populated conversations: one with Bob (`bob@example.com`) and one with Charlie (`charlie@example.com`).
+- The Alice–Bob conversation contains `Hi Bob. How are you?`.
+- The Alice–Charlie conversation contains `Hi Charlie. How are you?`.
+- No conversation is selected when the Chat page is displayed.
+- The viewport is configured to 390 × 844 pixels.
+- Test data is prepared and cleaned up by the test's database setup/cleanup flow.
+
+**Expected Result**
+
+- The layout adapts to the representative mobile viewport.
+- When no conversation is selected, the conversation list panel is displayed and the main chat area remains hidden.
+- When a conversation is selected, the main chat area is displayed and the conversation list panel is hidden.
+- The selected conversation's content and primary controls remain usable.
+- A back button is available when a conversation is selected.
+- Using the back button returns the user to the conversation list.
+- Primary features and controls remain usable.
+- Important elements are not clipped in a way that prevents their use.
+- Horizontal scrolling is not required to access the primary interface.
+- The test does not establish official responsive breakpoints beyond the tested viewport.
+
+**Actual Result**
+
+- The QA Safety Guard passed before Playwright execution, confirming the local PostgreSQL QA database `relay_qa_automation` and role `relay_test_user`.
+- Alice successfully signed in and the application navigated to `/chat` at the configured mobile viewport.
+- With no conversation selected, the conversation list panel was visible and the main chat area was hidden.
+- Both populated conversations (Alice–Bob and Alice–Charlie) were visible and displayed their respective seeded message previews.
+- The Alice–Bob conversation was selected. The application navigated to its conversation URL, displayed the main chat area, and hid the conversation list panel.
+- The selected conversation heading and seeded message were visible.
+- The message input was visible and enabled. The Send button was visible and disabled while the message input was empty.
+- The `Back to conversations` control was visible and enabled.
+- After using the back button, the application returned to `/chat`, displayed the conversation list, and hid the main chat area.
+- Horizontal bounds checks for the tested panels and primary controls completed without reported assertion failures.
+- Horizontal-overflow checks completed without reported assertion failures in the initial list state, selected conversation state, and returned list state.
+- The test completed both repetitions without reported assertion failures.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- Playwright terminal output: `2 passed (20.0s)` across two repetitions.
+- QA Safety Guard passed before test execution.
+- Playwright HTML report contains the successful execution result. No separate screenshot or trace path was supplied for the passing run.
+- The earlier exploratory screenshot showed the initial mobile conversation-list state and a vertical scrollbar. Vertical scrolling was not treated as a failure because the test case does not prohibit vertical scrolling; its responsive acceptance criterion specifically states that horizontal scrolling is not required.
+
+**Defect Reference:** None identified by this execution.
+
+### TC-UX-008-01 — Verify Mobile Empty State Without Conversations and After Starting a New Chat
+
+- **Test Case Reference:** [TC-UX-008-01](../test-design/test-cases/user-experience.md#tc-ux-008-01--verify-mobile-empty-state-without-conversations-and-after-starting-a-new-chat)
+- **Scenario Reference:** SCN-UX-004 [SCN-UX-004](../test-design/scenarios/user-experience.md#scn-ux-004--responsive-layout), SCN-UX-008 [SCN-UX-008](../test-design/scenarios/user-experience.md#scn-ux-008--mobile-empty-state-no-conversations), SCN-UX-010 [SCN-UX-010](../test-design/scenarios/user-experience.md#scn-ux-010--mobile-empty-state-selected-conversation-has-no-messages)
+- **Requirement Reference:** REQ-UX-004 [REQ-UX-004](../docs/requirements/user-experience.md#req-ux-004--responsive-layout), REQ-UX-005 [REQ-UX-005](../docs/requirements/user-experience.md#req-ux-005--empty-state-behavior)
+- **Risk Reference:** RSK-010, RSK-015 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-11-06
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Workers: 1
+- Test Framework: Playwright 1.64.1
+- Viewport: 390 × 844 pixels
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`
+
+**Preconditions**
+
+- Relay is accessible.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) have registered accounts and valid credentials.
+- Alice has no conversations associated with her account before execution.
+- Bob is available as a user with whom Alice can start a new conversation.
+- The initial state is established independently using the existing database setup helpers.
+- Test data is cleaned up using the existing database cleanup helpers.
+
+**Expected Result**
+
+- Before starting a new chat, the conversation list panel is displayed.
+- The conversation list panel displays the exact heading `No conversations yet.`.
+- The conversation list panel displays the supporting text `Start a new chat below.`.
+- The main chat area remains hidden before a conversation is selected.
+- Alice can start a new conversation with Bob through the UI's Start Chat flow.
+- The newly created conversation is displayed as the selected conversation.
+- The main chat area is displayed and the conversation list panel is hidden.
+- The main chat area displays the exact heading `No messages yet.`.
+- The main chat area displays the supporting text `Send a message to start the conversation.`.
+- A back button is available.
+- Using the back button returns Alice to the conversation list, and the main chat area is hidden.
+- Primary controls remain usable and horizontal scrolling is not required to access the primary interface.
+
+**Actual Result**
+
+- The QA Safety Guard passed before Playwright execution, confirming the local PostgreSQL QA database `relay_qa_automation` and role `relay_test_user`.
+- Alice successfully signed in and the application navigated to `/chat`.
+- The conversation list panel was visible and the main chat area was hidden in the initial mobile state.
+- The conversation list empty-state heading was rendered as `No conversations yet` without the required trailing period.
+- The conversation list supporting text `Start a new chat below.` was displayed.
+- The New Chat heading and user selection control were visible and usable.
+- The Start Chat button was initially disabled, became enabled after Bob was selected, and successfully initiated a new conversation through the UI.
+- The application navigated to the selected conversation.
+- The main chat area was visible and the conversation list panel was hidden.
+- The selected conversation heading displayed Bob's name.
+- The empty message-state heading was rendered as `No messages yet` without the required trailing period.
+- The empty message-state supporting text `Send a message to start the conversation.` was displayed.
+- The Back to conversations control was visible and usable.
+- The message input and Send button were visible; the Send button was disabled while the input was empty.
+- The back-button interaction returned the application to `/chat`, displayed the conversation list, and hid the main chat area.
+- Horizontal-overflow assertions completed without reported failures in the initial list state, selected conversation state, and returned list state.
+- The other assertions completed without reported failures in both repetitions.
+- The same two empty-state heading mismatches occurred in both repetitions.
+
+**Execution Result:** FAIL
+
+**Evidence**
+
+- Playwright terminal output: `2 failed` across two consecutive repetitions.
+- QA Safety Guard passed before execution.
+- Each repetition produced two soft assertion failures:
+  - Conversation list empty-state heading:
+    - Expected: `No conversations yet.`
+    - Received: `No conversations yet`
+  - Selected conversation empty-state heading:
+    - Expected: `No messages yet.`
+    - Received: `No messages yet`
+- Both assertions used `toHaveText()` with the exact expected text.
+- Playwright generated screenshots, videos, error contexts, and traces for both failed repetitions.
+- The second repetition successfully executed the same setup and user journey, demonstrating that the test can be repeated sequentially using the existing setup/cleanup pattern.
+
+**Defect Reference:** [BUG-004](../defect-reports/user-experience.md#bug-004--mobile-empty-state-headings-are-missing-the-required-trailing-periods)

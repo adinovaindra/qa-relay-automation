@@ -320,12 +320,13 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- Alice has a registered account and valid credentials.
-- Alice has at least two existing conversations, each containing at least one message.
-- The test data is available independently of other test cases.
+- Alice (`alice@example.com`) has a registered account and valid credentials.
+- Alice has two existing populated conversations: one with Bob (`bob@example.com`) and one with Charlie (`charlie@example.com`).
+- The Alice–Bob conversation contains `Hi Bob. How are you?`.
+- The Alice–Charlie conversation contains `Hi Charlie. How are you?`.
 - No conversation is selected when the Chat page is displayed.
-- A desktop browser viewport can be configured to 1366 × 768 pixels.
+- The viewport is configured to 1366 × 768 pixels.
+- Test data is prepared and cleaned up by the test's database setup/cleanup flow.
 
 #### Test Data
 
@@ -359,13 +360,12 @@ Execution-specific information such as browser environment, browser version, ope
 - The layout adapts to the representative desktop viewport.
 - The conversation list panel and main chat area are displayed side by side.
 - Available conversations are displayed in the conversation list panel.
-- The main chat area displays the heading `Select a conversation.`
-- The main chat area displays the supporting text `Choose a conversation from the list or start a new chat to begin messaging.`
+- The main chat area displays the exact heading `Select a conversation.`.
+- The main chat area displays `Choose a conversation from the list or start a new chat to begin messaging.`.
 - Messages from a conversation are not displayed in the main area when no conversation is selected.
 - Primary features and controls remain usable.
 - Important elements are not clipped in a way that prevents their use.
 - Horizontal scrolling is not required to access the primary interface.
-- The test does not establish official responsive breakpoints beyond the tested viewport.
 
 ---
 
@@ -386,11 +386,13 @@ Execution-specific information such as browser environment, browser version, ope
 #### Preconditions
 
 - Relay is accessible.
-- Alice has a registered account and valid credentials.
-- Alice has at least two existing conversations, each containing at least one message.
-- The test data is available independently of other test cases.
+- Alice (`alice@example.com`) has a registered account and valid credentials.
+- Alice has two existing populated conversations: one with Bob (`bob@example.com`) and one with Charlie (`charlie@example.com`).
+- The Alice–Bob conversation contains `Hi Bob. How are you?`.
+- The Alice–Charlie conversation contains `Hi Charlie. How are you?`.
 - No conversation is selected when the Chat page is displayed.
-- A mobile browser or browser viewport configured to represent a mobile screen is available.
+- The viewport is configured to 390 × 844 pixels.
+- Test data is prepared and cleaned up by the test's database setup/cleanup flow.
 
 #### Test Data
 
@@ -506,26 +508,26 @@ Execution-specific information such as browser environment, browser version, ope
 
 ### TC-UX-008-01 — Verify Mobile Empty State Without Conversations and After Starting a New Chat
 
-| Field               | Value                                                                                                                                                                                                                                   |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Test Case ID        | TC-UX-008-01                                                                                                                                                                                                                            |
-| Title               | Verify mobile empty state without conversations and after starting a new chat                                                                                                                                                           |
-| Related Scenario    | SCN-UX-008 [SCN-UX-008](../scenarios/user-experience.md#scn-ux-008--mobile-empty-state-no-conversations), SCN-UX-010 [SCN-UX-010](../scenarios/user-experience.md#scn-ux-010--mobile-empty-state-selected-conversation-has-no-messages) |
-| Related Requirement | REQ-UX-004 [REQ-UX-004](../../docs/requirements/user-experience.md#req-ux-004--responsive-layout), REQ-UX-005 [REQ-UX-005](../../docs/requirements/user-experience.md#req-ux-005--empty-state-behavior)                                 |
-| Related Risk        | RSK-010, RSK-015 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                                                                                                                    |
-| Risk Level          | Medium                                                                                                                                                                                                                                  |
-| Test Design Method  | Requirement-Based + Risk-Based                                                                                                                                                                                                          |
-| Test Type           | Functional / Responsive / Positive / State Transition                                                                                                                                                                                   |
-| Priority            | Medium                                                                                                                                                                                                                                  |
+| Field               | Value                                                                                                                                                                                                                                                                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test Case ID        | TC-UX-008-01                                                                                                                                                                                                                                                                                                                    |
+| Title               | Verify mobile empty state without conversations and after starting a new chat                                                                                                                                                                                                                                                   |
+| Related Scenario    | SCN-UX-004 [SCN-UX-004](../scenarios/user-experience.md#scn-ux-004--responsive-layout), SCN-UX-008 [SCN-UX-008](../scenarios/user-experience.md#scn-ux-008--mobile-empty-state-no-conversations), SCN-UX-010 [SCN-UX-010](../scenarios/user-experience.md#scn-ux-010--mobile-empty-state-selected-conversation-has-no-messages) |
+| Related Requirement | REQ-UX-004 [REQ-UX-004](../../docs/requirements/user-experience.md#req-ux-004--responsive-layout), REQ-UX-005 [REQ-UX-005](../../docs/requirements/user-experience.md#req-ux-005--empty-state-behavior)                                                                                                                         |
+| Related Risk        | RSK-010, RSK-015 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                                                                                                                                                                                                            |
+| Risk Level          | Medium                                                                                                                                                                                                                                                                                                                          |
+| Test Design Method  | Requirement-Based + Risk-Based                                                                                                                                                                                                                                                                                                  |
+| Test Type           | Functional / Responsive / Positive / State Transition                                                                                                                                                                                                                                                                           |
+| Priority            | Medium                                                                                                                                                                                                                                                                                                                          |
 
 #### Preconditions
 
 - Relay is accessible.
-- Alice and Bob have registered accounts and valid credentials.
-- Alice has no conversations associated with her account, including conversations with users other than Bob.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) have registered accounts and valid credentials.
+- Alice has no conversations associated with her account before execution.
 - Bob is available as a user with whom Alice can start a new conversation.
-- A mobile browser or browser viewport configured to represent a mobile screen is available.
-- The initial state is established independently of other test cases.
+- The initial state is established independently using the existing database setup helpers.
+- Test data is cleaned up using the existing database cleanup helpers.
 
 #### Test Data
 
@@ -558,23 +560,17 @@ Execution-specific information such as browser environment, browser version, ope
 #### Expected Result
 
 - Before starting a new chat, the conversation list panel is displayed.
-- Before starting a new chat, the conversation list panel displays the heading `No conversations yet.`
-- Before starting a new chat, the conversation list panel displays the supporting text `Start a new chat below.`
-- Before starting a new chat, the main chat area remains hidden.
-- The UI Start Chat flow allows Alice to start a new conversation with Bob.
+- The conversation list panel displays the exact heading `No conversations yet.`.
+- The conversation list panel displays the supporting text `Start a new chat below.`.
+- The main chat area remains hidden before a conversation is selected.
+- Alice can start a new conversation with Bob through the UI's Start Chat flow.
 - The newly created conversation is displayed as the selected conversation.
-- When the new conversation is selected, the main chat area is displayed and the conversation list panel is hidden.
-- The main chat area displays the heading `No messages yet.`
-- The main chat area displays the supporting text `Send a message to start the conversation.`
-- A back button is available to allow the user to return to the conversation list.
-- Using the back button returns the user to the conversation list, and the main chat area is hidden.
-
-#### Test Data Setup and Cleanup Considerations
-
-- Setup must ensure that Alice has no conversations with any user before the test begins.
-- The new conversation must be created through the UI because starting a chat is part of the user journey under test.
-- Database helpers may be used for independent setup and cleanup, but must not replace the UI action being verified.
-- Cleanup must remove only test data created for this test and must preserve unrelated data.
+- The main chat area is displayed and the conversation list panel is hidden.
+- The main chat area displays the exact heading `No messages yet.`.
+- The main chat area displays the supporting text `Send a message to start the conversation.`.
+- A back button is available.
+- Using the back button returns Alice to the conversation list, and the main chat area is hidden.
+- Primary controls remain usable and horizontal scrolling is not required to access the primary interface.
 
 ---
 
@@ -607,9 +603,9 @@ Execution and Evidence
 | SCN-UX-005  | REQ-UX-005                | RSK-015            | TC-UX-005-01                                           |
 | SCN-UX-006  | REQ-UX-005                | RSK-015            | TC-UX-004-01                                           |
 | SCN-UX-007  | REQ-UX-005                | RSK-015            | TC-UX-005-01                                           |
-| SCN-UX-008  | REQ-UX-005                | RSK-015            | TC-UX-008-01                                           |
-| SCN-UX-009  | REQ-UX-005                | RSK-015            | TC-UX-004-02                                           |
-| SCN-UX-010  | REQ-UX-005                | RSK-015            | TC-UX-008-01                                           |
+| SCN-UX-008  | REQ-UX-004, REQ-UX-005    | RSK-010, RSK-015   | TC-UX-008-01                                           |
+| SCN-UX-009  | REQ-UX-004, REQ-UX-005    | RSK-010, RSK-015   | TC-UX-004-02                                           |
+| SCN-UX-010  | REQ-UX-004, REQ-UX-005    | RSK-010, RSK-015   | TC-UX-008-01                                           |
 
 ### Requirement-to-Test Case Traceability
 

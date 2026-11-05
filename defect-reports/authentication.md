@@ -26,7 +26,7 @@ This document contains defect reports identified within the Authentication funct
 | Requirement      | [REQ-AUTH-007](../docs/requirements/authentication.md#req-auth-007--invalid-login-credentials)                                                          |
 | Test Scenario    | [SCN-AUTH-007](../test-design/scenarios/authentication.md#scn-auth-007--invalid-user-login)                                                             |
 | Test Case        | [TC-AUTH-007-01](../test-design/test-cases/authentication.md#tc-auth-007-01--login-rejects-an-unregistered-email-with-the-generic-authentication-error) |
-| Related Risks    | RSK-003, RSK-009                                                                                                                                        |
+| Related Risks    | RSK-003, RSK-009 [Risk Register List](../docs/risk-assessment.md#3-risk-register)                                                                       |
 | Execution Record | [Authentication Execution Record](../test-execution/authentication.md#tc-auth-007-01)                                                                   |
 
 ## 3. Environment
@@ -129,13 +129,13 @@ Received: "Invalid email or password"
 
 ## 12. Automation Execution Details
 
-| Field              | Value                                                                                                        |
-| ------------------ | ------------------------------------------------------------------------------------------------------------ |
-| Spec File          | `tests/authentication/login.spec.ts`                                                                         |
-| Test Case ID       | TC-AUTH-007-01                                                                                               |
-| Test Command       | `npm run test:headed -- authentication/login.spec.ts --project=chromium --workers=1 --grep "TC-AUTH-007-01"` |
-| Execution Result   | FAIL                                                                                                         |
-| Test Run Reference | Local execution                                                                                              |
+| Field              | Value                                                                                                                        |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| Spec File          | `tests/authentication/login.spec.ts`                                                                                         |
+| Test Case ID       | TC-AUTH-007-01                                                                                                               |
+| Test Command       | `npm run test:headed -- authentication/login.spec.ts --project=chromium --workers=1 --grep "TC-AUTH-007-01 --repeat-each=2"` |
+| Execution Result   | FAIL — both repetitions failed at the same exact-heading assertion                                                           |
+| Test Run Reference | Local headed Chromium execution, QA Safety Guard passed                                                                      |
 
 **Execution Notes:**
 

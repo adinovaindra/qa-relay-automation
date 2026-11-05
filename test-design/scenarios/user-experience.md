@@ -180,9 +180,9 @@ Verify that the desktop layout displays the documented empty state when the user
 
 Verify that the mobile layout displays the documented conversation-list empty state when the user has no conversations.
 
-**Related Requirements:** REQ-UX-005  
-**Related Risks:** RSK-015  
-**Risk Level:** Low
+**Related Requirements:** REQ-UX-004, REQ-UX-005  
+**Related Risks:** RSK-010, RSK-015  
+**Risk Level:** Medium
 
 **Coverage Considerations:**
 
@@ -190,6 +190,8 @@ Verify that the mobile layout displays the documented conversation-list empty st
 - The list displays `No conversations yet.`
 - The list displays `Start a new chat below.`
 - The main chat area is hidden.
+- The mobile layout displays the conversation list and empty-state content without requiring horizontal scrolling.
+- Primary controls remain usable within the representative mobile viewport.
 
 ---
 
@@ -197,9 +199,9 @@ Verify that the mobile layout displays the documented conversation-list empty st
 
 Verify that the mobile layout displays available conversations without displaying the main chat area when no conversation is selected.
 
-**Related Requirements:** REQ-UX-005  
-**Related Risks:** RSK-015  
-**Risk Level:** Low
+**Related Requirements:** REQ-UX-004, REQ-UX-005  
+**Related Risks:** RSK-010, RSK-015  
+**Risk Level:** Medium
 
 **Coverage Considerations:**
 
@@ -207,6 +209,8 @@ Verify that the mobile layout displays available conversations without displayin
 - An empty conversation preview displays `No messages yet.` when applicable.
 - The conversation list remains visible.
 - The main chat area remains hidden until a conversation is selected.
+- The mobile layout displays the conversation list without requiring horizontal scrolling.
+- Conversation entries and primary controls remain accessible within the representative mobile viewport.
 
 ---
 
@@ -214,9 +218,9 @@ Verify that the mobile layout displays available conversations without displayin
 
 Verify that the mobile layout displays the documented empty state when the user selects a conversation that contains no messages.
 
-**Related Requirements:** REQ-UX-005  
-**Related Risks:** RSK-015  
-**Risk Level:** Low
+**Related Requirements:** REQ-UX-004, REQ-UX-005  
+**Related Risks:** RSK-010, RSK-015  
+**Risk Level:** Medium
 
 **Coverage Considerations:**
 
@@ -225,6 +229,8 @@ Verify that the mobile layout displays the documented empty state when the user 
 - The main area displays `No messages yet.`
 - The main area displays `Send a message to start the conversation.`
 - The back button is available to return to the conversation list.
+- The selected conversation's content and primary controls remain usable within the representative mobile viewport.
+- The mobile layout does not require horizontal scrolling to access the primary interface.
 
 ---
 
@@ -253,14 +259,14 @@ Execution and Evidence
 | REQ-UX-001     | RSK-019            | SCN-UX-001                                                             |
 | REQ-UX-002     | RSK-019            | SCN-UX-002                                                             |
 | REQ-UX-003     | RSK-016            | SCN-UX-001, SCN-UX-002, SCN-UX-003                                     |
-| REQ-UX-004     | RSK-010            | SCN-UX-004                                                             |
+| REQ-UX-004     | RSK-010            | SCN-UX-004, SCN-UX-008, SCN-UX-009, SCN-UX-010                         |
 | REQ-UX-005     | RSK-015            | SCN-UX-005, SCN-UX-006, SCN-UX-007, SCN-UX-008, SCN-UX-009, SCN-UX-010 |
 
 ### Risk-to-Scenario Traceability
 
 | Risk ID | Risk Area                               | Risk Level | Scenario ID(s)                                                         |
 | ------- | --------------------------------------- | ---------- | ---------------------------------------------------------------------- |
-| RSK-010 | Responsive Behavior                     | Medium     | SCN-UX-004                                                             |
+| RSK-010 | Responsive Behavior                     | Medium     | SCN-UX-004, SCN-UX-008, SCN-UX-009, SCN-UX-010                         |
 | RSK-015 | Empty States                            | Low        | SCN-UX-005, SCN-UX-006, SCN-UX-007, SCN-UX-008, SCN-UX-009, SCN-UX-010 |
 | RSK-016 | Theme Persistence                       | Low        | SCN-UX-001, SCN-UX-002, SCN-UX-003                                     |
 | RSK-019 | Theme Rendering and Application Failure | Low        | SCN-UX-001, SCN-UX-002                                                 |
