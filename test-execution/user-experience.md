@@ -34,11 +34,11 @@ Test Case IDs, titles, Risk Levels, and Source Priorities follow the current Use
 |                1 | TC-UX-004-01 | Verify Desktop Layout with Conversations Available and None Selected           | Medium     | Medium          | UI               | Include             | Failed           |
 |                2 | TC-UX-004-02 | Verify Mobile Layout with Conversations Available and None Selected            | Medium     | Medium          | UI               | Include             | Passed           |
 |                3 | TC-UX-008-01 | Verify Mobile Empty State Without Conversations and After Starting a New Chat  | Medium     | Medium          | UI               | Include             | Failed           |
-|                4 | TC-UX-001-01 | Verify Light Mode Across Register, Login, and Chat Pages                       | Low        | Low             | UI               | Include             | Not Executed Yet |
-|                5 | TC-UX-002-01 | Verify Dark Mode Across Register, Login, and Chat Pages                        | Low        | Low             | UI               | Include             | Not Executed Yet |
-|                6 | TC-UX-005-01 | Verify Desktop Empty State Without Conversations and After Starting a New Chat | Low        | Low             | UI               | Include             | Not Executed Yet |
-|                7 | TC-UX-003-01 | Verify Theme Persistence After Browser Restart                                 | Low        | Low             | UI               | Include             | Not Executed Yet |
-|                8 | TC-UX-003-02 | Verify Theme Persistence After Logout and Re-Login                             | Low        | Low             | UI               | Include             | Not Executed Yet |
+|                4 | TC-UX-001-01 | Verify Light Mode Across Register, Login, and Chat Pages                       | Low        | Low             | UI               | Include             | Passed           |
+|                5 | TC-UX-002-01 | Verify Dark Mode Across Register, Login, and Chat Pages                        | Low        | Low             | UI               | Include             | Passed           |
+|                6 | TC-UX-005-01 | Verify Desktop Empty State Without Conversations and After Starting a New Chat | Low        | Low             | UI               | Include             | Failed           |
+|                7 | TC-UX-003-01 | Verify Theme Persistence After Browser Restart                                 | Low        | Low             | UI               | Include             | Passed           |
+|                8 | TC-UX-003-02 | Verify Theme Persistence After Logout and Re-Login                             | Low        | Low             | UI               | Include             | Passed           |
 
 ### 2.3 Matrix Notes
 
@@ -120,12 +120,12 @@ The implementation must select Dark Mode, log out, verify the theme on the unaut
 | ---------------------------------- | ----: |
 | Test Cases in Coverage Matrix      |     8 |
 | Test Cases Selected for Automation |     8 |
-| Test Cases Implemented             |     3 |
-| Test Cases Executed                |     3 |
-| Passed                             |     1 |
-| Failed                             |     2 |
+| Test Cases Implemented             |     8 |
+| Test Cases Executed                |     8 |
+| Passed                             |     5 |
+| Failed                             |     3 |
 | Blocked                            |     0 |
-| Not Executed                       |     5 |
+| Not Executed                       |     0 |
 
 ### 3.2 Summary Notes
 
@@ -397,3 +397,358 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - The second repetition successfully executed the same setup and user journey, demonstrating that the test can be repeated sequentially using the existing setup/cleanup pattern.
 
 **Defect Reference:** [BUG-004](../defect-reports/user-experience.md#bug-004--mobile-empty-state-headings-are-missing-the-required-trailing-periods)
+
+### TC-UX-001-01 — Verify Light Mode Across Register, Login, and Chat Pages
+
+- **Test Case Reference:** [TC-UX-001-01](../test-design/test-cases/user-experience.md#tc-ux-001-01--verify-light-mode-across-register-login-and-chat-pages)
+- **Scenario Reference:** SCN-UX-001 [SCN-UX-001](../test-design/scenarios/user-experience.md#scn-ux-001--light-mode-rendering), SCN-UX-003 [SCN-UX-003](../test-design/scenarios/user-experience.md#scn-ux-003--theme-persistence)
+- **Requirement Reference:** REQ-UX-001 [REQ-UX-001](../docs/requirements/user-experience.md#req-ux-001--light-mode-availability), REQ-UX-003 [REQ-UX-003](../docs/requirements/user-experience.md#req-ux-003--theme-preference-persistence)
+- **Risk Reference:** RSK-019, RSK-016 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-11-06
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Workers: 1
+- Test Framework: Playwright 1.64.1
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`
+
+**Preconditions**
+
+- Relay is accessible.
+- The Register, Login, and Chat pages are available.
+- Alice (`alice@example.com`) has a registered account and valid credentials.
+- The user is unauthenticated when accessing the Register and Login pages.
+- The browser's stored theme preference is retained during page navigation and refresh.
+- The QA test environment is configured to use the designated local QA database.
+
+**Expected Result**
+
+- Light Mode is available and can be selected while the user is unauthenticated.
+- Selecting Light Mode while unauthenticated does not require the user to log in.
+- Light Mode is applied on the Register page.
+- Light Mode remains applied after navigation to the Login page.
+- Light Mode remains applied after the Login page is refreshed.
+- Light Mode remains applied after the user signs in and accesses the Chat page.
+- Light Mode remains applied after the Chat page is refreshed.
+- Page content and primary controls remain visible and usable in Light Mode.
+- The selected theme and displayed theme remain consistent across the tested pages and state transitions.
+
+**Actual Result**
+
+- The QA Safety Guard passed before Playwright execution, confirming that the test environment targeted the local PostgreSQL QA database `relay_qa_automation` using the role `relay_test_user`.
+- The test started with the user unauthenticated on the Register page.
+- The Light Mode theme toggle was available on the Register page and could be used without signing in.
+- Light Mode was explicitly selected through the UI. The test verified that the document theme attribute was set to `light` and the browser's `localStorage` theme preference was set to `light`.
+- The Register page remained in Light Mode after the selection. The Register heading, theme toggle, form fields, and Register submit button were visible.
+- The user navigated to the Login page without signing in. The Login page remained in Light Mode, and the Login heading, theme toggle, form fields, and Login submit button were visible.
+- The Login page was refreshed. After the reload, the page remained in Light Mode and the Login heading and theme toggle remained visible.
+- Alice successfully signed in using the valid test credentials.
+- The application navigated to the Chat page. Light Mode remained applied, and the Conversations heading, theme toggle, and Logout control were visible.
+- The Chat page was refreshed. After the reload, the application remained on the Chat page and Light Mode remained applied. The Conversations heading, theme toggle, and Logout control remained visible.
+- At each verified page state, the test explicitly checked that the document theme attribute was `light` and that the stored browser theme preference was `light`.
+- No assertion failures were reported in either execution.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- Playwright terminal output: `2 passed (20.6s)` across two consecutive executions.
+- QA Safety Guard output: `Passed: local PostgreSQL, database relay_qa_automation, role relay_test_user.`
+- Execution command:
+  ```bash
+  npm run test:headed -- user-experience/user-experience --grep="TC-UX-001-01" --workers=1 --project=chromium --repeat-each=2
+  ```
+- The supplied terminal output confirms that both repetitions passed. No separate screenshot, video, or trace path was supplied for this passing run.
+
+**Defect Reference:** None identified by this execution.
+
+### TC-UX-002-01 — Verify Dark Mode Across Register, Login, and Chat Pages
+
+- **Test Case Reference:** TC-UX-002-01
+- **Scenario Reference:** SCN-UX-002, SCN-UX-003
+- **Requirement Reference:** REQ-UX-002, REQ-UX-003
+- **Risk Reference:** RSK-019, RSK-016
+- **Execution Date:** 2026-11-06
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Workers: 1
+- Test Framework: Playwright 1.64.1
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`
+
+**Preconditions**
+
+- Relay application is accessible.
+- Register, Login, and Chat pages are available.
+- Alice (`alice@example.com`) has a registered account with valid credentials.
+- The user is unauthenticated when accessing the Register and Login pages.
+- The browser can retain its theme preference across page navigation and refresh.
+- The QA test environment is configured to use the designated local QA database.
+
+**Expected Result**
+
+- Dark Mode is available and can be selected while the user is unauthenticated.
+- Selecting Dark Mode does not require the user to log in.
+- Dark Mode is applied on the Register page.
+- Dark Mode remains applied after navigation to the Login page.
+- Dark Mode remains applied after the Login page is refreshed.
+- Dark Mode remains applied after the user signs in and accesses the Chat page.
+- Dark Mode remains applied after the Chat page is refreshed.
+- Page content and primary controls remain visible and usable in Dark Mode.
+- The selected theme and displayed theme remain consistent across the tested pages and state transitions.
+
+**Actual Result**
+
+- The QA Safety Guard passed before Playwright execution, confirming that the test environment targeted the local PostgreSQL QA database `relay_qa_automation` using the role `relay_test_user`.
+- The test started with the user unauthenticated on the Register page.
+- The Dark Mode theme toggle was available and enabled on the Register page.
+- Dark Mode was explicitly selected through the UI without requiring authentication.
+- After selection, the document theme attribute was verified as `dark`, and the browser's `localStorage` theme preference was verified as `dark`.
+- The Register page remained in Dark Mode. The account creation heading, theme toggle, Name, Email, Password, Confirm Password fields, and Create Account button were visible. The theme toggle and submit button were enabled.
+- The user navigated to the Login page without signing in. The Login page remained in Dark Mode. The Login heading, theme toggle, Email and Password fields, and Sign In button were visible. The theme toggle and Sign In button were enabled.
+- The Login page was refreshed. After the reload, the application remained on the Login page, and both the document theme attribute and stored theme preference remained `dark`.
+- Alice successfully signed in using the valid test credentials.
+- The application navigated to the Chat page. Dark Mode remained applied. The Conversations heading, theme toggle, and Logout control were visible. The theme toggle and Logout control were enabled.
+- The Chat page was refreshed. After the reload, the application remained on the Chat page, and Dark Mode remained applied.
+- At the verified page states, the test explicitly checked that the document theme attribute was `dark` and that the stored browser theme preference was `dark`.
+- No assertion failures were reported in either execution.
+- Test cleanup completed without reported errors.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- Playwright terminal output: `2 passed (19.5s)` across two consecutive executions.
+- QA Safety Guard output: `Passed: local PostgreSQL, database relay_qa_automation, role relay_test_user.`
+- Execution command:
+  ```bash
+  npm run test:headed -- user-experience/user-experience --grep="TC-UX-002-01" --workers=1 --project=chromium --repeat-each=2
+  ```
+- The supplied terminal output confirms that both repetitions passed. No separate screenshot, video, or trace path was supplied for this passing run.
+
+**Defect Reference:** None identified by this execution.
+
+### TC-UX-005-01 — Verify Desktop Empty State Without Conversations and After Starting a New Chat
+
+- **Test Case Reference:** [TC-UX-005-01](../test-design/test-cases/user-experience.md)
+- **Scenario Reference:** SCN-UX-005, SCN-UX-007
+- **Requirement Reference:** REQ-UX-005
+- **Risk Reference:** RSK-015 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-11-06
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Workers: 1
+- Test Framework: Playwright 1.64.1
+- Viewport: 1366 × 768 pixels
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`
+
+**Preconditions**
+
+- Relay is accessible.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) have registered accounts and valid credentials.
+- Alice has no conversations displayed in the initial Chat page state.
+- Bob is available as a user with whom Alice can start a new conversation.
+- The desktop viewport is configured to 1366 × 768 pixels.
+- Initial test data is established using the test's database setup helpers.
+
+**Expected Result**
+
+- Before starting a new chat, the conversation list panel displays the exact heading `No conversations yet.`.
+- The conversation list panel displays `Start a new chat below.`.
+- The main chat area displays the exact heading `Select a conversation.`.
+- The main chat area displays `Choose a conversation from the list or start a new chat to begin messaging.`.
+- Alice can start a new conversation with Bob through the UI's Start Chat flow.
+- The newly created conversation is displayed as the selected conversation.
+- The main chat area displays the exact heading `No messages yet.`.
+- The main chat area displays `Send a message to start the conversation.`.
+
+**Actual Result**
+
+- The QA Safety Guard passed before Playwright execution, confirming the local PostgreSQL QA database `relay_qa_automation` and role `relay_test_user`.
+- Alice successfully signed in and the application navigated to `/chat`.
+- The conversation list panel and main chat area were visible in the initial desktop state.
+- The conversation list empty-state heading was rendered as `No conversations yet` without the required trailing period.
+- The conversation list supporting text `Start a new chat below.` was displayed.
+- The main chat area displayed the supporting text `Choose a conversation from the list or start a new chat to begin messaging.`.
+- The main chat area's unselected-state heading was rendered as `Select a conversation` without the required trailing period.
+- Alice successfully selected Bob through the New Chat control and started a conversation using the UI.
+- The newly created conversation was displayed as the selected conversation.
+- The main chat area displayed the empty message-state heading `No messages yet` without the required trailing period.
+- The main chat area displayed the supporting text `Send a message to start the conversation.`.
+- The same three heading-text mismatches occurred in both repetitions.
+- No other assertion failures were reported in the supplied Playwright output.
+
+**Execution Result:** FAIL
+
+**Evidence**
+
+- Playwright terminal output: `2 failed` across two consecutive repetitions.
+- QA Safety Guard passed before execution.
+- Three soft assertion failures occurred in each repetition:
+  1. Conversation list empty-state heading:
+     - Expected: `No conversations yet.`
+     - Received: `No conversations yet`
+
+  2. Unselected main chat area heading:
+     - Expected: `Select a conversation.`
+     - Received: `Select a conversation`
+
+  3. Selected conversation empty message-state heading:
+     - Expected: `No messages yet.`
+     - Received: `No messages yet`
+
+**Defect References:**
+
+- [BUG-003](../defect-reports/user-experience.md#bug-003--desktop-empty-state-heading-is-missing-the-required-trailing-period)
+- [BUG-004](../defect-reports/user-experience.md#bug-004--empty-state-headings-are-missing-the-required-trailing-periods)
+
+### TC-UX-003-01 — Verify Theme Persistence After Browser Restart
+
+- **Test Case Reference:** [TC-UX-003-01](../test-design/test-cases/user-experience.md)
+- **Scenario Reference:** SCN-UX-003
+- **Requirement Reference:** REQ-UX-003
+- **Risk Reference:** RSK-016 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-11-07
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Workers: 1
+- Test Framework: Playwright 1.64.1
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`
+
+**Preconditions**
+
+- Relay application is accessible.
+- Alice (`alice@example.com`) has a registered account with valid credentials.
+- The browser can be fully closed and reopened.
+- The test can reopen the same persistent browser profile.
+- The browser's stored theme preference remains available and is not cleared when the browser closes.
+- The QA test environment is configured to use the designated local QA database.
+
+**Expected Result**
+
+- Dark Mode is applied before the browser is closed.
+- The browser is reopened using the same profile without clearing the stored theme preference.
+- Dark Mode remains applied after Relay is reopened on an unauthenticated page.
+- Dark Mode remains applied after Alice signs in and accesses the Chat page.
+- The selected theme and displayed theme remain consistent while the stored browser preference remains available.
+
+**Actual Result**
+
+- The QA Safety Guard passed before Playwright execution, confirming that the test environment targeted the local PostgreSQL QA database `relay_qa_automation` using the role `relay_test_user`.
+- Alice's test account was prepared before the browser session.
+- The browser was launched using a persistent browser profile.
+- The test accessed the Register page while the user was unauthenticated.
+- Dark Mode was selected through the UI.
+- The document theme attribute was verified as `dark`, and the browser's `localStorage` theme preference was verified as `dark`.
+- The browser was completely closed.
+- Chromium was launched again using the same persistent browser profile.
+- After reopening Relay, the application remained in Dark Mode on the unauthenticated Register page.
+- The document theme attribute and stored browser theme preference were verified as `dark` after the restart.
+- Alice successfully signed in using the valid test credentials.
+- The application navigated to the Chat page.
+- Dark Mode remained applied after authentication. The document theme attribute and stored browser theme preference were verified as `dark`.
+- Both consecutive executions completed without reported assertion failures.
+- Test cleanup was performed after execution.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- Playwright terminal output: `2 passed (23.2s)` across two consecutive executions.
+- QA Safety Guard output: `Passed: local PostgreSQL, database relay_qa_automation, role relay_test_user.`
+- Execution command:
+  ```bash
+  npm run test:headed -- user-experience/user-experience --grep="TC-UX-003-01" --workers=1 --project=chromium --repeat-each=2
+  ```
+- The supplied terminal output confirms that both repetitions passed. No separate screenshot, video, or trace path was supplied for this passing run.
+
+**Defect Reference:** None identified by this execution.
+
+### TC-UX-003-02 — Verify Theme Persistence After Logout and Re-Login
+
+- **Test Case Reference:** [TC-UX-003-02](../test-design/test-cases/user-experience.md)
+- **Scenario Reference:** SCN-UX-003
+- **Requirement Reference:** REQ-UX-003
+- **Risk Reference:** RSK-016 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
+- **Execution Date:** 2026-11-07
+
+**Environment**
+
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Workers: 1
+- Test Framework: Playwright 1.64.1
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`
+
+**Preconditions**
+
+- Relay application is accessible.
+- Alice (`alice@example.com`) has a registered account with valid credentials.
+- The browser session is available.
+- The browser's stored theme preference remains available throughout login, logout, and re-login.
+- The QA test environment is configured to use the designated local QA database.
+
+**Expected Result**
+
+- Alice can successfully sign in to Relay.
+- Dark Mode can be selected through the application UI.
+- The selected theme preference is stored as `dark`.
+- Dark Mode remains applied after Alice logs out.
+- Dark Mode remains applied after Alice signs in again using the same account.
+- The displayed theme and stored browser preference remain consistent throughout the authentication state transitions.
+
+**Actual Result**
+
+- The QA Safety Guard passed before Playwright execution, confirming that the test environment targeted the local PostgreSQL QA database `relay_qa_automation` using the role `relay_test_user`.
+- Alice's test account was prepared before execution.
+- Alice successfully signed in and accessed the Chat page.
+- Dark Mode was selected through the UI.
+- The document theme attribute was verified as `dark`, and the browser's `localStorage` theme preference was verified as `dark`.
+- Alice successfully logged out and was redirected to the Login page.
+- Dark Mode remained applied after logout.
+- The document theme attribute and stored browser theme preference remained `dark`.
+- Alice successfully signed in again using the same account.
+- The application navigated back to the Chat page.
+- Dark Mode remained applied after re-login.
+- The document theme attribute and stored browser theme preference were verified as `dark`.
+- Both consecutive executions completed without reported assertion failures.
+- Test cleanup was performed after execution.
+
+**Execution Result:** PASS
+
+**Evidence**
+
+- Playwright terminal output: `2 passed (18.7s)` across two consecutive executions.
+- QA Safety Guard output: `Passed: local PostgreSQL, database relay_qa_automation, role relay_test_user.`
+- Execution command:
+  ```bash
+  npm run test:headed -- user-experience/user-experience --grep="TC-UX-003-02" --workers=1 --project=chromium --repeat-each=2
+  ```
+- The supplied terminal output confirms that both repetitions passed. No separate screenshot, video, or trace path was supplied for this passing run.
+
+**Defect Reference:** None identified by this execution.

@@ -21,13 +21,13 @@ This document contains defect reports identified within the User Experience func
 
 ## 2. Traceability
 
-| Reference        | ID / Link                                                                                                                                                   |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Requirement      | [REQ-UX-005](../docs/requirements/user-experience.md#req-ux-005--empty-state-behavior)                                                                      |
-| Test Scenario    | [SCN-UX-006](../test-design/scenarios/user-experience.md#scn-ux-006--desktop-empty-state-conversations-exist-but-none-is-selected)                          |
-| Test Case        | [TC-UX-004-01](../test-design/test-cases/user-experience.md#tc-ux-004-01--verify-desktop-layout-with-conversations-available-and-none-selected)             |
-| Related Risks    | RSK-015 [Risk Register List](../docs/risk-assessment.md#3-risk-register)                                                                                    |
-| Execution Record | [User Experience Execution Record](../test-execution/user-experience.md#tc-ux-004-01--verify-desktop-layout-with-conversations-available-and-none-selected) |
+| Reference        | ID / Link                                                                                                                                                                                                                                                                                                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Requirement      | [REQ-UX-005](../docs/requirements/user-experience.md#req-ux-005--empty-state-behavior)                                                                                                                                                                                                                                                                                          |
+| Test Scenario    | [SCN-UX-005](../test-design/scenarios/user-experience.md#scn-ux-005--desktop-empty-state-no-conversations), [SCN-UX-006](../test-design/scenarios/user-experience.md#scn-ux-006--desktop-empty-state-conversations-exist-but-none-is-selected), [SCN-UX-007](../test-design/scenarios/user-experience.md#scn-ux-007--desktop-empty-state-selected-conversation-has-no-messages) |
+| Test Case        | [TC-UX-004-01](../test-design/test-cases/user-experience.md#tc-ux-004-01--verify-desktop-layout-with-conversations-available-and-none-selected), [TC-UX-005-01](../test-design/test-cases/user-experience.md#tc-ux-005-01--verify-desktop-empty-state-without-conversations-and-after-starting-a-new-chat)                                                                      |
+| Related Risks    | RSK-015 [Risk Register List](../docs/risk-assessment.md#3-risk-register)                                                                                                                                                                                                                                                                                                        |
+| Execution Record | [TC-UX-004-01](../test-execution/user-experience.md#tc-ux-004-01--verify-desktop-layout-with-conversations-available-and-none-selected), [TC-UX-005-01](../test-execution/user-experience.md#tc-ux-005-01--verify-desktop-empty-state-without-conversations-and-after-starting-a-new-chat)                                                                                      |
 
 ## 3. Environment
 
@@ -53,7 +53,7 @@ However, REQ-UX-005 explicitly requires the exact heading:
 
 `Select a conversation.`
 
-The missing trailing period causes the rendered heading to differ from the documented requirement and causes the exact-text Playwright assertion in TC-UX-004-01 to fail.
+The missing trailing period causes the exact-text Playwright assertions in TC-UX-004-01 and TC-UX-005-01 to fail.
 
 ## 5. Preconditions
 
@@ -115,7 +115,7 @@ The same discrepancy was observed in both repetitions of the automated test. The
 **Confirmed Impact:**
 
 - The displayed empty-state heading does not conform to the exact text specified in REQ-UX-005.
-- The exact-text assertion in TC-UX-004-01 fails consistently under the documented test conditions.
+- The exact-text assertions in TC-UX-004-01 and TC-UX-005-01 fail consistently under the documented test conditions.
 
 **Potential Impact:**
 
@@ -129,10 +129,10 @@ No loss of conversation data, inability to access conversations, layout failure,
 
 ## 11. Evidence
 
-- Screenshot: [BUG-003](../evidence/BUG-003/screenshot.png)
-- Trace: [BUG-003](../evidence/BUG-003/trace.zip)
-- Video: [BUG-003](../evidence/BUG-003/video.webm)
-- Error Context: [BUG-003](../evidence/BUG-003/error-context.md)
+- Screenshot: [TC-UX-004-01](../evidence/BUG-003/TC-UX-004-01/screenshot.png), [TC-UX-005-01](../evidence/BUG-003/TC-UX-005-01/screenshot.png)
+- Trace: [TC-UX-004-01](../evidence/BUG-003/TC-UX-004-01/trace.zip), [TC-UX-005-01](../evidence/BUG-003/TC-UX-005-01/trace.zip)
+- Video: [TC-UX-004-01](../evidence/BUG-003/TC-UX-004-01/video.webm), [TC-UX-005-01](../evidence/BUG-003/TC-UX-005-01/video.webm)
+- Error Context: [TC-UX-004-01](../evidence/BUG-003/TC-UX-004-01/error-context.md), [TC-UX-005-01](../evidence/BUG-003/TC-UX-005-01/error-context.md)
 
 **Observed Assertion Output:**
 
@@ -159,42 +159,57 @@ Received: "Select a conversation"
 - The exact expected heading is retained from REQ-UX-005 and the source test case. It was not relaxed to match the current application output.
 - The test case is recorded as one executed test case with two reproduction attempts, not as two distinct test cases.
 
+### Additional Reproduction — TC-UX-005-01 (2026-11-06)
+
+- Test Case: TC-UX-005-01 — Verify Desktop Empty State Without Conversations and After Starting a New Chat.
+- Viewport: 1366 × 768 pixels.
+- Execution: Headed Chromium, Playwright 1.64.1, one worker.
+- Test Command:
+
+  `npm run test:headed -- user-experience/user-experience --grep="TC-UX-005-01" --workers=1 --project=chromium --repeat-each=2`
+
+- Result: FAIL — both repetitions reproduced the same missing trailing period.
+- Expected: `Select a conversation.`
+- Actual: `Select a conversation`
+
+The same desktop empty-selection heading discrepancy was reproduced in TC-UX-005-01, in addition to its earlier reproduction in TC-UX-004-01.
+
 ## 13. Reproducibility
 
-| Field                           | Value                                                                                                                  |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Reproducibility Status          | Reproducible                                                                                                           |
-| Number of Reproduction Attempts | 2                                                                                                                      |
-| Successful Reproductions        | 2                                                                                                                      |
-| Failed Reproductions            | 0                                                                                                                      |
-| Notes                           | Both repetitions produced the same actual heading without a trailing period, causing the exact-text assertion to fail. |
+| Field                           | Value                                                                                                                     |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Reproducibility Status          | Reproducible                                                                                                              |
+| Number of Reproduction Attempts | 4                                                                                                                         |
+| Successful Reproductions        | 4                                                                                                                         |
+| Failed Reproductions            | 0                                                                                                                         |
+| Notes                           | The same missing trailing period was reproduced in both repetitions of TC-UX-004-01 and both repetitions of TC-UX-005-01. |
 
 ---
 
-# BUG-004 — Mobile Empty-State Headings Are Missing the Required Trailing Periods
+# BUG-004 — Empty-State Headings Are Missing the Required Trailing Periods
 
 ## 1. Defect Identification
 
-| Field           | Value                                                                 |
-| --------------- | --------------------------------------------------------------------- |
-| Defect ID       | BUG-004                                                               |
-| Jira Issue      | [QRA-4](https://adinovapramono69.atlassian.net/browse/QRA-4)          |
-| Title           | Mobile Empty-State Headings Are Missing the Required Trailing Periods |
-| Functional Area | User Experience / Mobile Empty States                                 |
-| Severity        | Low                                                                   |
-| Priority        | Low                                                                   |
-| Status          | Open                                                                  |
-| Date Identified | 2026-11-06                                                            |
+| Field           | Value                                                          |
+| --------------- | -------------------------------------------------------------- |
+| Defect ID       | BUG-004                                                        |
+| Jira Issue      | [QRA-4](https://adinovapramono69.atlassian.net/browse/QRA-4)   |
+| Title           | Empty-State Headings Are Missing the Required Trailing Periods |
+| Functional Area | User Experience / Empty States                                 |
+| Severity        | Low                                                            |
+| Priority        | Low                                                            |
+| Status          | Open                                                           |
+| Date Identified | 2026-11-06                                                     |
 
 ## 2. Traceability
 
-| Reference        | ID / Link                                                                                                                                                                                                                                 |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Requirement      | [REQ-UX-005](../docs/requirements/user-experience.md#req-ux-005--empty-state-behavior)                                                                                                                                                    |
-| Test Scenario    | [SCN-UX-008](../test-design/scenarios/user-experience.md#scn-ux-008--mobile-empty-state-no-conversations), [SCN-UX-010](../test-design/scenarios/user-experience.md#scn-ux-010--mobile-empty-state-selected-conversation-has-no-messages) |
-| Test Case        | [TC-UX-008-01](../test-design/test-cases/user-experience.md#tc-ux-008-01--verify-mobile-empty-state-without-conversations-and-after-starting-a-new-chat)                                                                                  |
-| Related Risks    | RSK-010, RSK-015 [Risk Register List](../docs/risk-assessment.md#3-risk-register)                                                                                                                                                         |
-| Execution Record | [User Experience Execution Record](../test-execution/user-experience.md#tc-ux-008-01--verify-mobile-empty-state-without-conversations-and-after-starting-a-new-chat)                                                                      |
+| Reference        | ID / Link                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Requirement      | [REQ-UX-005](../docs/requirements/user-experience.md#req-ux-005--empty-state-behavior)                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Test Scenario    | [SCN-UX-005](../test-design/scenarios/user-experience.md#scn-ux-005--desktop-empty-state-no-conversations), [SCN-UX-007](../test-design/scenarios/user-experience.md#scn-ux-007--desktop-empty-state-selected-conversation-has-no-messages), [SCN-UX-008](../test-design/scenarios/user-experience.md#scn-ux-008--mobile-empty-state-no-conversations), [SCN-UX-010](../test-design/scenarios/user-experience.md#scn-ux-010--mobile-empty-state-selected-conversation-has-no-messages) |
+| Test Case        | [TC-UX-005-01](../test-design/test-cases/user-experience.md#tc-ux-005-01--verify-desktop-empty-state-without-conversations-and-after-starting-a-new-chat), [TC-UX-008-01](../test-design/test-cases/user-experience.md#tc-ux-008-01--verify-mobile-empty-state-without-conversations-and-after-starting-a-new-chat)                                                                                                                                                                    |
+| Related Risks    | RSK-010, RSK-015 [Risk Register List](../docs/risk-assessment.md#3-risk-register)                                                                                                                                                                                                                                                                                                                                                                                                      |
+| Execution Record | [TC-UX-005-01](../test-execution/user-experience.md#tc-ux-005-01--verify-desktop-empty-state-without-conversations-and-after-starting-a-new-chat), [TC-UX-008-01](../test-execution/user-experience.md#tc-ux-008-01--verify-mobile-empty-state-without-conversations-and-after-starting-a-new-chat)                                                                                                                                                                                    |
 
 ## 3. Environment
 
@@ -207,11 +222,13 @@ Received: "Select a conversation"
 - Framework Version: 1.64.1
 - Execution Mode: Headed
 - Execution Environment: Local QA automation environment using the `relay_qa_automation` database. QA Safety Guard passed before execution.
-- Viewport: 390 × 844 pixels
+- Initial Detection Viewport: 390 × 844 pixels
 
 ## 4. Description
 
-During the mobile empty-state journey, two headings displayed by the Relay application do not match the exact text required by REQ-UX-005.
+During the desktop and mobile empty-state journeys, two headings displayed by the Relay application do not match the exact text required by REQ-UX-005.
+
+The same two discrepancies were also reproduced during the desktop empty-state journey in TC-UX-005-01, in addition to their earlier reproduction in TC-UX-008-01 on mobile.
 
 The first discrepancy occurs when Alice opens the Chat page without any existing conversations.
 
@@ -233,7 +250,7 @@ However, REQ-UX-005 requires:
 
 `No messages yet.`
 
-Both headings are missing their required trailing periods. These discrepancies cause the corresponding exact-text Playwright assertions in TC-UX-008-01 to fail.
+Both headings are missing their required trailing periods. These discrepancies cause the corresponding exact-text Playwright assertions in TC-UX-008-01 and TC-UX-005-01 to fail.
 
 ## 5. Preconditions
 
@@ -298,17 +315,19 @@ Expected: "No messages yet."
 Received: "No messages yet"
 ```
 
+The same two discrepancies were reproduced in both repetitions of TC-UX-008-01 on mobile and both repetitions of TC-UX-005-01 on desktop.
+
 ## 10. Impact Assessment
 
 **Confirmed Impact:**
 
-- Both mobile empty-state headings do not conform to the exact text specified in REQ-UX-005.
-- Both exact-text assertions in TC-UX-008-01 fail consistently under the documented test conditions.
-- The discrepancies are reproducible across two consecutive test executions.
+- Both desktop and mobile empty-state headings do not conform to the exact text specified in REQ-UX-005.
+- The exact-text assertions in TC-UX-005-01 and TC-UX-008-01 fail consistently under their documented test conditions.
+- Both discrepancies were reproduced across two consecutive test executions on each viewport.
 
 **Potential Impact:**
 
-- The mobile empty-state headings are textually inconsistent with the documented interface content.
+- The empty-state headings are textually inconsistent with the documented interface content across desktop and mobile viewports.
 
 No inability to start a conversation, access the selected conversation, return to the conversation list, or use the tested primary controls was established by this execution.
 
@@ -320,10 +339,10 @@ The observed discrepancies are limited to the missing trailing periods in the tw
 
 ## 11. Evidence
 
-- Screenshot: [BUG-004](../evidence/BUG-004/screenshot.png)
-- Trace: [BUG-004](../evidence/BUG-004/trace.zip)
-- Video: [BUG-004](../evidence/BUG-004/video.webm)
-- Error Context: [BUG-004](../evidence/BUG-004/error-context.md)
+- Screenshot: [TC-UX-008-01](../evidence/BUG-004/TC-UX-008-01/screenshot.png), [TC-UX-005-01](../evidence/BUG-004/TC-UX-005-01/screenshot.png)
+- Trace: [TC-UX-008-01](../evidence/BUG-004/TC-UX-008-01/trace.zip), [TC-UX-005-01](../evidence/BUG-004/TC-UX-005-01/trace.zip)
+- Video: [TC-UX-008-01](../evidence/BUG-004/TC-UX-008-01/video.webm), [TC-UX-005-01](../evidence/BUG-004/TC-UX-005-01/video.webm)
+- Error Context: [TC-UX-008-01](../evidence/BUG-004/TC-UX-008-01/error-context.md), [TC-UX-005-01](../evidence/BUG-004/TC-UX-005-01/error-context.md)
 
 **Observed Assertion Output:**
 
@@ -355,12 +374,25 @@ Received: "No messages yet"
 - The expected text was retained from REQ-UX-005 and the source test case. It was not relaxed to match the current application output.
 - The test case is recorded as one executed test case with two reproduction attempts, not as two distinct test cases.
 
+### Additional Reproduction — TC-UX-005-01 (2026-11-06)
+
+- Test Case: TC-UX-005-01 — Verify Desktop Empty State Without Conversations and After Starting a New Chat.
+- Viewport: 1366 × 768 pixels.
+- Execution: Headed Chromium, Playwright 1.64.1, one worker.
+- Test Command:
+
+  `npm run test:headed -- user-experience/user-experience --grep="TC-UX-005-01" --workers=1 --project=chromium --repeat-each=2`
+
+- Result: FAIL — both repetitions reproduced the same two missing-period discrepancies.
+
+The same two empty-state heading discrepancies were reproduced in TC-UX-005-01 on desktop, in addition to their earlier reproduction in TC-UX-008-01 on mobile.
+
 ## 13. Reproducibility
 
-| Field                           | Value                                                                                                   |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Reproducibility Status          | Reproducible                                                                                            |
-| Number of Reproduction Attempts | 2                                                                                                       |
-| Successful Reproductions        | 2                                                                                                       |
-| Failed Reproductions            | 0                                                                                                       |
-| Notes                           | Both repetitions produced the same two missing-period discrepancies in the mobile empty-state headings. |
+| Field                           | Value                                                                                                                                            |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Reproducibility Status          | Reproducible                                                                                                                                     |
+| Number of Reproduction Attempts | 4                                                                                                                                                |
+| Successful Reproductions        | 4                                                                                                                                                |
+| Failed Reproductions            | 0                                                                                                                                                |
+| Notes                           | Both missing-period discrepancies were reproduced in both repetitions of TC-UX-008-01 on mobile and both repetitions of TC-UX-005-01 on desktop. |

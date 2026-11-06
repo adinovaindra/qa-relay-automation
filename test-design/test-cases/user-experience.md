@@ -86,9 +86,10 @@ Execution-specific information such as browser environment, browser version, ope
 
 - Relay is accessible.
 - The Register, Login, and Chat pages are available.
-- A registered user account and valid credentials are available.
-- The tester can access the Register and Login pages while unauthenticated and the Chat page after authentication.
-- The browser's stored theme preference can be retained during page navigation and refresh.
+- Alice (`alice@example.com`) has a registered account and valid credentials.
+- The user is unauthenticated when accessing the Register and Login pages.
+- The browser's stored theme preference is retained during page navigation and refresh.
+- The QA test environment is configured to use the designated local QA database.
 
 #### Test Data
 
@@ -146,11 +147,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- The Register, Login, and Chat pages are available.
-- A registered user account and valid credentials are available.
-- The tester can access the Register and Login pages while unauthenticated and the Chat page after authentication.
-- The browser's stored theme preference can be retained during page navigation and refresh.
+- Relay application is accessible.
+- Register, Login, and Chat pages are available.
+- Alice (`alice@example.com`) has a registered account with valid credentials.
+- The user is unauthenticated when accessing the Register and Login pages.
+- The browser can retain its theme preference across page navigation and refresh.
+- The QA test environment is configured to use the designated local QA database.
 
 #### Test Data
 
@@ -181,7 +183,7 @@ Execution-specific information such as browser environment, browser version, ope
 #### Expected Result
 
 - Dark Mode is available and can be selected while the user is unauthenticated.
-- Selecting Dark Mode while unauthenticated does not require the user to log in.
+- Selecting Dark Mode does not require the user to log in.
 - Dark Mode is applied on the Register page.
 - Dark Mode remains applied after navigation to the Login page.
 - Dark Mode remains applied after the Login page is refreshed.
@@ -208,11 +210,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- A registered user account and valid credentials are available.
+- Relay application is accessible.
+- Alice (`alice@example.com`) has a registered account with valid credentials.
 - The browser can be fully closed and reopened.
-- The test can reopen the same browser profile.
+- The test can reopen the same persistent browser profile.
 - The browser's stored theme preference remains available and is not cleared when the browser closes.
+- The QA test environment is configured to use the designated local QA database.
 
 #### Test Data
 
@@ -240,8 +243,8 @@ Execution-specific information such as browser environment, browser version, ope
 
 - Dark Mode is applied before the browser is closed.
 - The browser is reopened using the same profile without clearing the stored theme preference.
-- Dark Mode remains applied after Relay is reopened.
-- Dark Mode remains applied after the user signs in and accesses the Chat page.
+- Dark Mode remains applied after Relay is reopened on an unauthenticated page.
+- Dark Mode remains applied after Alice signs in and accesses the Chat page.
 - The selected theme and displayed theme remain consistent while the stored browser preference remains available.
 
 #### Execution Considerations
@@ -268,10 +271,11 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- Alice has a registered account and valid credentials.
-- The user can select a theme, log out, and sign in again.
-- The browser's stored theme preference remains available throughout the test.
+- Relay application is accessible.
+- Alice (`alice@example.com`) has a registered account with valid credentials.
+- The browser session is available.
+- The browser's stored theme preference remains available throughout login, logout, and re-login.
+- The QA test environment is configured to use the designated local QA database.
 
 #### Test Data
 
@@ -296,11 +300,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- Dark Mode is applied before logout.
-- The user can log out and sign in again successfully.
-- Dark Mode remains applied after logout.
-- Dark Mode remains applied after re-login using the same account.
-- The selected theme and displayed theme remain consistent while the stored browser preference remains available.
+- Alice can successfully sign in to Relay.
+- Dark Mode can be selected through the application UI.
+- The selected theme preference is stored as `dark`.
+- Dark Mode remains applied after Alice logs out.
+- Dark Mode remains applied after Alice signs in again using the same account.
+- The displayed theme and stored browser preference remain consistent throughout the authentication state transitions.
 
 ---
 
@@ -454,11 +459,11 @@ Execution-specific information such as browser environment, browser version, ope
 #### Preconditions
 
 - Relay is accessible.
-- Alice and Bob have registered accounts and valid credentials.
-- Alice has no conversations associated with her account, including conversations with users other than Bob.
+- Alice (`alice@example.com`) and Bob (`bob@example.com`) have registered accounts and valid credentials.
+- Alice has no conversations displayed in the initial Chat page state.
 - Bob is available as a user with whom Alice can start a new conversation.
-- A desktop browser viewport is available.
-- The initial state is established independently of other test cases.
+- The desktop viewport is configured to 1366 × 768 pixels.
+- Initial test data is established using the test's database setup helpers.
 
 #### Test Data
 
@@ -488,14 +493,14 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- Before starting a new chat, the conversation list panel displays the heading `No conversations yet.`
-- Before starting a new chat, the conversation list panel displays the supporting text `Start a new chat below.`
-- Before starting a new chat, the main chat area displays the heading `Select a conversation.`
-- Before starting a new chat, the main chat area displays the supporting text `Choose a conversation from the list or start a new chat to begin messaging.`
-- The UI Start Chat flow allows Alice to start a new conversation with Bob.
+- Before starting a new chat, the conversation list panel displays the exact heading `No conversations yet.`.
+- The conversation list panel displays `Start a new chat below.`.
+- The main chat area displays the exact heading `Select a conversation.`.
+- The main chat area displays `Choose a conversation from the list or start a new chat to begin messaging.`.
+- Alice can start a new conversation with Bob through the UI's Start Chat flow.
 - The newly created conversation is displayed as the selected conversation.
-- The main chat area displays the heading `No messages yet.`
-- The main chat area displays the supporting text `Send a message to start the conversation.`
+- The main chat area displays the exact heading `No messages yet.`.
+- The main chat area displays `Send a message to start the conversation.`.
 
 #### Test Data Setup and Cleanup Considerations
 
