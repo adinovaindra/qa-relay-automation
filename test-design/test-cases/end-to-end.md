@@ -84,13 +84,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- Relay is accessible.
-- The tester is not authenticated.
-- The Register and Login pages are accessible.
-- An existing registered user account is available as the conversation counterpart.
-- The counterpart account's identifying information is available.
-- The test email address for the new account has not been registered.
-- The tester can access the Chat page after successful authentication.
+- Relay application is accessible.
+- The QA automation environment is configured to use the designated local QA database.
+- Alice (`alice@example.com`) is not registered before the registration workflow begins.
+- Bob (`bob@example.com`) is available as an existing registered user.
+- The test uses static test data and performs pre-test cleanup before establishing the required test data.
+- The test is executed using a single worker.
 
 #### Test Data
 
@@ -130,21 +129,18 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- Registration succeeds when all required information is valid.
-- After successful registration, the application redirects to `/login`.
-- The newly registered user can log in using the registered credentials.
-- After successful login, the application redirects to `/chat`.
-- The authenticated user can access the Chat page.
-- A new conversation is created between the newly registered user and the existing counterpart.
-- The newly created conversation is accessible to the newly registered user.
-- The selected conversation is accessible to the authenticated user.
-- The user can submit a non-empty text message within the conversation.
+- Alice can successfully register through the UI using valid required information.
+- Successful registration redirects Alice to `/login`.
+- Alice can successfully log in using her newly registered credentials.
+- Successful login redirects Alice to `/chat`.
+- Alice can create a conversation with the existing registered Bob account.
+- The newly created conversation is displayed as the selected conversation.
+- Alice can submit a non-empty text message.
 - The submitted message appears in the selected conversation with the entered content.
-- The user can log out successfully.
-- After logout, the application redirects to `/login`.
-- Direct access to `/chat` after logout is denied.
-- The unauthenticated user is redirected to `/login` when attempting to access `/chat`.
-- The workflow does not restore authenticated access after logout.
+- Alice can successfully log out and is redirected to `/login`.
+- Direct access to `/chat` after logout redirects Alice to `/login`.
+- Unauthenticated access to the protected Chat page is not restored.
+- Test data is cleaned up after execution so the workflow can be repeated.
 
 ---
 

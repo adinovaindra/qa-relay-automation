@@ -94,7 +94,7 @@ The UI assertion verifies the sender identity visible to the user. The API-level
 | Blocked                            |     0 |
 | Not Executed                       |     0 |
 
-### 3.2 Summary Note0
+### 3.2 Summary Notes
 
 - The Authorization automation scope contains 7 selected test cases.
 - Selection and implementation do not constitute execution evidence.

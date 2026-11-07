@@ -577,7 +577,7 @@ Execution-specific information such as browser environment, browser version, ope
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | Test Case ID        | TC-AUTH-004-05                                                                                                                  |
 | Title               | Login does not apply the registration minimum password-length rule                                                              |
-| Related Scenario    | SCN-AUTH-003 [SCN-AUTH-003](../scenarios/authentication.md#scn-auth-003--login-required-field-validation)                       |
+| Related Scenario    | SCN-AUTH-004 [SCN-AUTH-004](../scenarios/authentication.md#scn-auth-004--registration-email-and-password-validation)            |
 | Related Requirement | REQ-AUTH-008 [REQ-AUTH-008](../../docs/requirements/authentication.md#req-auth-008--registration-email-and-password-validation) |
 | Related Risk        | RSK-003 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                     |
 | Risk Level          | Medium                                                                                                                          |
@@ -606,6 +606,53 @@ Execution-specific information such as browser environment, browser version, ope
 
 - The registration minimum-length rule does not block the login submission.
 - The form does not apply the registration-only minimum-length restriction to the login password field; the subsequent authentication outcome is governed by the login requirements.
+
+---
+
+### TC-AUTH-004-06 — Registration rejects an invalid email format
+
+| Field               | Value                                                                                                                |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Test Case ID        | TC-AUTH-004-06                                                                                                       |
+| Title               | Registration rejects an invalid email format                                                                         |
+| Related Scenario    | SCN-AUTH-004 [SCN-AUTH-004](../scenarios/authentication.md#scn-auth-004--registration-email-and-password-validation) |
+| Related Requirement | REQ-AUTH-006, REQ-AUTH-008 [Authentication Requirements](../../docs/requirements/authentication.md)                  |
+| Related Risk        | RSK-007, RSK-014 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                 |
+| Risk Level          | High                                                                                                                 |
+| Test Design Method  | Requirement-Based                                                                                                    |
+| Test Type           | Validation / Negative                                                                                                |
+| Priority            | High                                                                                                                 |
+
+#### Preconditions
+
+- Relay Register page is accessible.
+
+#### Test Data
+
+| Data             | Value       |
+| ---------------- | ----------- |
+| Name             | Test User   |
+| Email            | testuser    |
+| Password         | password123 |
+| Confirm Password | password123 |
+
+#### Steps
+
+1. Open the Register page.
+2. Enter `Test User` in the Name field.
+3. Enter `testuser` in the Email field.
+4. Enter `password123` in the Password field.
+5. Enter `password123` in the Confirm Password field.
+6. Submit the registration form.
+7. Observe the browser's native email-format validation feedback.
+
+#### Expected Result
+
+- Native browser email-format validation prevents form submission.
+- The browser displays its native email-format validation tooltip for the invalid Email value.
+- The exact tooltip wording may vary depending on the browser and browser language.
+- Registration is not completed.
+- The user remains on the Register page.
 
 ---
 
@@ -754,12 +801,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data             | Value                           |
-| ---------------- | ------------------------------- |
-| Name             | Whitespace-only value           |
-| Email            | existing.registered@example.com |
-| Password         | simplepass                      |
-| Confirm Password | differentpass                   |
+| Data             | Value                                     |
+| ---------------- | ----------------------------------------- |
+| Name             | Three ASCII space characters (U+0020 × 3) |
+| Email            | existing.registered@example.com           |
+| Password         | simplepass                                |
+| Confirm Password | differentpass                             |
 
 #### Steps
 
@@ -797,12 +844,12 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Test Data
 
-| Data             | Value                           |
-| ---------------- | ------------------------------- |
-| Name             | Whitespace-only value           |
-| Email            | existing.registered@example.com |
-| Password         | simplepass                      |
-| Confirm Password | simplepass                      |
+| Data             | Value                                     |
+| ---------------- | ----------------------------------------- |
+| Name             | Three ASCII space characters (U+0020 × 3) |
+| Email            | existing.registered@example.com           |
+| Password         | simplepass                                |
+| Confirm Password | simplepass                                |
 
 #### Steps
 
@@ -1031,9 +1078,10 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Expected Result
 
-- The invalid attempt displays `Invalid email or password.`
-- The successful attempt clears the previous authentication error.
-- The application redirects to `/chat`.
+- The first login attempt displays exactly `Invalid email or password.`
+- The user can submit valid credentials immediately after the failed attempt without refreshing or reopening the Login page.
+- The application successfully authenticates the user.
+- The application redirects the user to `/chat`.
 
 ---
 
@@ -1316,30 +1364,56 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Risk        | RSK-006 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                                                                                        |
 | Risk Level          | High                                                                                                                                                                                               |
 | Test Design Method  | Requirement-Based / Risk-Based                                                                                                                                                                     |
-| Test Type           | API / Security / Negative                                                                                                                                                                          |
+| Test Type           | API / UI / Security / Negative                                                                                                                                                                     |
 | Priority            | High                                                                                                                                                                                               |
 
 #### Preconditions
 
-- A valid authenticated session and a protected API endpoint are available.
-- The test can retain a copy of the pre-logout token or equivalent authenticated request context without exposing secrets in evidence.
+- A registered QA user account is available.
+- The user can successfully authenticate through Relay.
+- A protected API endpoint is available.
+- The test can securely retain the original authentication token before logout and restore it for a replay attempt without exposing the token in logs or evidence.
+- The original token remains unexpired during the test.
 
 #### Test Data
 
-| Data                 | Value                                            |
-| -------------------- | ------------------------------------------------ |
-| Authentication token | Token captured before logout; handle as a secret |
+| Data                 | Value                                       |
+| -------------------- | ------------------------------------------- |
+| User account         | Registered QA user                          |
+| Authentication token | Original token captured before logout       |
+| Token status         | Valid and unexpired before and after logout |
+| Logout mechanism     | Relay Logout button                         |
+| Protected API        | `GET /api/conversations`                    |
 
 #### Steps
 
-1. Authenticate and retain the token for the test only.
-2. Log out through Relay.
-3. Send a request to the protected API using the pre-logout token.
+1. Open the Relay application.
+2. Log in using valid QA user credentials.
+3. Verify that the login succeeds and the user reaches `/chat`.
+4. Securely capture and retain the original `auth_token` cookie value from the authenticated browser context without exposing it in logs or evidence.
+5. Verify that the captured token is still valid and unexpired.
+6. Initiate logout using the Logout button in Relay.
+7. Verify that the application redirects the user to `/login` and the `auth_token` cookie is removed from the browser context.
+8. Restore the exact original pre-logout token as the `auth_token` cookie in the same browser context, keeping the cookie valid and preserving its original token value.
+9. Verify that the retained original token is still unexpired at the time of the replay request.
+10. Send a same-origin `GET /api/conversations` request using the browser page context.
+11. Verify that the request includes the original pre-logout token without exposing its value in logs or evidence.
+12. Observe the HTTP response status and response body.
+13. Navigate to `/chat` using the same browser context while retaining the restored original pre-logout token.
+14. Observe whether the protected page grants access or redirects the user to `/login`.
 
 #### Expected Result
 
-- The invalidated token does not grant access to protected resources or functionality.
-- The user must authenticate again to regain access.
+- The user successfully logs out through Relay.
+- The application redirects the user to `/login`.
+- The original `auth_token` cookie is removed during logout.
+- The exact original pre-logout token is restored for the replay attempt.
+- The replay request reaches the protected API with the original token.
+- The invalidated token does not grant access to protected conversation data or functionality.
+- The API denies the request and does not return protected conversation data.
+- The user must authenticate again to regain access to protected functionality.
+- The original pre-logout token does not grant access to the protected `/chat` page.
+- The application denies access and redirects the user to `/login`.
 
 ---
 
@@ -1420,6 +1494,55 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
+### TC-AUTH-012-03 — Protected API accepts a valid authentication token
+
+| Field               | Value                                                                                                                              |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Test Case ID        | TC-AUTH-012-03                                                                                                                     |
+| Title               | Protected API accepts a valid authentication token                                                                                 |
+| Related Scenario    | SCN-AUTH-012 [SCN-AUTH-012](../scenarios/authentication.md#scn-auth-012--authentication-state-persistence-across-tabs-and-refresh) |
+| Related Requirement | REQ-AUTH-005 [REQ-AUTH-005](../../docs/requirements/authentication.md#req-auth-005--authentication-state-persistence)              |
+| Related Risk        | RSK-006 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                                                        |
+| Risk Level          | High                                                                                                                               |
+| Test Design Method  | Requirement-Based                                                                                                                  |
+| Test Type           | API / Authentication / Positive                                                                                                    |
+| Priority            | High                                                                                                                               |
+
+#### Preconditions
+
+- A registered QA user account is available.
+- The Relay application is accessible.
+- The user can successfully log in and establish a valid authenticated session.
+
+#### Test Data
+
+| Data             | Value                                             |
+| ---------------- | ------------------------------------------------- |
+| User account     | Valid registered QA user                          |
+| Protected API    | `GET /api/auth/me`                                |
+| Authentication   | Valid authenticated session                       |
+| Expected User ID | User ID associated with the registered QA account |
+
+#### Steps
+
+1. Open the Relay application.
+2. Log in using valid QA user credentials.
+3. Verify that the login succeeds and the user reaches `/chat`.
+4. Using the same authenticated browser context, send a `GET` request to `/api/auth/me`.
+5. Observe the HTTP response status and response body.
+6. Verify that the returned user ID corresponds to the authenticated QA user.
+
+#### Expected Result
+
+- The browser sends the existing authentication cookie with the API request.
+- The server accepts and successfully verifies the valid authentication token.
+- The API returns HTTP status `200 OK`.
+- The response body contains `success: true`.
+- The response body contains `data.userId` corresponding to the authenticated QA user.
+- The API does not expose the authentication token or user credentials in its response.
+
+---
+
 ### TC-AUTH-013-01 — Authentication token remains valid before the 24-hour expiration point
 
 | Field               | Value                                                                                                     |
@@ -1431,69 +1554,98 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Risk        | RSK-006 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                               |
 | Risk Level          | High                                                                                                      |
 | Test Design Method  | Requirement-Based / Boundary Value Analysis                                                               |
-| Test Type           | Session / Boundary                                                                                        |
+| Test Type           | API / Session / Boundary / Positive                                                                       |
 | Priority            | High                                                                                                      |
 
 #### Preconditions
 
-- A test account can establish a new authenticated session.
-- Execution timing can be recorded relative to successful login.
+- A registered QA user account is available.
+- The Relay application is accessible.
+- The test environment uses the same test-only JWT secret configured for the Relay application.
+- A controlled JWT fixture can be generated and injected into the Playwright browser context.
 
 #### Test Data
 
-| Data       | Value                                    |
-| ---------- | ---------------------------------------- |
-| Login time | Recorded successful login timestamp      |
-| Check time | Before 24 hours have elapsed since login |
+| Data                     | Value                                               |
+| ------------------------ | --------------------------------------------------- |
+| User account             | Registered QA user                                  |
+| Protected API            | `GET /api/auth/me`                                  |
+| Token issued-at (`iat`)  | Controlled timestamp representing the login time    |
+| Token expiration (`exp`) | `iat + 86400` seconds                               |
+| Remaining token lifetime | 60 seconds at the time of the API request           |
+| Authentication cookie    | `auth_token`, retained for the duration of the test |
+| Time reference           | Server time at the API request                      |
 
 #### Steps
 
-1. Log in and record the successful login time.
-2. Before 24 hours have elapsed, access a protected page or perform an authenticated operation.
+1. Retrieve the user ID of the registered QA account.
+2. Generate a signed JWT fixture using the QA test secret and the QA user's ID as the token subject.
+3. Set the token's `iat` and `exp` claims so that the token has exactly 60 seconds remaining before its 24-hour expiration point.
+4. Add the generated token to the Playwright browser context as the `auth_token` cookie. Configure the cookie expiry to remain valid for the test duration so that browser cookie expiration does not interfere with JWT expiration verification.
+5. Send a `GET` request to `/api/auth/me` using the same browser context.
+6. Observe the HTTP response status and response body.
 
 #### Expected Result
 
-- The token remains valid before the documented 24-hour expiration point.
-- The user remains able to access protected functionality while the session is valid.
+- The authentication cookie is sent with the API request.
+- The server successfully verifies the JWT.
+- The API returns HTTP status `200 OK`.
+- The response body contains `success: true`.
+- The response body contains `data.userId` corresponding to the registered QA user.
+- The token remains accepted because the request occurs before its documented 24-hour expiration point.
 
 ---
 
-### TC-AUTH-013-02 — Expired token is rejected at the 24-hour expiration point
+### TC-AUTH-013-02 — Expired token is rejected at or after the 24-hour expiration point
 
 | Field               | Value                                                                                                     |
 | ------------------- | --------------------------------------------------------------------------------------------------------- |
 | Test Case ID        | TC-AUTH-013-02                                                                                            |
-| Title               | Expired token is rejected at the 24-hour expiration point                                                 |
+| Title               | Expired token is rejected at or after the 24-hour expiration point                                        |
 | Related Scenario    | SCN-AUTH-013 [SCN-AUTH-013](../scenarios/authentication.md#scn-auth-013--authentication-token-expiration) |
 | Related Requirement | REQ-AUTH-010 [REQ-AUTH-010](../../docs/requirements/authentication.md#req-auth-010--session-expiration)   |
 | Related Risk        | RSK-006 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                               |
 | Risk Level          | High                                                                                                      |
 | Test Design Method  | Requirement-Based / Boundary Value Analysis                                                               |
-| Test Type           | Session / Boundary / Negative                                                                             |
+| Test Type           | API / Session / Boundary / Negative                                                                       |
 | Priority            | High                                                                                                      |
 
 #### Preconditions
 
-- A test account can establish a session and the test can be performed at or after the documented expiration point.
-- If a controlled test setup is used to create an expired session, it must represent the documented 24-hour expiration behavior rather than changing the expected requirement.
+- A registered QA user account is available.
+- The Relay application is accessible.
+- The test environment uses the same test-only JWT secret configured for the Relay application.
+- A controlled expired JWT fixture can be generated and injected into the Playwright browser context.
 
 #### Test Data
 
-| Data       | Value                                         |
-| ---------- | --------------------------------------------- |
-| Login time | Recorded successful login timestamp           |
-| Check time | At or after 24 hours have elapsed since login |
+| Data                     | Value                                               |
+| ------------------------ | --------------------------------------------------- |
+| User account             | Registered QA user                                  |
+| Protected API            | `GET /api/auth/me`                                  |
+| Token issued-at (`iat`)  | Controlled timestamp representing the login time    |
+| Token expiration (`exp`) | `iat + 86400` seconds                               |
+| Expiration status        | 60 seconds past the JWT expiration point            |
+| Authentication cookie    | `auth_token`, retained for the duration of the test |
+| Time reference           | Server time at the API request                      |
 
 #### Steps
 
-1. Log in and record the successful login time.
-2. Keep the session context available until the token reaches its documented expiration point, or use an approved test setup that represents an expired token.
-3. Attempt to access a protected page or perform an authenticated operation.
+1. Retrieve the user ID of the registered QA account.
+2. Generate a signed JWT fixture using the QA test secret and the QA user's ID as the token subject.
+3. Set the token's `iat` and `exp` claims so that the token expired 60 seconds before the API request.
+4. Add the generated token to the Playwright browser context as the `auth_token` cookie. Configure the cookie expiry to remain valid for the test duration so that the browser does not discard the cookie before the server verifies the expired JWT.
+5. Send a `GET` request to `/api/auth/me` using the same browser context.
+6. Observe the HTTP response status and response body.
 
 #### Expected Result
 
-- The expired token is no longer recognized as authenticated.
-- The expired token does not grant access to protected pages, data, or functionality.
+- The authentication cookie is sent with the API request.
+- The server rejects the JWT because its expiration point has passed.
+- The API returns HTTP status `401 Unauthorized`.
+- The response body contains `error.code: "UNAUTHORIZED"`.
+- The response body does not contain `data.userId`.
+- The expired token does not grant access to protected functionality.
 
 ---
 
@@ -1513,26 +1665,48 @@ Execution-specific information such as browser environment, browser version, ope
 
 #### Preconditions
 
-- A user is authenticated in Relay.
-- The session can be observed at or after the documented 24-hour expiration point.
+- A registered QA user account is available.
+- The user can successfully authenticate and access the Relay chat page.
+- A valid QA JWT can be generated and subsequently replaced with a signed expired JWT using the test-only JWT secret.
+- The expired JWT can be injected into the existing Playwright browser context without the browser discarding the authentication cookie.
+- A test conversation is available for attempting a protected messaging operation.
 
 #### Test Data
 
-| Data           | Value                                  |
-| -------------- | -------------------------------------- |
-| Protected page | A protected Relay page such as `/chat` |
+| Data                  | Value                                                    |
+| --------------------- | -------------------------------------------------------- |
+| User account          | Registered QA user                                       |
+| Protected page        | `/chat`                                                  |
+| Protected operation   | Send a message through the conversation message composer |
+| Protected API         | `POST /api/conversations/{conversationId}/messages`      |
+| Authentication cookie | `auth_token`                                             |
+| JWT expiration        | Already expired at the time of the protected API request |
+| Cookie expiration     | Kept valid during the test                               |
+| Message content       | Unique test message                                      |
 
 #### Steps
 
-1. Keep Relay open in an authenticated state until the session expires, or prepare an approved expired-session test context.
-2. Attempt a protected action after expiration.
-3. Observe the route and access outcome.
+1. Open the Relay application.
+2. Log in using valid QA user credentials.
+3. Open `/chat` and verify that the authenticated chat interface is displayed.
+4. Ensure that a test conversation is selected and the message composer is available.
+5. Replace the existing `auth_token` cookie in the same browser context with a signed JWT fixture whose expiration timestamp has already passed.
+6. Keep the browser cookie valid so that the expired JWT is still sent with subsequent requests.
+7. Enter a unique test message in the message composer.
+8. Submit the message.
+9. Verify that the protected API request includes the `auth_token` cookie without exposing its value in test logs or evidence.
+10. Observe the protected API response, browser URL, and application behavior.
+11. Verify through the existing QA database verification mechanism that the unique test message was not persisted.
 
 #### Expected Result
 
+- The expired authentication token is sent to the protected API.
+- The server rejects the expired token and returns HTTP status `401 Unauthorized`.
+- The protected messaging operation is denied.
+- The message is not successfully sent or persisted.
 - The application invalidates the authenticated state.
-- Protected functionality is blocked.
 - The application redirects the user to `/login`.
+- The user can no longer access protected functionality using the expired session.
 
 ---
 
@@ -1547,32 +1721,68 @@ Execution-specific information such as browser environment, browser version, ope
 | Related Risk        | RSK-006 [Risk Register List](../../docs/risk-assessment.md#3-risk-register)                               |
 | Risk Level          | High                                                                                                      |
 | Test Design Method  | Requirement-Based / Risk-Based                                                                            |
-| Test Type           | Session / State Transition / Negative                                                                     |
+| Test Type           | Session / Cross-tab / State Transition                                                                    |
 | Priority            | High                                                                                                      |
 
 #### Preconditions
 
-- The same user is authenticated in multiple Relay tabs within one browser profile.
-- The shared session can be observed at or after the documented expiration point.
+- A registered QA user account with valid login credentials is available.
+- The Relay application is accessible.
+- Two browser tabs can be opened within the same Playwright browser context.
+- The test environment uses the same test-only JWT secret configured for the Relay application.
+- A signed expired JWT fixture can be generated and injected into the shared browser context.
+- The expired JWT can be retained in the browser cookie storage during the test.
 
 #### Test Data
 
-| Data            | Value                     |
-| --------------- | ------------------------- |
-| Browser profile | Same profile for all tabs |
-| Session state   | Expired                   |
+| Data                  | Value                                 |
+| --------------------- | ------------------------------------- |
+| User account          | Registered QA user                    |
+| Browser context       | Same browser context for both tabs    |
+| Tab 1                 | Authenticated Relay session           |
+| Tab 2                 | Authenticated Relay session           |
+| Authentication cookie | `auth_token`                          |
+| JWT expiration        | 60 seconds before the API request     |
+| Cookie expiration     | Kept valid during the test            |
+| Protected API         | `GET /api/conversations`              |
+| Re-authentication     | Valid credentials of the same QA user |
 
 #### Steps
 
-1. Allow the session to reach the documented expiration point, or prepare an approved expired-session test context.
-2. Attempt a protected operation in each open tab.
-3. Return to the Login page and authenticate again using valid credentials.
+1. Open the Relay application in Tab 1.
+2. Log in using valid QA user credentials.
+3. Verify that Tab 1 successfully accesses `/chat`.
+4. Open `/chat` in Tab 2 using the same Playwright browser context.
+5. Verify that Tab 2 also displays the authenticated chat interface.
+6. Generate a signed expired JWT fixture using the QA test secret and the QA user's ID as the token subject.
+7. Set the JWT expiration timestamp so that it has already passed by at least 60 seconds at the time of the protected API requests.
+8. Replace the existing `auth_token` cookie in the shared browser context with the expired JWT. Keep the browser cookie valid so that it is not discarded before the server verifies the JWT.
+9. From Tab 1, execute a same-origin `GET /api/conversations` request using the browser page context.
+10. From Tab 2, execute a same-origin `GET /api/conversations` request using the browser page context.
+11. Verify that both requests include the expired `auth_token` cookie without exposing its value in test logs or evidence.
+12. Observe the HTTP response status and response body from both requests.
+13. Navigate Tab 1 to `/login`.
+14. Log in again using the same QA user credentials.
+15. Verify that the new login succeeds and Tab 1 returns to `/chat`.
+16. From Tab 1, execute a same-origin `GET /api/conversations` request using the browser page context.
+17. From Tab 2, execute a same-origin `GET /api/conversations` request using the browser page context.
+18. Observe and compare the responses from both tabs.
+19. Reload `/chat` in Tab 2 after re-authentication and observe whether the protected page loads successfully.
 
 #### Expected Result
 
-- Tabs using the expired session no longer permit authenticated operations.
-- Protected access is denied after expiration.
-- The user can establish a new authenticated session by logging in again.
+- Both tabs initially share the same authenticated browser session.
+- The expired authentication token is sent with the protected API request from both tabs.
+- The server rejects the expired token in both tabs.
+- Both protected API requests return HTTP status `401 Unauthorized`.
+- Both responses contain `error.code: "UNAUTHORIZED"`.
+- Neither tab receives protected conversation data while using the expired session.
+- The user can successfully log in again using valid credentials.
+- The login process establishes a new authenticated session by setting a renewed `auth_token` cookie.
+- The protected API returns HTTP status `200 OK` when requested from Tab 1 after re-authentication.
+- The protected API also returns HTTP status `200 OK` when requested from Tab 2 after re-authentication.
+- Both tabs can access protected functionality again using the renewed authenticated session.
+- Tab 2 successfully reloads `/chat` after re-authentication using the renewed shared session.
 
 ---
 
@@ -1580,20 +1790,20 @@ Execution-specific information such as browser environment, browser version, ope
 
 This table maps each approved authentication scenario to the test cases designed to verify it. Requirement and risk IDs are included to make the coverage relationship reviewable without creating a separate risk-to-test-case traceability section.
 
-| Scenario ID  | Related Requirement ID(s)  | Related Risk ID(s) | Test Case ID(s)                                                                |
-| ------------ | -------------------------- | ------------------ | ------------------------------------------------------------------------------ |
-| SCN-AUTH-001 | REQ-AUTH-001               | RSK-007            | TC-AUTH-001-01                                                                 |
-| SCN-AUTH-002 | REQ-AUTH-006               | RSK-007, RSK-014   | TC-AUTH-002-01, TC-AUTH-002-02, TC-AUTH-002-03, TC-AUTH-002-04                 |
-| SCN-AUTH-003 | REQ-AUTH-006, REQ-AUTH-008 | RSK-003            | TC-AUTH-003-01, TC-AUTH-003-02, TC-AUTH-003-03, TC-AUTH-004-05                 |
-| SCN-AUTH-004 | REQ-AUTH-008               | RSK-007, RSK-014   | TC-AUTH-004-01, TC-AUTH-004-02, TC-AUTH-004-03, TC-AUTH-004-04                 |
-| SCN-AUTH-005 | REQ-AUTH-009               | RSK-007, RSK-014   | TC-AUTH-005-01, TC-AUTH-005-02, TC-AUTH-005-03, TC-AUTH-005-04, TC-AUTH-005-05 |
-| SCN-AUTH-006 | REQ-AUTH-002               | RSK-003            | TC-AUTH-006-01                                                                 |
-| SCN-AUTH-007 | REQ-AUTH-007               | RSK-003, RSK-009   | TC-AUTH-007-01, TC-AUTH-007-02                                                 |
-| SCN-AUTH-008 | REQ-AUTH-007               | RSK-003, RSK-009   | TC-AUTH-008-01, TC-AUTH-008-02                                                 |
-| SCN-AUTH-009 | REQ-AUTH-003               | RSK-006            | TC-AUTH-009-01, TC-AUTH-009-02                                                 |
-| SCN-AUTH-010 | REQ-AUTH-003, REQ-AUTH-004 | RSK-006            | TC-AUTH-010-01, TC-AUTH-010-02                                                 |
-| SCN-AUTH-011 | REQ-AUTH-003, REQ-AUTH-004 | RSK-006            | TC-AUTH-011-01, TC-AUTH-011-02, TC-AUTH-011-03, TC-AUTH-011-04                 |
-| SCN-AUTH-012 | REQ-AUTH-002, REQ-AUTH-005 | RSK-006            | TC-AUTH-012-01, TC-AUTH-012-02                                                 |
-| SCN-AUTH-013 | REQ-AUTH-010               | RSK-006            | TC-AUTH-013-01, TC-AUTH-013-02, TC-AUTH-013-03, TC-AUTH-013-04                 |
+| Scenario ID  | Related Requirement ID(s)  | Related Risk ID(s) | Test Case ID(s)                                                                                |
+| ------------ | -------------------------- | ------------------ | ---------------------------------------------------------------------------------------------- |
+| SCN-AUTH-001 | REQ-AUTH-001               | RSK-007            | TC-AUTH-001-01                                                                                 |
+| SCN-AUTH-002 | REQ-AUTH-006               | RSK-007, RSK-014   | TC-AUTH-002-01, TC-AUTH-002-02, TC-AUTH-002-03, TC-AUTH-002-04                                 |
+| SCN-AUTH-003 | REQ-AUTH-006, REQ-AUTH-008 | RSK-003            | TC-AUTH-003-01, TC-AUTH-003-02, TC-AUTH-003-03                                                 |
+| SCN-AUTH-004 | REQ-AUTH-006, REQ-AUTH-008 | RSK-007, RSK-014   | TC-AUTH-004-01, TC-AUTH-004-02, TC-AUTH-004-03, TC-AUTH-004-04, TC-AUTH-004-05, TC-AUTH-004-06 |
+| SCN-AUTH-005 | REQ-AUTH-009               | RSK-007, RSK-014   | TC-AUTH-005-01, TC-AUTH-005-02, TC-AUTH-005-03, TC-AUTH-005-04, TC-AUTH-005-05                 |
+| SCN-AUTH-006 | REQ-AUTH-002               | RSK-003            | TC-AUTH-006-01                                                                                 |
+| SCN-AUTH-007 | REQ-AUTH-007               | RSK-003, RSK-009   | TC-AUTH-007-01, TC-AUTH-007-02                                                                 |
+| SCN-AUTH-008 | REQ-AUTH-007               | RSK-003, RSK-009   | TC-AUTH-008-01, TC-AUTH-008-02                                                                 |
+| SCN-AUTH-009 | REQ-AUTH-003               | RSK-006            | TC-AUTH-009-01, TC-AUTH-009-02                                                                 |
+| SCN-AUTH-010 | REQ-AUTH-003, REQ-AUTH-004 | RSK-006            | TC-AUTH-010-01, TC-AUTH-010-02                                                                 |
+| SCN-AUTH-011 | REQ-AUTH-003, REQ-AUTH-004 | RSK-006            | TC-AUTH-011-01, TC-AUTH-011-02, TC-AUTH-011-03, TC-AUTH-011-04                                 |
+| SCN-AUTH-012 | REQ-AUTH-002, REQ-AUTH-005 | RSK-006            | TC-AUTH-012-01, TC-AUTH-012-02, TC-AUTH-012-03                                                 |
+| SCN-AUTH-013 | REQ-AUTH-010               | RSK-006            | TC-AUTH-013-01, TC-AUTH-013-02, TC-AUTH-013-03, TC-AUTH-013-04                                 |
 
 The test cases are designed for subsequent execution and may be refined during review. Their presence in this document does not imply that they have been executed or passed.

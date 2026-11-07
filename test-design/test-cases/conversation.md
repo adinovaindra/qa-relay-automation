@@ -482,7 +482,7 @@ Execution-specific information such as browser environment, browser version, ope
 
 ---
 
-### TC-CONV-006-01 — Conversation activity timestamp uses the documented format for today, yesterday, and older dates (BRAINSTROM!)
+### TC-CONV-006-01 — Conversation activity timestamp uses the documented format for today, yesterday, and older dates
 
 | Field               | Value                                                                                                     |
 | ------------------- | --------------------------------------------------------------------------------------------------------- |

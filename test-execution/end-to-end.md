@@ -33,7 +33,7 @@ Test Case IDs, titles, Risk Levels, and Source Priorities follow the current End
 
 | Automation Order | Test Case ID  | Test Case Title                                            | Risk Level | Source Priority | Automation Layer | Automation Decision | Execution Status |
 | ---------------: | ------------- | ---------------------------------------------------------- | ---------- | --------------- | ---------------- | ------------------- | ---------------- |
-|                1 | TC-E2E-001-01 | Complete User Registration, Messaging, and Logout Workflow | High       | High            | UI               | Include             | Not Executed Yet |
+|                1 | TC-E2E-001-01 | Complete User Registration, Messaging, and Logout Workflow | High       | High            | UI               | Include             | Passed           |
 
 ### 2.3 Matrix Notes
 
@@ -88,17 +88,16 @@ The implementation must verify the resulting page and authentication state after
 | ---------------------------------- | ----: |
 | Test Cases in Coverage Matrix      |     1 |
 | Test Cases Selected for Automation |     1 |
-| Test Cases Implemented             |     0 |
-| Test Cases Executed                |     0 |
-| Passed                             |     0 |
+| Test Cases Implemented             |     1 |
+| Test Cases Executed                |     1 |
+| Passed                             |     1 |
 | Failed                             |     0 |
 | Blocked                            |     0 |
-| Not Executed                       |     1 |
+| Not Executed                       |     0 |
 
 ### 3.2 Summary Notes
 
 - The End-to-End automation scope contains one selected test case.
-- No End-to-End automated test has been executed.
 - Selection and implementation do not constitute execution evidence.
 - The test case covers a cross-feature user journey and complements the individual feature-level test cases.
 - A failed assertion is recorded as a failed execution only after the test has actually run.
@@ -137,54 +136,78 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 ## 6. Execution Records
 
-### 6.1 Execution Record Template
+### TC-E2E-001-01 — Complete User Registration, Messaging, and Logout Workflow
 
-Use the following template to record the automated test execution. Replace the example identifiers and fields with verified information for the actual test run.
-
-#### TC-E2E-XXX-XX — [Test Case Title]
-
-**Test Case Reference:** [End-to-End Test Cases](../test-design/test-cases/end-to-end.md)
-
+**Test Case Reference:** [TC-E2E-001-01](../test-design/test-cases/end-to-end.md)
 **Scenario Reference:** [SCN-E2E-001](../test-design/scenarios/end-to-end.md#scn-e2e-001--user-registration-messaging-and-logout-workflow)
-
 **Requirement Reference:** REQ-AUTH-001, REQ-AUTH-002, REQ-AUTH-003, REQ-AUTH-004, REQ-CONV-002, REQ-MSG-001
-
 **Risk Reference:** RSK-003, RSK-005, RSK-006, RSK-007, RSK-020
-
-**Execution Date:** YYYY-MM-DD
+**Execution Date:** 2026-11-07
 
 **Environment**
 
-- Application URL: [URL]
-- Browser / Project: [Browser and Playwright project]
-- Browser Version: [Version]
-- Operating System: [Operating system]
-- Execution Mode: Headed / Headless
-- Test Run / Commit Reference: [Run identifier or commit]
+- Application URL: http://localhost:3000
+- Browser / Project: Chromium
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
+- Execution Mode: Headed
+- Workers: 1
+- Test Framework: Playwright 1.64.1
+- Test Run / Commit Reference: Local execution; two consecutive executions using `--repeat-each=2`
 
 **Preconditions**
 
-- [Record the verified preconditions used for this execution.]
+- Relay application is accessible.
+- The QA automation environment is configured to use the designated local QA database.
+- Alice (`alice@example.com`) is not registered before the registration workflow begins.
+- Bob (`bob@example.com`) is available as an existing registered user.
+- The test uses static test data and performs pre-test cleanup before establishing the required test data.
+- The test is executed using a single worker.
 
 **Expected Result**
 
-- [Copy or summarize the expected result from the source test case without changing its acceptance criteria.]
+- Alice can successfully register through the UI using valid required information.
+- Successful registration redirects Alice to `/login`.
+- Alice can successfully log in using her newly registered credentials.
+- Successful login redirects Alice to `/chat`.
+- Alice can create a conversation with the existing registered Bob account.
+- The newly created conversation is displayed as the selected conversation.
+- Alice can submit a non-empty text message.
+- The submitted message appears in the selected conversation with the entered content.
+- Alice can successfully log out and is redirected to `/login`.
+- Direct access to `/chat` after logout redirects Alice to `/login`.
+- Unauthenticated access to the protected Chat page is not restored.
+- Test data is cleaned up after execution so the workflow can be repeated.
 
 **Actual Result**
 
-- [Record only behavior observed during the actual execution.]
+- The QA Safety Guard passed before Playwright execution, confirming the local PostgreSQL QA database `relay_qa_automation` and role `relay_test_user`.
+- Playwright executed the test using the Chromium project in headed mode with one worker.
+- Both consecutive executions completed successfully.
+- Alice successfully registered through the UI and was redirected to `/login`.
+- Alice successfully logged in and was redirected to `/chat`.
+- Alice successfully created a conversation with the existing Bob account.
+- The newly created conversation was displayed as the selected conversation.
+- Alice successfully submitted the message `Hello Bob. How are you?`.
+- The submitted message appeared in the selected conversation with the expected content.
+- Alice successfully logged out and was redirected to `/login`.
+- Direct navigation to `/chat` after logout redirected Alice back to `/login`.
+- The protected Chat page was not accessible after logout.
+- Both repetitions completed without reported assertion failures.
 
-**Execution Result:** NOT EXECUTED
+**Execution Result:** PASS
 
 **Evidence**
 
-- Test report: [Reference]
-- Screenshot / Trace / Video: [Reference, where applicable]
+- QA Safety Guard output:
+  `Passed: local PostgreSQL, database relay_qa_automation, role relay_test_user.`
+- Playwright terminal output:
+  `2 passed (25.4s)`
+- Execution command:
+  ```bash
+  npm run test:headed -- end-to-end/end-to-end --project=chromium --workers=1 --repeat-each=2
+  ```
+- The two successful repetitions demonstrate that the static test-data workflow could be executed consecutively without registration conflicts.
+- No separate screenshot, trace, or video path was supplied for this execution.
 
-**Defect Reference:** None identified / [Defect reference]
-
-**Execution Notes**
-
-- [Record relevant observations, limitations, or investigation notes.]
-
----
+**Defect Reference:** None identified by this execution.

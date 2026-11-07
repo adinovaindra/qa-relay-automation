@@ -284,8 +284,8 @@ A status must reflect the actual execution outcome. Implementation status, expec
 #### TC-MSG-009-01 — A message sent by one participant becomes available to the recipient after refresh
 
 **Test Case Reference:** [TC-MSG-009-01](../test-design/test-cases/messaging.md#tc-msg-009-01--a-message-sent-by-one-participant-becomes-available-to-the-recipient-after-refresh)
-**Scenario Reference:** SCN-MSG-009 [SCN-MSG-009](../test-design/scenarios/messaging.md#scn-msg-009--message-availability-across-authenticated-sessions)
-**Requirement Reference:** REQ-MSG-007 [REQ-MSG-007](../docs/requirements/messaging.md#req-msg-007--message-availability-across-participants)
+**Scenario Reference:** SCN-MSG-009 [SCN-MSG-009](../test-design/scenarios/messaging.md#scn-msg-009--message-availability-after-recipient-refresh)
+**Requirement Reference:** REQ-MSG-007 [REQ-MSG-007](../docs/requirements/messaging.md#req-msg-007--message-availability-after-refresh)
 **Risk Reference:** RSK-004 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
 **Execution Date:** 2026-11-04
 
@@ -642,7 +642,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 #### TC-MSG-005-01 — Messages with equal timestamps maintain consistent relative ordering across users, refreshes, and re-logins
 
 **Test Case Reference:** [TC-MSG-005-01](../test-design/test-cases/messaging.md#tc-msg-005-01--messages-with-equal-timestamps-maintain-consistent-relative-ordering-across-users-refreshes-and-re-logins)
-**Scenario Reference:** SCN-MSG-005 [SCN-MSG-005](../test-design/scenarios/messaging.md#scn-msg-005--equal-timestamp-message-ordering)
+**Scenario Reference:** SCN-MSG-005 [SCN-MSG-005](../test-design/scenarios/messaging.md#scn-msg-005--message-ordering-consistency-across-refresh-and-re-login)
 **Requirement Reference:** REQ-MSG-002 [REQ-MSG-002](../docs/requirements/messaging.md#req-msg-002--message-ordering)
 **Risk Reference:** RSK-009 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
 **Execution Date:** 2026-11-04
@@ -757,7 +757,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 #### TC-MSG-007-02 — Sending a message scrolls the conversation to the latest message
 
-**Test Case Reference:** [TC-MSG-007-02](../test-design/test-cases/messaging.md#tc-msg-007-02)
+**Test Case Reference:** [TC-MSG-007-02](../test-design/test-cases/messaging.md#tc-msg-007-02--sending-a-message-scrolls-the-conversation-to-the-latest-message)
 **Scenario Reference:** SCN-MSG-007 [SCN-MSG-007](../test-design/scenarios/messaging.md#scn-msg-007--automatic-message-scrolling)
 **Requirement Reference:** REQ-MSG-004 [REQ-MSG-004](../docs/requirements/messaging.md#req-msg-004--message-history-scrolling-behavior)
 **Risk Reference:** RSK-017 [Risk Register List](../docs/risk-assessment.md#3-risk-register)
@@ -875,7 +875,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 
 #### TC-MSG-008-02 — Message date separators follow the user's local calendar date
 
-**Test Case Reference:** [TC-MSG-008-02](../test-design/test-cases/messaging.md#tc-msg-008-02)
+**Test Case Reference:** [TC-MSG-008-02](../test-design/test-cases/messaging.md#tc-msg-008-02--message-date-separators-follow-the-users-local-calendar-date)
 **Scenario Reference:** SCN-MSG-008 [SCN-MSG-008](../test-design/scenarios/messaging.md#scn-msg-008--message-timestamps-and-date-separators)
 **Requirement Reference:** REQ-MSG-005 [REQ-MSG-005](../docs/requirements/messaging.md#req-msg-005--message-timestamps-and-date-separators)
 **Risk Reference:** RSK-018 [Risk Register List](../docs/risk-assessment.md#3-risk-register)

@@ -43,9 +43,8 @@ Each defect report follows the standard structure below:
 11. Evidence
 12. Automation Execution Details
 13. Reproducibility
-14. Status and Verification Notes
 
-This structure ensures that each reported defect contains sufficient information for investigation, reproduction, prioritization, and verification.
+This structure ensures that each reported defect contains sufficient information for identification, investigation, reproduction, impact assessment, and traceability.
 
 ## 4. Severity and Priority
 
@@ -128,11 +127,7 @@ All defect reports follow these principles:
 defect-reports/
 ├── README.md
 ├── authentication.md
-├── authorization.md
-├── conversation.md
-├── messaging.md
-├── user-experience.md
-└── end-to-end.md
+└── user-experience.md
 ```
 
 Defect reports are grouped by functional area. Each functional-area file contains defects identified within that area.

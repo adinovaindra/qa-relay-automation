@@ -396,7 +396,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Playwright generated screenshots, videos, error contexts, and traces for both failed repetitions.
 - The second repetition successfully executed the same setup and user journey, demonstrating that the test can be repeated sequentially using the existing setup/cleanup pattern.
 
-**Defect Reference:** [BUG-004](../defect-reports/user-experience.md#bug-004--mobile-empty-state-headings-are-missing-the-required-trailing-periods)
+**Defect Reference:** [BUG-004](../defect-reports/user-experience.md#bug-004--empty-state-headings-are-missing-the-required-trailing-periods)
 
 ### TC-UX-001-01 — Verify Light Mode Across Register, Login, and Chat Pages
 

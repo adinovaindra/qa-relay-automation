@@ -100,13 +100,14 @@ Verify that login enforces the documented required-field validation and email-fo
 
 Verify that registration enforces the documented email-format and minimum password-length requirements.
 
-**Related Requirements:** REQ-AUTH-008  
+**Related Requirements:** REQ-AUTH-006, REQ-AUTH-008  
 **Related Risks:** RSK-007, RSK-014  
 **Risk Level:** High
 
 **Coverage Considerations:**
 
 - Registration email input must satisfy the documented email-format validation.
+- An invalid registration email format triggers native browser validation and prevents form submission.
 - Registration password must contain at least eight characters.
 - Whitespace characters count toward the minimum password length.
 - No additional password complexity requirements are imposed, such as mandatory uppercase letters, lowercase letters, digits, or symbols.
@@ -127,9 +128,9 @@ Verify that registration displays the documented application-level errors and ap
 - Password mismatch displays `Passwords do not match.`
 - A name containing only whitespace displays `Invalid request data.`
 - Registering an already registered email displays `An account with this email already exists.`
-- Password mismatch takes priority over whitespace-only name and duplicate-email errors.
+- Password mismatch takes priority over whitespace-only Name and duplicate-email errors.
 - When passwords match but the name contains only whitespace, `Invalid request data.` takes priority over the duplicate-email error.
-- When the preceding higher-priority conditions do not apply, a duplicate email displays the documented duplicate-email error.
+- When passwords match and Name is valid, a duplicate email displays the documented duplicate-email error.
 - Browser-native validation occurs before application-level validation.
 
 ---
@@ -308,7 +309,7 @@ Execution and Evidence
 | REQ-AUTH-003   | RSK-006                   | SCN-AUTH-009, SCN-AUTH-010, SCN-AUTH-011 |
 | REQ-AUTH-004   | RSK-006                   | SCN-AUTH-010, SCN-AUTH-011               |
 | REQ-AUTH-005   | RSK-006                   | SCN-AUTH-012                             |
-| REQ-AUTH-006   | RSK-003, RSK-007, RSK-014 | SCN-AUTH-002, SCN-AUTH-003               |
+| REQ-AUTH-006   | RSK-003, RSK-007, RSK-014 | SCN-AUTH-002, SCN-AUTH-003, SCN-AUTH-004 |
 | REQ-AUTH-007   | RSK-003, RSK-009          | SCN-AUTH-007, SCN-AUTH-008               |
 | REQ-AUTH-008   | RSK-003, RSK-007, RSK-014 | SCN-AUTH-003, SCN-AUTH-004               |
 | REQ-AUTH-009   | RSK-007, RSK-014          | SCN-AUTH-005                             |

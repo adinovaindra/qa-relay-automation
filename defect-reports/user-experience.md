@@ -21,13 +21,13 @@ This document contains defect reports identified within the User Experience func
 
 ## 2. Traceability
 
-| Reference        | ID / Link                                                                                                                                                                                                                                                                                                                                                                       |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Requirement      | [REQ-UX-005](../docs/requirements/user-experience.md#req-ux-005--empty-state-behavior)                                                                                                                                                                                                                                                                                          |
-| Test Scenario    | [SCN-UX-005](../test-design/scenarios/user-experience.md#scn-ux-005--desktop-empty-state-no-conversations), [SCN-UX-006](../test-design/scenarios/user-experience.md#scn-ux-006--desktop-empty-state-conversations-exist-but-none-is-selected), [SCN-UX-007](../test-design/scenarios/user-experience.md#scn-ux-007--desktop-empty-state-selected-conversation-has-no-messages) |
-| Test Case        | [TC-UX-004-01](../test-design/test-cases/user-experience.md#tc-ux-004-01--verify-desktop-layout-with-conversations-available-and-none-selected), [TC-UX-005-01](../test-design/test-cases/user-experience.md#tc-ux-005-01--verify-desktop-empty-state-without-conversations-and-after-starting-a-new-chat)                                                                      |
-| Related Risks    | RSK-015 [Risk Register List](../docs/risk-assessment.md#3-risk-register)                                                                                                                                                                                                                                                                                                        |
-| Execution Record | [TC-UX-004-01](../test-execution/user-experience.md#tc-ux-004-01--verify-desktop-layout-with-conversations-available-and-none-selected), [TC-UX-005-01](../test-execution/user-experience.md#tc-ux-005-01--verify-desktop-empty-state-without-conversations-and-after-starting-a-new-chat)                                                                                      |
+| Reference        | ID / Link                                                                                                                                                                                                                                                                                                  |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Requirement      | [REQ-UX-005](../docs/requirements/user-experience.md#req-ux-005--empty-state-behavior)                                                                                                                                                                                                                     |
+| Test Scenario    | [SCN-UX-005](../test-design/scenarios/user-experience.md#scn-ux-005--desktop-empty-state-no-conversations), [SCN-UX-006](../test-design/scenarios/user-experience.md#scn-ux-006--desktop-empty-state-conversations-exist-but-none-is-selected)                                                             |
+| Test Case        | [TC-UX-004-01](../test-design/test-cases/user-experience.md#tc-ux-004-01--verify-desktop-layout-with-conversations-available-and-none-selected), [TC-UX-005-01](../test-design/test-cases/user-experience.md#tc-ux-005-01--verify-desktop-empty-state-without-conversations-and-after-starting-a-new-chat) |
+| Related Risks    | RSK-015 [Risk Register List](../docs/risk-assessment.md#3-risk-register)                                                                                                                                                                                                                                   |
+| Execution Record | [TC-UX-004-01](../test-execution/user-experience.md#tc-ux-004-01--verify-desktop-layout-with-conversations-available-and-none-selected), [TC-UX-005-01](../test-execution/user-experience.md#tc-ux-005-01--verify-desktop-empty-state-without-conversations-and-after-starting-a-new-chat)                 |
 
 ## 3. Environment
 
@@ -43,9 +43,14 @@ This document contains defect reports identified within the User Experience func
 
 ## 4. Description
 
-When Alice opens the Chat page on a desktop viewport while conversations are available but none is selected, the main chat area displays the empty-selection heading without a trailing period.
+When the user opens the Chat page on a desktop viewport and no conversation is selected, the main chat area displays the empty-selection heading without a trailing period.
 
-The displayed heading is:
+The discrepancy was observed under two conditions:
+
+1. Conversations are available, but none is selected (REQ-UX-005, State B; TC-UX-004-01).
+2. No conversations are available (REQ-UX-005, State A; TC-UX-005-01).
+
+In both conditions, the displayed heading is:
 
 `Select a conversation`
 
@@ -53,30 +58,44 @@ However, REQ-UX-005 explicitly requires the exact heading:
 
 `Select a conversation.`
 
-The missing trailing period causes the exact-text Playwright assertions in TC-UX-004-01 and TC-UX-005-01 to fail.
+The missing trailing period causes the exact-text Playwright assertions in both test cases to fail.
 
 ## 5. Preconditions
 
 - The Relay application is accessible.
 - Alice (`alice@example.com`) has a registered account and valid credentials.
-- Alice has at least two populated conversations.
-- The test data includes an Alice–Bob conversation and an Alice–Charlie conversation.
-- No conversation is selected when the Chat page is displayed.
 - The browser viewport is set to 1366 × 768 pixels.
+
+**Condition A — Conversations Exist, but None Is Selected (TC-UX-004-01)**
+
+- Alice has at least two existing populated conversations: one with Bob (`bob@example.com`) and one with Charlie (`charlie@example.com`).
+- The Alice–Bob conversation contains `Hi Bob. How are you?`.
+- The Alice–Charlie conversation contains `Hi Charlie. How are you?`.
+- No conversation is selected when the Chat page is displayed.
+
+**Condition B — No Conversations Available (TC-UX-005-01)**
+
+- Alice has no conversations associated with her account before the test begins.
+- Bob (`bob@example.com`) has a registered account and is available as a user with whom Alice can start a new conversation.
+- No conversation is selected when the Chat page is initially displayed.
 
 ## 6. Test Data
 
-| Data                   | Value                                   |
-| ---------------------- | --------------------------------------- |
-| User                   | Alice (`alice@example.com`)             |
-| Conversation 1         | Alice – Bob (`bob@example.com`)         |
-| Conversation 1 Message | `Hi Bob. How are you?`                  |
-| Conversation 2         | Alice – Charlie (`charlie@example.com`) |
-| Conversation 2 Message | `Hi Charlie. How are you?`              |
-| Selected Conversation  | None                                    |
-| Viewport               | 1366 × 768 pixels                       |
+| Data                   | Value                                      |
+| ---------------------- | ------------------------------------------ |
+| User                   | Alice (`alice@example.com`)                |
+| Conversation 1         | Alice – Bob (`bob@example.com`)            |
+| Conversation 1 Message | `Hi Bob. How are you?`                     |
+| Conversation 2         | Alice – Charlie (`charlie@example.com`)    |
+| Conversation 2 Message | `Hi Charlie. How are you?`                 |
+| Additional User        | Bob (`bob@example.com`)                    |
+| Initial State A        | Two populated conversations; none selected |
+| Initial State B        | No conversations available                 |
+| Viewport               | 1366 × 768 pixels                          |
 
 ## 7. Steps to Reproduce
+
+**Condition A — Conversations Exist, but None Is Selected (TC-UX-004-01)**
 
 1. Ensure Alice is registered and has valid login credentials.
 2. Prepare two populated conversations for Alice: one with Bob and one with Charlie.
@@ -87,15 +106,27 @@ The missing trailing period causes the exact-text Playwright assertions in TC-UX
 7. Open the Chat page and do not select either conversation.
 8. Observe the heading displayed in the main chat area.
 
+**Condition B — No Conversations Available (TC-UX-005-01)**
+
+1. Ensure Alice and Bob are registered and have valid login credentials.
+2. Ensure Alice has no existing conversations.
+3. Open the Relay application at `http://localhost:3000` in Chromium.
+4. Set the browser viewport to 1366 × 768 pixels.
+5. Sign in as Alice.
+6. Open the Chat page without starting or selecting a conversation.
+7. Observe the heading displayed in the main chat area.
+
 ## 8. Expected Result
 
-According to REQ-UX-005, State B — Conversations exist, but none is selected:
+According to REQ-UX-005:
 
-- The conversation list panel displays the available conversations.
-- The main chat area displays exactly `Select a conversation.`.
-- The main chat area displays `Choose a conversation from the list or start a new chat to begin messaging.`.
+- Desktop State A — When no conversations are available, the main chat area displays exactly `Select a conversation.`.
+- Desktop State B — When conversations are available but none is selected, the main chat area displays exactly `Select a conversation.`.
+- In both states, the main chat area displays the supporting text `Choose a conversation from the list or start a new chat to begin messaging.`.
 
 ## 9. Actual Result
+
+**Condition A — Conversations Exist, but None Is Selected (TC-UX-004-01)**
 
 - The conversation list and main chat area are displayed side by side.
 - Both populated conversations are displayed in the conversation list.
@@ -108,7 +139,17 @@ Expected: "Select a conversation."
 Received: "Select a conversation"
 ```
 
-The same discrepancy was observed in both repetitions of the automated test. The other assertions shown in the supplied Playwright trace completed without reported failures.
+**Condition B — No Conversations Available (TC-UX-005-01)**
+
+- The conversation list and main chat area are displayed side by side.
+- The conversation list displays `No conversations yet` without the required trailing period.
+- The main chat area displays the supporting text as required.
+- The main chat area displays `Select a conversation` without the required trailing period.
+- The exact heading assertion for the main chat area fails with the same mismatch.
+
+The same missing trailing period in the main chat area heading was reproduced in both repetitions of TC-UX-004-01 and both repetitions of TC-UX-005-01.
+
+The other assertions shown in the supplied Playwright execution records completed without reported failures, except for the separately documented empty-state heading mismatches in TC-UX-005-01.
 
 ## 10. Impact Assessment
 
@@ -216,8 +257,8 @@ The same desktop empty-selection heading discrepancy was reproduced in TC-UX-005
 - Application URL: http://localhost:3000
 - Application Version / Commit: Not recorded.
 - Browser: Chromium
-- Browser Version: Not recorded in the execution output.
-- Operating System: Windows environment (exact edition/version not recorded).
+- Browser Version: 156.0.8078.4 (Official Build) (64-bit)
+- Operating System: Windows 11 Pro 25H2
 - Test Framework: Playwright
 - Framework Version: 1.64.1
 - Execution Mode: Headed
@@ -256,22 +297,41 @@ Both headings are missing their required trailing periods. These discrepancies c
 
 - The Relay application is accessible.
 - Alice (`alice@example.com`) and Bob (`bob@example.com`) have registered accounts and valid credentials.
-- Alice has no conversations associated with her account.
+- Alice has no conversations associated with her account before execution.
 - Bob is available as a user with whom Alice can start a new conversation.
-- The browser viewport is set to 390 × 844 pixels.
+- The initial state is established independently using the existing database setup helpers.
+- Test data is cleaned up using the existing database cleanup helpers.
+
+**Condition A — Mobile Empty-State Journey (TC-UX-008-01)**
+
+- The browser viewport is configured to 390 × 844 pixels.
+- The mobile conversation list is displayed before a conversation is selected.
+- The main chat area remains hidden until Alice starts and selects a conversation.
+
+**Condition B — Desktop Empty-State Journey (TC-UX-005-01)**
+
+- The browser viewport is configured to 1366 × 768 pixels.
+- The desktop Chat page is displayed with no conversations associated with Alice.
+- The conversation list panel and main chat area are displayed side by side.
+- No conversation is selected initially.
 
 ## 6. Test Data
 
-| Data                      | Value                                  |
-| ------------------------- | -------------------------------------- |
-| User A                    | Alice (`alice@example.com`)            |
-| User B                    | Bob (`bob@example.com`)                |
-| Initial Conversation Data | No conversations associated with Alice |
-| New Conversation          | Alice – Bob                            |
-| New Conversation Messages | No messages                            |
-| Viewport                  | 390 × 844 pixels                       |
+| Data                      | Value                                        |
+| ------------------------- | -------------------------------------------- |
+| User A                    | Alice (`alice@example.com`)                  |
+| User B                    | Bob (`bob@example.com`)                      |
+| Initial Conversation Data | No conversations associated with Alice       |
+| New Conversation          | A new conversation started by Alice with Bob |
+| New Conversation Messages | No messages                                  |
+| Mobile Viewport           | 390 × 844 pixels                             |
+| Desktop Viewport          | 1366 × 768 pixels                            |
+| Test Framework            | Playwright 1.64.1                            |
+| Browser                   | Chromium                                     |
 
 ## 7. Steps to Reproduce
+
+**Condition A — Mobile Empty-State Journey (TC-UX-008-01)**
 
 1. Ensure Alice and Bob are registered and have valid credentials.
 2. Ensure Alice has no existing conversations.
@@ -279,11 +339,29 @@ Both headings are missing their required trailing periods. These discrepancies c
 4. Set the browser viewport to 390 × 844 pixels.
 5. Sign in as Alice.
 6. Observe the conversation list empty state.
-7. Compare the displayed heading with the exact expected text in REQ-UX-005.
+7. Verify the displayed heading against the exact expected text in REQ-UX-005.
 8. Open the New Chat flow.
 9. Select Bob and click Start Chat.
-10. Observe the selected conversation's empty message state.
-11. Compare the displayed heading with the exact expected text in REQ-UX-005.
+10. Verify that the newly created conversation is displayed as the selected conversation.
+11. Observe the selected conversation's empty message state.
+12. Verify the displayed heading against the exact expected text in REQ-UX-005.
+13. Use the back button to return to the conversation list.
+
+**Condition B — Desktop Empty-State Journey (TC-UX-005-01)**
+
+1. Ensure Alice and Bob are registered and have valid credentials.
+2. Ensure Alice has no existing conversations.
+3. Open the Relay application at `http://localhost:3000` in Chromium.
+4. Set the browser viewport to 1366 × 768 pixels.
+5. Sign in as Alice.
+6. Observe the conversation list empty state.
+7. Verify the displayed heading against the exact expected text in REQ-UX-005.
+8. Observe the main chat area's initial unselected state.
+9. Open the New Chat flow.
+10. Select Bob and click Start Chat.
+11. Verify that the newly created conversation is displayed as the selected conversation.
+12. Observe the selected conversation's empty message state.
+13. Verify the displayed heading against the exact expected text in REQ-UX-005.
 
 ## 8. Expected Result
 

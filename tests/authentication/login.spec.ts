@@ -126,10 +126,10 @@ test("TC-AUTH-007-02 — Login rejects an incorrect password with the generic au
     await page.getByRole("button", { name: "Sign in" }).click();
 
     const expectedErrorMessage = "Invalid email or password.";
-    const errorMesage = page.locator("//div[@role='alert']");
+    const errorMessage = page.locator("//div[@role='alert']");
 
     await expect(page).toHaveURL(/\/login\/?$/);
-    await expect(errorMesage).toHaveText(expectedErrorMessage);
+    await expect(errorMessage).toHaveText(expectedErrorMessage);
   } catch (error) {
     primaryError = error;
   } finally {
@@ -184,7 +184,7 @@ test("TC-AUTH-008-01 — Invalid credential conditions produce identical login e
     await page.getByRole("button", { name: "Sign in" }).click();
 
     await expect(page).toHaveURL(/\/login\/?$/);
-    const errorMesageFirstAttempt = await page.locator("//div[@role='alert']").textContent();
+    const errorMessageFirstAttempt = await page.locator("//div[@role='alert']").textContent();
 
     await page.getByLabel("Email").fill(testData.email);
     await page.getByLabel("Password").fill(wrongPassword);
@@ -193,8 +193,8 @@ test("TC-AUTH-008-01 — Invalid credential conditions produce identical login e
     const errorMessageSecondAttempt = await page.locator("//div[@role='alert']").textContent();
 
     await expect(page).toHaveURL(/\/login\/?$/);
-    expect(errorMessageSecondAttempt).toBe(errorMesageFirstAttempt);
-    expect(errorMesageFirstAttempt).toEqual(expectedErrorMessage);
+    expect(errorMessageSecondAttempt).toBe(errorMessageFirstAttempt);
+    expect(errorMessageFirstAttempt).toEqual(expectedErrorMessage);
   } catch (error) {
     primaryError = error;
   } finally {

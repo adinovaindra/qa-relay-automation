@@ -56,22 +56,24 @@ Test Case IDs, titles, Risk Levels, and Source Priorities follow the current Aut
 |               23 | TC-AUTH-009-02 | Logout in one tab invalidates authenticated operations in another tab                 | High       | High            | UI + API         | Include                                                 | Not Executed Yet |
 |               24 | TC-AUTH-012-01 | Authenticated state persists after page refresh while the session is valid            | High       | High            | UI               | Include                                                 | Not Executed Yet |
 |               25 | TC-AUTH-012-02 | Existing and newly opened tabs recognize a valid session in the same browser profile  | High       | High            | UI               | Include                                                 | Not Executed Yet |
-|               26 | TC-AUTH-013-01 | Authentication token remains valid before the 24-hour expiration point                | High       | High            | API              | Include                                                 | Not Executed Yet |
-|               27 | TC-AUTH-013-02 | Expired token is rejected at the 24-hour expiration point                             | High       | High            | API              | Include — expiration setup required                     | Not Executed Yet |
-|               28 | TC-AUTH-013-03 | Active session expiration redirects the user to Login and blocks protected operations | High       | High            | UI + API         | Include — expiration setup required                     | Not Executed Yet |
-|               29 | TC-AUTH-013-04 | Session expiration applies across tabs and requires login again                       | High       | High            | UI + API         | Include — expiration setup required                     | Not Executed Yet |
-|               30 | TC-AUTH-002-01 | Registration validates an empty Name field first                                      | High       | High            | UI               | Include                                                 | Not Executed Yet |
-|               31 | TC-AUTH-002-02 | Registration validates an empty Email field after Name is provided                    | High       | High            | UI               | Include                                                 | Not Executed Yet |
-|               32 | TC-AUTH-002-03 | Registration validates an empty Password field after Name and Email are provided      | High       | High            | UI               | Include                                                 | Not Executed Yet |
-|               33 | TC-AUTH-002-04 | Registration validates an empty Confirm Password field last                           | High       | High            | UI               | Include                                                 | Not Executed Yet |
-|               34 | TC-AUTH-003-01 | Login blocks submission when Email is empty                                           | Medium     | Medium          | UI               | Include                                                 | Not Executed Yet |
-|               35 | TC-AUTH-003-02 | Login blocks submission when Password is empty                                        | Medium     | Medium          | UI               | Include                                                 | Not Executed Yet |
-|               36 | TC-AUTH-003-03 | Login blocks submission when Email has an invalid format                              | Medium     | Medium          | UI               | Include                                                 | Not Executed Yet |
-|               37 | TC-AUTH-004-05 | Login does not apply the registration minimum password-length rule                    | Medium     | Medium          | UI               | Include — assertion scope defined before implementation | Not Executed Yet |
+|               26 | TC-AUTH-012-03 | Protected API accepts a valid authentication token                                    | High       | High            | API              | Include                                                 | Not Executed Yet |
+|               27 | TC-AUTH-013-01 | Authentication token remains valid before the 24-hour expiration point                | High       | High            | API              | Include                                                 | Not Executed Yet |
+|               28 | TC-AUTH-013-02 | Expired token is rejected at or after the 24-hour expiration point                    | High       | High            | API              | Include — expiration setup required                     | Not Executed Yet |
+|               29 | TC-AUTH-013-03 | Active session expiration redirects the user to Login and blocks protected operations | High       | High            | UI + API         | Include — expiration setup required                     | Not Executed Yet |
+|               30 | TC-AUTH-013-04 | Session expiration applies across tabs and requires login again                       | High       | High            | UI + API         | Include — expiration setup required                     | Not Executed Yet |
+|               31 | TC-AUTH-002-01 | Registration validates an empty Name field first                                      | High       | High            | UI               | Include                                                 | Not Executed Yet |
+|               32 | TC-AUTH-002-02 | Registration validates an empty Email field after Name is provided                    | High       | High            | UI               | Include                                                 | Not Executed Yet |
+|               33 | TC-AUTH-002-03 | Registration validates an empty Password field after Name and Email are provided      | High       | High            | UI               | Include                                                 | Not Executed Yet |
+|               34 | TC-AUTH-002-04 | Registration validates an empty Confirm Password field last                           | High       | High            | UI               | Include                                                 | Not Executed Yet |
+|               35 | TC-AUTH-004-06 | Registration rejects an invalid email format                                          | High       | High            | UI               | Include                                                 | Not Executed Yet |
+|               36 | TC-AUTH-003-01 | Login blocks submission when Email is empty                                           | Medium     | Medium          | UI               | Include                                                 | Not Executed Yet |
+|               37 | TC-AUTH-003-02 | Login blocks submission when Password is empty                                        | Medium     | Medium          | UI               | Include                                                 | Not Executed Yet |
+|               38 | TC-AUTH-003-03 | Login blocks submission when Email has an invalid format                              | Medium     | Medium          | UI               | Include                                                 | Not Executed Yet |
+|               39 | TC-AUTH-004-05 | Login does not apply the registration minimum password-length rule                    | Medium     | Medium          | UI               | Include — assertion scope defined before implementation | Not Executed Yet |
 
 ### 2.3 Matrix Notes
 
-- The matrix contains all 37 Authentication test cases defined in the current test-case source.
+- The matrix contains all 39 Authentication test cases defined in the current test-case source.
 - Test Case IDs, titles, Risk Levels, and Source Priorities retain their source values.
 - Automation Order represents implementation order, not source priority or a record of actual execution order.
 - `Include` indicates that a test case belongs to the automation scope. Additional setup or assertion requirements do not remove a case from scope.
@@ -112,18 +114,18 @@ The test must verify the documented expected behavior using an actual request wi
 
 | Metric                             | Count |
 | ---------------------------------- | ----: |
-| Test Cases in Coverage Matrix      |    37 |
-| Test Cases Selected for Automation |    37 |
+| Test Cases in Coverage Matrix      |    39 |
+| Test Cases Selected for Automation |    39 |
 | Test Cases Implemented             |     5 |
 | Test Cases Executed                |     5 |
 | Passed                             |     2 |
 | Failed                             |     3 |
 | Blocked                            |     0 |
-| Not Executed                       |    32 |
+| Not Executed                       |    34 |
 
 ### 3.2 Summary Notes
 
-- The Authentication automation scope contains 37 selected test cases.
+- The Authentication automation scope contains 39 selected test cases.
 - Selection and implementation do not constitute execution evidence.
 - A failed assertion is recorded as a failed execution only after the test has actually run.
 - A test that cannot run because of environment or setup problems must be recorded using the applicable blocked or infrastructure-failure classification rather than being reported as passed.
@@ -377,7 +379,7 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Playwright screenshot, video, error context, and trace generated locally for the failed execution.
 - QA Safety Guard passed before test execution.
 
-**Defect Reference:** [BUG-002](../defect-reports/authentication.md#bug-002--generic-login-error-message-missing-trailing-period-for-incorrect-password)
+**Defect Reference:** [BUG-001](../defect-reports/authentication.md#bug-001--generic-login-error-message-missing-trailing-period)
 
 ### TC-AUTH-008-01 — Invalid credential conditions produce identical login error feedback
 
@@ -432,7 +434,4 @@ A status must reflect the actual execution outcome. Implementation status, expec
 - Exact expected message: `Invalid email or password.`
 - QA Safety Guard passed before test execution.
 
-**Defect Reference:**
-
-- [BUG-001 — Unregistered Email](../defect-reports/authentication.md#bug-001)
-- [BUG-002 — Incorrect Password](../defect-reports/authentication.md#bug-002)
+**Defect Reference:** [BUG-001 — Generic Login Error Message Missing Trailing Period](../defect-reports/authentication.md#bug-001--generic-login-error-message-missing-trailing-period)
