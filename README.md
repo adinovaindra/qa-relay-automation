@@ -88,26 +88,26 @@ As of **2026-11-07**, the automation coverage and execution documents report the
 
 | Metric                       | Test Cases |
 | ---------------------------- | ---------: |
-| Total Test Cases in Coverage |         79 |
-| Selected for Automation      |         79 |
+| Total Test Cases in Coverage |         81 |
+| Selected for Automation      |         81 |
 | Implemented                  |         39 |
 | Executed                     |         39 |
 | Passed                       |         33 |
 | Failed                       |          6 |
 | Blocked                      |          0 |
-| Not Executed                 |         40 |
+| Not Executed                 |         42 |
 
 ### 5.1 Functional Area Breakdown
 
 | Functional Area | Selected | Implemented | Passed | Failed | Not Executed |
 | --------------- | -------: | ----------: | -----: | -----: | -----------: |
-| Authentication  |       37 |           5 |      2 |      3 |           32 |
+| Authentication  |       39 |           5 |      2 |      3 |           34 |
 | Authorization   |        7 |           7 |      7 |      0 |            0 |
 | Conversation    |       13 |           5 |      5 |      0 |            8 |
 | Messaging       |       13 |          13 |     13 |      0 |            0 |
 | User Experience |        8 |           8 |      5 |      3 |            0 |
 | End-to-End      |        1 |           1 |      1 |      0 |            0 |
-| **Total**       |   **79** |      **39** | **33** |  **6** |       **40** |
+| **Total**       |   **81** |      **39** | **33** |  **6** |       **42** |
 
 ### 5.2 Progress Notes
 
@@ -116,7 +116,7 @@ As of **2026-11-07**, the automation coverage and execution documents report the
 - Authentication and Conversation remain partially implemented, with additional selected test cases not yet automated.
 - User Experience has completed its selected implementation and execution scope, with three failed test cases.
 - Six test cases currently have a failed execution result. Their observations and related defect information are documented in the relevant execution and defect reports.
-- Forty selected test cases remain unexecuted.
+- Forty-two selected test cases remain unexecuted.
 
 These metrics describe distinct test cases, not the total number of individual test runs. Repeated execution of the same test case does not increase the unique test case count.
 

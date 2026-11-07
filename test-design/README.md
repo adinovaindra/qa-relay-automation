@@ -40,14 +40,14 @@ Detailed test cases are organized by functional area to improve navigation, revi
 
 | Functional Area | File                                                | Test Cases |
 | --------------- | --------------------------------------------------- | ---------: |
-| Authentication  | [authentication.md](test-cases/authentication.md)   |         37 |
+| Authentication  | [authentication.md](test-cases/authentication.md)   |         39 |
 | Authorization   | [authorization.md](test-cases/authorization.md)     |          7 |
 | Conversation    | [conversation.md](test-cases/conversation.md)       |         13 |
 | Messaging       | [messaging.md](test-cases/messaging.md)             |         13 |
 | User Experience | [user-experience.md](test-cases/user-experience.md) |          8 |
 | End-to-End      | [end-to-end.md](test-cases/end-to-end.md)           |          1 |
 
-**Total: 79 test cases**
+**Total: 81 test cases**
 
 Each file contains detailed test cases for its respective functional area or end-to-end workflow. Test case IDs and traceability mappings are maintained across the repository.
 

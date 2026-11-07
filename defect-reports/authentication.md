@@ -195,7 +195,7 @@ The cross-condition comparison and its execution outcome are documented in the T
 | -------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | TC-AUTH-007-01 | `tests/authentication/login.spec.ts` | `npm run test:headed -- authentication/login.spec.ts --project=chromium --workers=1 --grep "TC-AUTH-007-01" --repeat-each=2` | FAIL — both repetitions failed at the exact-message assertion.                  |
 | TC-AUTH-007-02 | `tests/authentication/login.spec.ts` | `npm run test:headed -- authentication/login.spec.ts --project=chromium --workers=1 --grep "TC-AUTH-007-02" --repeat-each=2` | FAIL — both repetitions failed at the exact-message assertion.                  |
-| TC-AUTH-008-01 | `tests/authentication/login.spec.ts` | Not separately recorded. The execution record documents two consecutive executions using `--repeat-each=2`.                  | FAIL — the comparison assertion passed, but the exact-message assertion failed. |
+| TC-AUTH-008-01 | `tests/authentication/login.spec.ts` | `npm run test:headed -- authentication/login.spec.ts --project=chromium --workers=1 --grep "TC-AUTH-008-01" --repeat-each=2` | FAIL — the comparison assertion passed, but the exact-message assertion failed. |
 
 **Execution Notes:**
 

@@ -142,7 +142,7 @@ Received: "Select a conversation"
 **Condition B — No Conversations Available (TC-UX-005-01)**
 
 - The conversation list and main chat area are displayed side by side.
-- The conversation list displays `No conversations yet` without the required trailing period.
+- The conversation list empty-state heading also displayed `No conversations yet` without the required trailing period. This separate discrepancy is documented under BUG-004.
 - The main chat area displays the supporting text as required.
 - The main chat area displays `Select a conversation` without the required trailing period.
 - The exact heading assertion for the main chat area fails with the same mismatch.
